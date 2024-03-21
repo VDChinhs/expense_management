@@ -6,25 +6,15 @@ import SignScreen from './src/screens/Start/SignScreen';
 import TestScreen from './src/screens/TestScreen';
 import StartScreen from './src/screens/Start/StartScreen';
 import { AuthProvider } from './src/context/AuthContext';
+import AppNav from './src/navigation/AppNav';
 
 export default function App() {
-
-  const image = {
-    pics:{
-      '0':require('../React_Native_App/src/assets/dollar.png'),
-      '1':require('../React_Native_App/src/assets/home.png'),
-      '2':require('../React_Native_App/src/assets/logo.png'),
-      '3':require('../React_Native_App/src/assets/user.png'),
-      '4':require('../React_Native_App/src/assets/wallet.png'),
-    }
-  }
+  
   return (
     <AuthProvider>
-      {/* <LoginScreen></LoginScreen> */}
-      <TestScreen/>
+      <AppNav></AppNav>
+      {/* <TestScreen/> */}
       {/* <StartScreen></StartScreen> */}
-      {/* <SignScreen/> */}
-      
     </AuthProvider>
   );
 } 

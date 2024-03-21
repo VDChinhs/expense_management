@@ -23,14 +23,6 @@ export default function TestScreen() {
                 <StartScreen></StartScreen>
             ) : (
                 <Stack.Navigator initialRouteName="Tabhome">
-                    <Stack.Group>
-
-                    </Stack.Group>
-
-                    <Stack.Group >
-                        
-                    </Stack.Group>
-
                     <Stack.Screen name="Tabhome" component={TabsBottom} options={{headerShown: false}}/>
                     <Stack.Screen name="AddTrade" component={AddScreen} options={{title:"Thêm giao dịch"}}/>
                     <Stack.Screen name="AccMaScreen" component={AccountManagerScreen} options={{title:"Quản lý tài khoản"}}/>

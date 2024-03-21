@@ -7,14 +7,31 @@ export const AuthProvider = ({ children }) =>{
     const [isLoading, setisLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
 
-    const login = () => {
-        setUserToken('asfkahsf');
-        // AsyncStorage.setItem('userToken','asfkjafs');
-    }
+    const storeData = async (value) => {
+        try {
+          await AsyncStorage.setItem('userToken', value);
+        } catch (e) {
+          console.log("Lỗi: " + e)
+        }
+    };
+
+    const login = async () => {
+        storeData('akfuhasjfdgw');
+        try {
+            const userToken = await AsyncStorage.getItem('userToken');
+            if (userToken !== null) {
+                console.log('userToken: ' + userToken);
+                setUserToken(userToken);
+            }
+        } catch (e) {
+            console.log("Lỗi: " + e)
+        }
+    };
 
     const logout = () => {
-        // AsyncStorage.removeItem('userToken')
+        AsyncStorage.removeItem('userToken')
         setUserToken(null);
+        console.log('Xóa userToken');
     }
 
     return(

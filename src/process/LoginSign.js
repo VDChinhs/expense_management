@@ -1,7 +1,7 @@
 import { Alert } from "react-native";
 
 // Đăng ký
-const handleSign = (name, username, password, props) => {
+const handleSign = async (name, username, password, props) => {
     if (name == "" || username == "" || password == "" ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
@@ -13,24 +13,21 @@ const handleSign = (name, username, password, props) => {
         username,
         password
     };
-    console.log(data);
-    fetch('http://192.168.1.4:3000/sign', {
+    let response = await fetch('http://192.168.1.6:3000/test/sign', {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
     })
-    .then((response) => {
-        if (response.ok) {
-           console.log('Đăng ký thành công!');
-           return true
-        } else {
-        //    const error = response.statusText;
-           console.log('Lỗi đăng ký');
-        }
-    });
-    return false
+    if (response.status != 200) {
+        console.log("Đăng ký thất bại");
+    }
+    else{
+        let json = await response.json()
+        console.log(json);
+        return true
+    }
 }
 
 //Đăng nhập
@@ -41,13 +38,12 @@ const handleLogin = (username,password) => {
         ]);
         return
     }
-
     const data = {
         username,
         password
     };
     console.log(data);
-    fetch('http://192.168.1.4:3000/login', {
+    fetch('http://192.168.1.6:3000/test/login', {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json',

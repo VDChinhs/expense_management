@@ -16,7 +16,7 @@ export default function LoginScreen({navigation}) {
         <View style = {styles.container}>
             <View style = {styles.container}>
                 <Logo 
-                    text = {"Vu Duc Chinh"} 
+                    text = {"MONEY"} 
                     image={require('../../assets/dollar.png')}
                 />
                 <InputText 
@@ -36,7 +36,7 @@ export default function LoginScreen({navigation}) {
                     onPress={() => {login()}}
 
                 />
-                <Text style = {styles.word} >Quên mật khẩu?</Text>
+                {/* <Text style = {styles.word} >Quên mật khẩu?</Text> */}
             </View>
             <Button
                 style={styles.margin}
