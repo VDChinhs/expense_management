@@ -22,7 +22,7 @@ export default function AccountScreen({ navigation }) {
         </TouchableWithoutFeedback>
         <View>
           <ButtonSc title={'Ví của tôi'}/>
-          <ButtonSc title={'Nhóm'}/>
+          <ButtonSc title={'Nhóm'} onPress={() => navigation.navigate('ChooseGroup')}/>
           <ButtonSc title={'Hỗ trợ'}/>
           <ButtonSc title={'Cài đặt'}/>
           <ButtonSc title={'Giới thiệu'}/>

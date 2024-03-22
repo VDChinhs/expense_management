@@ -54,6 +54,9 @@ export default function TabsBottom({navigation}) {
         <Tab.Navigator
             initialRouteName="Home"
             screenOptions={{
+                headerStyle:{
+                    height:70
+                },
                 tabBarShowLabel:false,
                 tabBarStyle:{
                     position: 'absolute',
