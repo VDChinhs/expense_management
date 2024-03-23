@@ -9,6 +9,9 @@ import AddScreen from "../screens/Home/AddScreen";
 import AccountManagerScreen from "../screens/Account/AccountManagerScreen";
 import TabsTopGroup from "./TabsTopGroup";
 import HeaderRight from "../components/HeaderRight";
+import { ChangePassWord } from "../screens/Account/AccountManagerScreen";
+import { DeleAccount } from "../screens/Account/AccountManagerScreen";
+import MyWallet from "../screens/Account/MyWallet";
 
 const Stack = createStackNavigator()
 
@@ -31,7 +34,14 @@ export default function AppNav() {
                 >
                     <Stack.Screen name="TabHome" component={TabsBottom} options={{headerShown: false}}/>
                     <Stack.Screen name="AddTrade" component={AddScreen} options={{title:"Thêm giao dịch"}}/>
-                    <Stack.Screen name="AccMaScreen" component={AccountManagerScreen} options={{title:"Quản lý tài khoản"}}/>
+
+                    <Stack.Group >
+                        <Stack.Screen name="AccMaScreen" component={AccountManagerScreen} options={{title:"Quản lý tài khoản"}}/>
+                        <Stack.Screen name="MyWallet" component={MyWallet} options={{title:"Ví của tôi"}}/>
+                        <Stack.Screen name="ChangePassWord" component={ChangePassWord} options={{title:"Thay đổi mật khẩu"}}/>
+                        <Stack.Screen name="DeleAccount" component={DeleAccount} options={{title:"Xóa tài khoản"}}/>
+                    </Stack.Group>
+
                     <Stack.Screen 
                         name="ChooseGroup" 
                         component={TabsTopGroup} 

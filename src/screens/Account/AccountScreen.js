@@ -8,30 +8,30 @@ export default function AccountScreen({ navigation }) {
   const {logout} = useContext(AuthContext);
 
     return (
-      <View style = {style.container}>
+      <View style = {styles.container}>
         <TouchableWithoutFeedback onPress={() => navigation.push('AccMaScreen')}>
-          <View style = {style.info_button}>
-            <View style ={style.info}>
-              <Image style = {style.avatar} source={require('../../assets/dollar.png')}></Image>
-              <Text>Vu Duc Chinh</Text>
-              <Text>chinhvu005@huce.edu.vn</Text>
+          <View style = {styles.info_button}>
+            <View style ={styles.info}>
+              <Image style = {styles.avatar} source={require('../../assets/man.png')}></Image>
+              <Text style = {styles.text}>Vu Duc Chinh</Text>
+              <Text style = {styles.text}>chinhvu005@huce.edu.vn</Text>
             </View>
-            <Image style = {style.buttonright} source={require('../../assets/angle-small-right.png')}></Image>
+            <Image style = {styles.buttonright} source={require('../../assets/angle-small-right.png')}></Image>
           </View>
           
         </TouchableWithoutFeedback>
         <View>
-          <ButtonSc title={'Ví của tôi'}/>
-          <ButtonSc title={'Nhóm'} onPress={() => navigation.navigate('ChooseGroup')}/>
-          <ButtonSc title={'Hỗ trợ'}/>
-          <ButtonSc title={'Cài đặt'}/>
-          <ButtonSc title={'Giới thiệu'}/>
+          <ButtonSc title={'Ví của tôi'} onPress={() => navigation.navigate('MyWallet')} image={require('../../assets/wallet.png')}/>
+          <ButtonSc title={'Nhóm'} onPress={() => navigation.navigate('ChooseGroup')} image={require('../../assets/box-open-full.png')}/>
+          <ButtonSc title={'Hỗ trợ'} image={require('../../assets/user-headset.png')}/>
+          <ButtonSc title={'Cài đặt'} image={require('../../assets/settings.png')}/>
+          <ButtonSc title={'Giới thiệu'} image={require('../../assets/book-open-cover.png')}/>
         </View>
       </View>
     );
 }
 
-const style = StyleSheet.create({
+const styles = StyleSheet.create({
     container:{
       // flex: 1,
       // justifyContent: 'center',
@@ -57,5 +57,8 @@ const style = StyleSheet.create({
     buttonright:{
       width:24,
       height:24
-  }
+    },
+    text:{
+      fontWeight:'bold'
+    }
 })

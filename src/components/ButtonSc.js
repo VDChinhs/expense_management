@@ -1,11 +1,15 @@
-import { Text, TouchableOpacity, StyleSheet,Image } from 'react-native';
+import { Text, TouchableOpacity, StyleSheet, Image, View } from 'react-native';
 
-export default function ButtonSc({title, onPress, transparent}){    
+export default function ButtonSc({title, onPress, transparent, image}){    
     return (
         <TouchableOpacity onPress={onPress} style={[styles.button, transparent && styles.transparent]}>
-            <Text
-                style={[styles.text, transparent && styles.textcolor]}>{title}
-            </Text>
+            <View style = {styles.containerleft}>
+                <Image style = {styles.buttonleft} source={image}/>
+
+                <Text
+                    style={[styles.text, transparent && styles.textcolor]}>{title}
+                </Text>
+            </View>
             <Image style = {styles.buttonright} source={require('../assets/angle-small-right.png')}/>
         </TouchableOpacity>
     );
@@ -15,13 +19,22 @@ const styles = StyleSheet.create({
     button: {
         height: 56,
         width: 360,
+        padding:15,
         flexDirection:'row',
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor:'white',
         borderBottomColor:'black',
         borderBottomWidth:0.5,
-        padding:15
+    },
+    containerleft:{
+        gap:10,
+        flexDirection:'row',
+        alignItems:'center'
+    },
+    buttonleft:{
+        width:25,
+        height:25
     },
     transparent:{
         backgroundColor:'transparent'
