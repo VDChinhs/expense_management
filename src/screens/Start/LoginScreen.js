@@ -21,7 +21,6 @@ export default function LoginScreen({navigation}) {
                 />
                 <InputText 
                     label={"Email"}
-                    placeholder="Email" 
                     onChangeText={(text) => setUsername(text)}
                 />
                 <InputText 
