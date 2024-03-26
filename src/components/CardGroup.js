@@ -1,25 +1,25 @@
-import { Image, StyleSheet, Text, View } from "react-native";
+import { Image, StyleSheet, Text, View, TouchableOpacity } from "react-native";
 
-export default function CardGroup({ title, image }) {
+export default function CardGroup({ title, image, onPress, ...prop }) {
     return (
-      <View style = {styles.container}>
-        {title == undefined ? (
-            <View>
-                <Image
-                    source={image}
-                    style = {styles.image}
-                />
-            </View>
-        ):(
-            <View>
-                <Image
-                    source={image}
-                    style = {styles.image}
-                />
-                <Text style = {styles.text}>{title}</Text>
-            </View>
-        )}
-      </View>
+        <TouchableOpacity style = {[styles.container, {...prop.style}]} onPress={onPress}>
+                {title == undefined ? (
+                    <View >
+                        <Image
+                            source={image}
+                            style = {styles.image}
+                        />
+                    </View>
+                ):(
+                    <View style = {{alignItems:'center',justifyContent:'center', gap: 10}}>
+                        <Image
+                            source={image}
+                            style = {styles.image}
+                        />
+                        <Text style = {styles.text}>{title}</Text>
+                    </View>
+                )}
+        </TouchableOpacity>
     );
 }
 const styles = StyleSheet.create({
@@ -37,7 +37,6 @@ const styles = StyleSheet.create({
         height:55
     },
     text:{
-        color: '#560cce',
         fontWeight:"bold"
     }
 })

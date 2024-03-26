@@ -1,8 +1,8 @@
 import { Text, TouchableOpacity, StyleSheet,Image, View } from 'react-native';
 
-export default function InfoTitle({titlel, titles, onPress, money, imageleft, width, titleright, imageright}){  
+export default function InfoTitle({titlel, titles, onPress, money, imageleft, width, titleright, imageright, ...prop}){  
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.container, {width:width}]}>
+        <TouchableOpacity onPress={onPress} style={[styles.container, {width:width}, {...prop.style}]}>
             <View style = {styles.infoleft}>
                 <Image style = {styles.imageleft} source={imageleft}/>
                 <View>
