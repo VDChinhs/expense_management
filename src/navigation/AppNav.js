@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import TabsBottom from "./TabsBottom";
@@ -12,6 +12,7 @@ import HeaderRight from "../components/HeaderRight";
 import { ChangePassWord } from "../screens/Account/AccountManagerScreen";
 import { DeleAccount } from "../screens/Account/AccountManagerScreen";
 import MyWallet from "../screens/Account/MyWallet";
+import NoteScreen from '../screens/AddTrace/NoteScreen'
 
 const Stack = createStackNavigator()
 
@@ -33,7 +34,17 @@ export default function AppNav() {
                     }}
                 >
                     <Stack.Screen name="TabHome" component={TabsBottom} options={{headerShown: false}}/>
-                    <Stack.Screen name="AddTrade" component={AddScreen} options={{title:"Thêm giao dịch"}}/>
+                    
+                    <Stack.Group>
+                        <Stack.Screen name="AddTrade" component={AddScreen} options={{title:"Thêm giao dịch"}}/>
+                        <Stack.Screen 
+                            name="AddNote" 
+                            component={NoteScreen} 
+                            options={{
+                                title:"Ghi chú"                                
+                            }}/>
+                        
+                    </Stack.Group>
 
                     <Stack.Group >
                         <Stack.Screen name="AccMaScreen" component={AccountManagerScreen} options={{title:"Quản lý tài khoản"}}/>
@@ -52,7 +63,8 @@ export default function AppNav() {
                                     image2={require('../assets/search.png')}
                                 />
                             }
-                        }/>
+                        }
+                    />
                 </Stack.Navigator>
             )}
         </NavigationContainer>
