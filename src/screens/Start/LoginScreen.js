@@ -16,7 +16,7 @@ export default function LoginScreen({navigation}) {
         <View style = {styles.container}>
             <View style = {styles.container}>
                 <Logo 
-                    text = {"MONEY"} 
+                    text = {"MONEY SAVER"} 
                     image={require('../../assets/dollar.png')}
                 />
                 <InputText 
@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor:'#FFD3D3',
+        // backgroundColor:'#FFD3D3',
     },
     word:{
         fontWeight:'bold',

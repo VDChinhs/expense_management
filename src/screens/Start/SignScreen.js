@@ -51,7 +51,7 @@ const styles = StyleSheet.create({
         flex:1,
         justifyContent:"center",
         alignItems:"center",
-        backgroundColor:'#FFD3D3',
+        // backgroundColor:'#FFD3D3',
     },
     viewinput:{
         alignItems:"flex-end",
