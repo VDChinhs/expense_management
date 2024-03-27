@@ -27,7 +27,7 @@ export default function SwitchButton({titlel, titler, children}){
 
 const styles = StyleSheet.create({
     container: {
-        width: 300,
+        width: '90%',
         height: 40,
         borderWidth: 0.5,
         borderRadius: 10,
@@ -37,7 +37,7 @@ const styles = StyleSheet.create({
         backgroundColor:'#E3E3E3'
     },
     button:{
-        width: 145,
+        width: '50%',
         height: 35,
         borderRadius: 10,
         justifyContent:'center',

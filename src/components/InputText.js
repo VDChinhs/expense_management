@@ -6,6 +6,7 @@ export default function InputText({ label, ...prop }) {
       <TextInput
         style={styles.input}
         placeholder={label}
+        // onBlur={() => console.log('1')}
         {...prop}
       />
   );

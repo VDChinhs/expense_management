@@ -17,8 +17,8 @@ export default function ButtonSc({title, onPress, transparent, image}){
 
 const styles = StyleSheet.create({
     button: {
-        height: 56,
-        width: 360,
+        height: 54,
+        width: '100%',
         padding:15,
         flexDirection:'row',
         alignItems: 'center',

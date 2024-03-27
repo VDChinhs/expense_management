@@ -87,11 +87,12 @@ export default function AddScreen({ navigation, route }) {
           sizeimg={20} 
           label={"Ghi chú"} 
           fontsize={15}
-          value = {postNote}
-          onPressIn={() => navigation.navigate({
-            name:'AddNote',
-            params: { note: postNote }
-          })}
+          onChangeText = {(value) => setNote(value)}
+          // value = {postNote}
+          // onPressIn={() => navigation.navigate({
+          //   name:'AddNote',
+          //   params: { note: postNote }
+          // })}
         />
 
         <Input 
@@ -138,7 +139,7 @@ export default function AddScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
-        gap:350
+        gap:300
     },
     inputs:{
       // borderRadius:25,
@@ -154,7 +155,8 @@ const styles = StyleSheet.create({
       padding:15,
     },
     input: {
-      width:270,
+      width:'83%',
       fontWeight: 'bold',
+      // backgroundColor:'red'
     },
 })

@@ -58,10 +58,13 @@ export default function AppNav() {
                         component={TabsTopGroup} 
                         options={{
                                 title:"Nhóm",
-                                headerRight: () => <HeaderRight 
-                                    image1={require('../assets/wallet.png')}
-                                    image2={require('../assets/search.png')}
-                                />
+                                headerRight: () => 
+                                    // <Text style ={{fontSize:17, marginRight:15}}>Thêm nhóm</Text>
+                                    <HeaderRight 
+                                        // image1={require('../assets/wallet.png')}
+                                        image2={require('../assets/themnhom.png')}
+                                    />
+                                    
                             }
                         }
                     />

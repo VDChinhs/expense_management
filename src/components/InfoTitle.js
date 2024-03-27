@@ -1,8 +1,8 @@
 import { Text, TouchableOpacity, StyleSheet,Image, View } from 'react-native';
 
-export default function InfoTitle({titlel, titles, onPress, money, imageleft, width, titleright, imageright, ...prop}){  
+export default function InfoTitle({titlel, titles, onPress, money, imageleft, imageright, width, titleright, ...prop}){  
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.container, {width:width}, {...prop.style}]}>
+        <TouchableOpacity onPress={onPress} style={[styles.container, {width: width}, {...prop.style}]}>
             <View style = {styles.infoleft}>
                 <Image style = {styles.imageleft} source={imageleft}/>
                 <View>
@@ -50,13 +50,13 @@ export default function InfoTitle({titlel, titles, onPress, money, imageleft, wi
 const styles = StyleSheet.create({
     container: {
         height: 50,
-        width: 360,
+        width: '100%',
         flexDirection:'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        // backgroundColor:'white',
+        // backgroundColor:'red',
         borderBottomColor:'black',
-        padding:15
+        padding:10,
     },
     infoleft:{
         gap:15,

@@ -24,7 +24,7 @@ export default function CardGroup({ title, image, onPress, ...prop }) {
 }
 const styles = StyleSheet.create({
     container:{
-        width:96.66,
+        width: 100,
         height:100,
         justifyContent:"center",
         alignItems:"center",

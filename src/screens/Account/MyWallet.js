@@ -13,12 +13,14 @@ export default function MyWallet({ navigation, route}) {
             SetWallet(route.params?.wallet)
         }
     });
-    values = [
+
+    const data = [
         {name: 'Gia đình', money: 12000000, image: require('../../assets/anuong.png')},
         {name: 'Công việc', money: 500000, image: require('../../assets/tienmang.png')},
         {name: 'Sở thích', money: -121000000, image: require('../../assets/suckhoe.png')},
-    ];
+    ]
 
+    const [values, setValues] = useState(data);
     return (
         <View style={{height:Dimensions.get('window').height}}>
             <ScrollView>
@@ -35,6 +37,7 @@ export default function MyWallet({ navigation, route}) {
 
                     {values.map(value => (
                         <InfoTitle 
+                            key={value.name}
                             titlel={value.name} 
                             titles={value.money} 
                             imageleft={value.image}
