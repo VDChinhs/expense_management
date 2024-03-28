@@ -1,26 +1,24 @@
 import { Children, useState } from 'react';
 import { Text, TouchableOpacity, StyleSheet, View } from 'react-native';
 
-export default function SwitchButton({titlel, titler, children}){  
-    const [selectTab, setSelectedTab] = useState(1)
+export default function SwitchButton({titlel, titler, onPressl, onPressr, value = true}){
     return (
         <View>
             <View style = {styles.container}>
-                <TouchableOpacity 
-                    style = {[styles.button, {backgroundColor: selectTab == 0 ? 'white':'#E3E3E3'}]}
-                    onPress={() => {setSelectedTab(0)}}
-                >
-                    <Text style = {styles.text}>{titlel}</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity 
+                        style = {[styles.button, {backgroundColor: value ? '#E3E3E3':'white'}]}
+                        onPress={onPressl}
+                    >
+                        <Text style = {styles.text}>{titlel}</Text>
+                    </TouchableOpacity>
 
-                <TouchableOpacity 
-                    style = {[styles.button, {backgroundColor: selectTab == 1 ? 'white':'#E3E3E3'}]}
-                    onPress={() => {setSelectedTab(1)}}
-                >
-                    <Text style = {styles.text}>{titler}</Text>
-                </TouchableOpacity>
+                    <TouchableOpacity 
+                        style = {[styles.button, {backgroundColor: value ? 'white':'#E3E3E3'}]}
+                        onPress={onPressr}
+                    >
+                        <Text style = {styles.text}>{titler}</Text>
+                    </TouchableOpacity>
             </View>
-            {children}
         </View>
     );
 }
