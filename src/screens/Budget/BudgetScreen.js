@@ -1,7 +1,7 @@
 import { Text, View, StyleSheet, Image } from "react-native";
 import Button from "../../components/Button";
 
-export default function BudgetScreen() {
+export default function BudgetScreen({ navigation }) {
     return (
       <View style = {styles.container}>
         <Image
@@ -12,7 +12,10 @@ export default function BudgetScreen() {
           <Text style = {styles.textbold}>Bạn chưa có ngân sách</Text>
           <Text style = {{textAlign: 'center'}}>Bắt đầu tiết kiệm bằng cách tạo ngân sách và chúng tôi sẽ giúp bạn kiểm soát ngân sách</Text>
         </View>
-        <Button title={"Tạo ngân sách"}></Button>
+        <Button 
+          title={"Tạo ngân sách"}
+          onPress={() => navigation.navigate("AddBudget")}
+        />
       </View>
     );
 }

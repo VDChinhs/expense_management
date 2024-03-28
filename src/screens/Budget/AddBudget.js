@@ -77,7 +77,7 @@ function handlerAddTrade(money, group, note, date, wallet) {
   console.log(data);
 }
 
-export default function AddScreen({ navigation, route }) {
+export default function AddBudget({ navigation, route }) {
   const [isMoney, setMoney] = useState(null);
   const [isGroup, setGroup] = useState('Chọn nhóm');
   const [isImageGroup, setImageGroup] = useState(require('../../assets/wallet.png'));
@@ -126,21 +126,8 @@ export default function AddScreen({ navigation, route }) {
           fontsize = {20}
           onPress = {() => navigation.navigate({
               name:'ChooseGroup',
-              params: {back: 'AddTrade', group: isGroup, type:'choose' }
+              params: {back:'AddBudget', group: isGroup, type:'choose'}
             })}
-        />
-
-        <Input 
-          label ={"Ghi chú"} 
-          image = {require('../../assets/align-left.png')} 
-          sizeimg = {20} 
-          fontsize = {15}
-          onChangeText = {(value) => setNote(value)}
-          // value = {isNote}
-          // onPressIn={() => navigation.navigate({
-          //   name:'AddNote',
-          //   params: { note: isNote }
-          // })}
         />
 
         <TitleInput 
@@ -152,13 +139,13 @@ export default function AddScreen({ navigation, route }) {
         />
 
         <TitleInput 
-          image = {isImageWallet} 
+          image = {'Tháng này (1/10 - 31/10)'} 
           title ={isWallet}
           sizeimg = {20} 
           fontsize = {15}
           onPress = {() => navigation.navigate({
             name:'MyWallet',
-            params: {back: 'AddTrade', wallet: isWallet, type:'choose' }
+            params: {back:'AddBudget', wallet: isWallet, type:'choose' }
           })}
         />
 
@@ -170,11 +157,12 @@ export default function AddScreen({ navigation, route }) {
 
       {isshowpickdate && (
         <DateTimePicker
+          timeZoneName="Asia/Bangkok"
           testID = "dateTimePicker"
           value = {isDate}
           mode = {'date'}
           is24Hour ={true}
-          timeZoneName="Asia/Bangkok"
+          themeVariant="dark"
           onChange = {(event, selectedDate) => {
             const chooseDate = selectedDate;
             setShowPickDate(false);

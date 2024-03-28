@@ -7,7 +7,8 @@ import { FlatList } from 'react-native-gesture-handler';
 
 function ChiScreen({ navigation, route }) {
     const state = route.params;
-    const [ischoose, SetChoose] = useState(false);
+    const [isBack, SetBack] = useState('');
+    const [isChoose, SetChoose] = useState(false);
     const [isGroup, SetGroup] = useState(undefined);
     const data = [
         {name:'Ăn uống', image: require('../assets/anuong.png')},
@@ -26,6 +27,9 @@ function ChiScreen({ navigation, route }) {
     const [values, setValues] = useState(data);
 
     useEffect(() => {
+        if (state.route.params?.back) {
+            SetBack(state.route.params?.back)
+        }
         if (state.route.params?.type == 'choose') {
             SetChoose(true)
         }
@@ -53,7 +57,7 @@ function ChiScreen({ navigation, route }) {
                                         image={item.image}
                                         style = {{ backgroundColor: isGroup == item.name ? 'powderblue':'white'}}
                                         onPress={() => {
-                                            ischoose && navigation.navigate('AddTrade', {namegroup: item.name});
+                                            isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image});
                                         }}
                                     />
                                 </TouchableOpacity>
@@ -67,21 +71,25 @@ function ChiScreen({ navigation, route }) {
 
 function ThuScreen({ navigation, route }) {
     const state = route.params;
-    const [ischoose, isChoose] = useState(false);
+    const [isBack, SetBack] = useState('');
+    const [isChoose, SetChoose] = useState(false);
     const [isGroup, SetGroup] = useState(undefined);
     const data = [
-        {name:'Gia đình',image: require('../assets/anuong.png')},
-        {name:'Công việc',image: require('../assets/tienmang.png')},
-        {name:'Sở thích',image: require('../assets/suckhoe.png')},
-        {name:'Thưởng',image: require('../assets/thoitrang.png')},
-        {name:'Lãi',image: require('../assets/dichuyen.png')},
-        {name:'Xổ số',image: require('../assets/thucung.png')},
+        {name:'Gia đình', image: require('../assets/anuong.png')},
+        {name:'Công việc', image: require('../assets/tienmang.png')},
+        {name:'Sở thích', image: require('../assets/suckhoe.png')},
+        {name:'Thưởng', image: require('../assets/thoitrang.png')},
+        {name:'Lãi', image: require('../assets/dichuyen.png')},
+        {name:'Xổ số', image: require('../assets/thucung.png')},
     ]
     const[values, setValues] = useState(data);
 
     useEffect(() => {
+        if (state.route.params?.back) {
+            SetBack(state.route.params?.back)
+        }
         if (state.route.params?.type == 'choose') {
-            isChoose(true)
+            SetChoose(true)
         }
         if (state.route.params?.group) {
             SetGroup(state.route.params?.group)
@@ -107,7 +115,7 @@ function ThuScreen({ navigation, route }) {
                                     image={item.image}
                                     style = {{ backgroundColor: isGroup == item.name ? 'powderblue':'white'}}
                                     onPress={() => {
-                                        ischoose && navigation.navigate('AddTrade', {namegroup: item.name});
+                                        isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image});
                                     }}
                                 />
                             </TouchableOpacity>
@@ -158,6 +166,8 @@ const styles = StyleSheet.create({
         // backgroundColor:'#FFD3D3',
     },
     containertab:{
-        marginTop:15
+        marginTop:15,
+        // backgroundColor:'red',
+        // justifyContent:'space-between'
     }
 })

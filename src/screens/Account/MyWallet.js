@@ -3,9 +3,13 @@ import InfoTitle from "../../components/InfoTitle";
 import { useState, useEffect  } from "react";
 
 export default function MyWallet({ navigation, route}) {
-    const [ischoose, SetChoose] = useState(false);
+    const [isBack, SetBack] = useState('');
+    const [isChoose, SetChoose] = useState(false);
     const [isWallet, SetWallet] = useState(undefined);
     useEffect(() => {
+        if (route.params?.back) {
+            SetBack(route.params?.back)
+        }
         if (route.params?.type == 'choose') {
             SetChoose(true)
         }
@@ -25,7 +29,7 @@ export default function MyWallet({ navigation, route}) {
         <View style={{height:Dimensions.get('window').height}}>
             <ScrollView>
                 <View style = {styles.container}>
-                    {!ischoose && 
+                    {!isChoose && 
                         <InfoTitle 
                             titlel={'Tổng cộng'}
                             titles={values.reduce((acc, item) => acc + item.money, 0)} 
@@ -44,7 +48,7 @@ export default function MyWallet({ navigation, route}) {
                             imageright={require('../../assets/angle-small-right.png')}
                             style = {{ backgroundColor: isWallet == value.name ? 'powderblue':'white'}}
                             onPress={() => {
-                                ischoose && navigation.navigate('AddTrade', {namewallet: value.name});
+                                isChoose && navigation.navigate(isBack, {namewallet: value.name, imagewallet: value.image});
                             }}
                         />
                     ))}
