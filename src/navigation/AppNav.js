@@ -13,6 +13,8 @@ import { ChangePassWord } from "../screens/Account/AccountManagerScreen";
 import { DeleAccount } from "../screens/Account/AccountManagerScreen";
 import MyWallet from "../screens/Account/MyWallet";
 import NoteScreen from '../screens/AddTrace/NoteScreen'
+import AddBudget from "../screens/Budget/AddBudget";
+import AddGroupScreen from "../screens/Account/AddGroupScreen";
 
 const Stack = createStackNavigator()
 
@@ -34,6 +36,7 @@ export default function AppNav() {
                     }}
                 >
                     <Stack.Screen name="TabHome" component={TabsBottom} options={{headerShown: false}}/>
+                    <Stack.Screen name="AddBudget" component={AddBudget} options={{title:'Thêm ngân sách'}}/>
                     
                     <Stack.Group>
                         <Stack.Screen name="AddTrade" component={AddScreen} options={{title:"Thêm giao dịch"}}/>
@@ -53,21 +56,21 @@ export default function AppNav() {
                         <Stack.Screen name="DeleAccount" component={DeleAccount} options={{title:"Xóa tài khoản"}}/>
                     </Stack.Group>
 
-                    <Stack.Screen 
-                        name="ChooseGroup" 
-                        component={TabsTopGroup} 
-                        options={{
+                    <Stack.Group>
+                        <Stack.Screen 
+                            name="ChooseGroup" 
+                            component={TabsTopGroup} 
+                            options={{
                                 title:"Nhóm",
                                 headerRight: () => 
-                                    // <Text style ={{fontSize:17, marginRight:15}}>Thêm nhóm</Text>
                                     <HeaderRight 
-                                        // image1={require('../assets/wallet.png')}
-                                        image2={require('../assets/themnhom.png')}
-                                    />
-                                    
-                            }
-                        }
-                    />
+                                        image1={require('../assets/wallet.png')}
+                                        image2={require('../assets/search.png')}
+                                    />   
+                            }}
+                        />
+                        <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} options={{title:"Thêm nhóm"}}/>
+                    </Stack.Group>
                 </Stack.Navigator>
             )}
         </NavigationContainer>

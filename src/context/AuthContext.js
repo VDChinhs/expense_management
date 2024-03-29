@@ -6,6 +6,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) =>{
     const [isLoading, setisLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
+    const [isWalleting, setWallet] = useState('Học tập');
 
     const storeData = async (value) => {
         try {
@@ -35,7 +36,7 @@ export const AuthProvider = ({ children }) =>{
     }
 
     return(
-        <AuthContext.Provider value={{ login, logout, userToken }}>
+        <AuthContext.Provider value={{ login, logout, userToken, isWalleting }}>
             {children}
         </AuthContext.Provider>
     )
