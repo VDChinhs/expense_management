@@ -1,8 +1,7 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import Button from "../../components/Button";
-import { useState,useEffect, lazy } from "react";
+import { useState,useEffect } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
-
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
   return (
@@ -131,7 +130,8 @@ export default function AddBudget({ navigation, route }) {
         />
 
         <TitleInput 
-          title = {convertDate(isDate)} 
+          // title = {convertDate(isDate)} 
+          title = {'Tháng này (1/10 - 31/10)'} 
           image = {require('../../assets/calendar-day.png')} 
           sizeimg = {20} 
           fontsize = {15}
@@ -139,7 +139,7 @@ export default function AddBudget({ navigation, route }) {
         />
 
         <TitleInput 
-          image = {'Tháng này (1/10 - 31/10)'} 
+          image = {isImageWallet} 
           title ={isWallet}
           sizeimg = {20} 
           fontsize = {15}

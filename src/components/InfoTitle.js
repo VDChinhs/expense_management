@@ -31,7 +31,7 @@ export default function InfoTitle({titlel, titles, onPress, money, imageleft, im
                 {titleright 
                     &&
                     <Text
-                        style= {[styles.money]}>
+                        style= {[styles.money, styles.red]}>
                         {titleright}
                     </Text>
                 }
@@ -76,7 +76,6 @@ const styles = StyleSheet.create({
         fontSize: 16,
     },
     texts: {
-        fontWeight: 'bold',
         fontSize: 12,
     },
     money:{

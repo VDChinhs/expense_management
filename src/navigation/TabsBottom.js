@@ -167,7 +167,7 @@ export default function TabsBottom({navigation}) {
 
 const styles = StyleSheet.create({
     shadow:{
-        shadowColor:'red',
+        shadowColor:'black',
         shadowOffset:{
             width: 0,
             height: 10

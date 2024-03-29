@@ -1,6 +1,6 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import Button from "../../components/Button";
-import { useState,useEffect, lazy } from "react";
+import { useState,useEffect } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 
 
@@ -61,7 +61,7 @@ const convertDate = (chooseDate) => {
     var date = chooseDate.getDate();
     var month = chooseDate.getMonth() + 1;
     var year = chooseDate.getFullYear();
-    var time = 'Thứ ' + day + ', ' + date + '/' + month + '/' + year
+    var time = (day == 1 ? 'Chủ nhật' : 'Thứ ' + day) + ', ' + date + '/' + month + '/' + year
     return time
   }
 } 
@@ -80,7 +80,7 @@ function handlerAddTrade(money, group, note, date, wallet) {
 export default function AddScreen({ navigation, route }) {
   const [isMoney, setMoney] = useState(null);
   const [isGroup, setGroup] = useState('Chọn nhóm');
-  const [isImageGroup, setImageGroup] = useState(require('../../assets/wallet.png'));
+  const [isImageGroup, setImageGroup] = useState(require('../../assets/question.png'));
   const [isNote, setNote] = useState('');
   const [isDate, setDate] = useState(new Date());
   const [isWallet, setWallet] = useState('Học tập');
@@ -125,9 +125,9 @@ export default function AddScreen({ navigation, route }) {
           sizeimg = {30} 
           fontsize = {20}
           onPress = {() => navigation.navigate({
-              name:'ChooseGroup',
-              params: {back: 'AddTrade', group: isGroup, type:'choose' }
-            })}
+            name:'ChooseGroup',
+            params: {back: 'AddTrade', group: isGroup, type:'choose' }
+          })}
         />
 
         <Input 
