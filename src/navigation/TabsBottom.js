@@ -5,7 +5,7 @@ import HomeScreen from "../screens/Home/HomeScreen";
 import TradeScreen from "../screens/Trade/TradeScreen";
 import BudgerScreen from "../screens/Budget/BudgetScreen";
 import AccountScreen from "../screens/Account/AccountScreen";
-import AddScreen from "../screens/Home/AddScreen";
+import AddTradeScreen from "../screens/Trade/AddTradeScreen";
 import { StyleSheet, View, Image, Text, TouchableOpacity,TouchableWithoutFeedback } from "react-native";
 import { useNavigation } from '@react-navigation/native';
 
@@ -107,7 +107,7 @@ export default function TabsBottom({navigation}) {
             />
             <Tab.Screen 
                 name="AddTrade" 
-                component={AddScreen}
+                component={AddTradeScreen}
                 options={{
                     title:"Thêm giao dịch",
                     tabBarIcon:() => (

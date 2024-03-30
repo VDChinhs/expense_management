@@ -20,7 +20,7 @@ export default function AccountScreen({ navigation }) {
           </View>
           
         </TouchableWithoutFeedback>
-        <View>
+        <View style = {{gap: 1}}>
           <ButtonSc title={'Ví của tôi'} onPress={() => navigation.navigate('MyWallet')} image={require('../../assets/wallet.png')}/>
           <ButtonSc title={'Nhóm'} onPress={() => navigation.navigate('ChooseGroup')} image={require('../../assets/box-open-full.png')}/>
           <ButtonSc title={'Hỗ trợ'} image={require('../../assets/user-headset.png')}/>

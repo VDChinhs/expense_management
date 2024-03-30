@@ -26,7 +26,7 @@ export default function MyWallet({ navigation, route}) {
 
     const [values, setValues] = useState(data);
     return (
-        <View style={{height:Dimensions.get('window').height}}>
+        <View style={{height: Dimensions.get('window').height}}>
             <ScrollView>
                 <View style = {styles.container}>
                     {!isChoose && 
@@ -35,6 +35,8 @@ export default function MyWallet({ navigation, route}) {
                             titles={values.reduce((acc, item) => acc + item.money, 0)} 
                             imageleft={require('../../assets/user.png')}
                             imageright={require('../../assets/angle-small-right.png')}
+                            style = {{ backgroundColor: 'white'}}
+
                         />
                     }
                     <Text style = {styles.text}>Các ví</Text>
@@ -56,7 +58,11 @@ export default function MyWallet({ navigation, route}) {
             </ScrollView>
 
             <View style = {styles.button}>
-                <TouchableOpacity>
+                <TouchableOpacity 
+                    onPress={() =>
+                        navigation.navigate('AddWalletScreen')
+                    }
+                >
                     <Image
                         source={require('../../assets/plus-small.png')}
                         resizeMode="contain"
@@ -74,12 +80,12 @@ export default function MyWallet({ navigation, route}) {
 
 const styles = StyleSheet.create({
     container:{
-        marginTop:30,
-        backgroundColor:'white'
+        marginTop:10,
+        // backgroundColor:'white'
     },
     text:{
         margin:15, 
-        fontSize:15,
+        fontSize:18,
         fontWeight:'bold',
     },
     button:{

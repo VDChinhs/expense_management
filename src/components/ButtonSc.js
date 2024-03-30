@@ -17,24 +17,24 @@ export default function ButtonSc({title, onPress, transparent, image}){
 
 const styles = StyleSheet.create({
     button: {
-        height: 54,
+        height: 55,
         width: '100%',
-        padding:15,
+        padding: 15,
         flexDirection:'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        backgroundColor:'white',
-        borderBottomColor:'black',
-        borderBottomWidth:0.5,
+        backgroundColor: 'white',
+        borderBottomColor: 'black',
+        borderBottomWidth: 0.5,
     },
     containerleft:{
-        gap:10,
-        flexDirection:'row',
-        alignItems:'center'
+        gap: 10,
+        flexDirection: 'row',
+        alignItems: 'center'
     },
     buttonleft:{
-        width:25,
-        height:25
+        width: 25,
+        height: 25
     },
     transparent:{
         backgroundColor:'transparent'
