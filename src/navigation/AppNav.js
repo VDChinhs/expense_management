@@ -1,16 +1,19 @@
 import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
-import TabsBottom from "./TabsBottom";
-import StartScreen from "../screens/Start/StartScreen";
+import { TransitionPresets } from '@react-navigation/stack';
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+
+import { ChangePassWord } from "../screens/Account/AccountManagerScreen";
+import { DeleAccount } from "../screens/Account/AccountManagerScreen";
+
+import TabsBottom from "./TabsBottom";
+import StartScreen from "../screens/Start/StartScreen";
 import AddTradeScreen from "../screens/Trade/AddTradeScreen";
 import AccountManagerScreen from "../screens/Account/AccountManagerScreen";
 import TabsTopGroup from "./TabsTopGroup";
 import HeaderRight from "../components/HeaderRight";
-import { ChangePassWord } from "../screens/Account/AccountManagerScreen";
-import { DeleAccount } from "../screens/Account/AccountManagerScreen";
 import MyWallet from "../screens/Account/MyWallet";
 import NoteScreen from '../screens/AddTrace/NoteScreen'
 import AddBudget from "../screens/Budget/AddBudget";
@@ -18,6 +21,7 @@ import AddGroupScreen from "../screens/Account/AddGroupScreen";
 import ChooseGroupCha from "../screens/Account/ChooseGroupCha";
 import ChooseIcon from "../screens/Account/ChooseIcon";
 import AddWalletScreen from "../screens/Account/AddWalletScreen";
+import RangeDayBudgetScreen from "../screens/Budget/RangeDayBudgetScreen";
 
 const Stack = createStackNavigator()
 
@@ -40,6 +44,19 @@ export default function AppNav() {
                 >
                     <Stack.Screen name="TabHome" component={TabsBottom} options={{headerShown: false}}/>
                     <Stack.Screen name="AddBudget" component={AddBudget} options={{title:'Thêm ngân sách'}}/>
+                    <Stack.Group
+                        screenOptions={{
+                            headerShown: false,
+                            gestureEnabled: true,
+                            cardOverlayEnabled: true,
+                            ...TransitionPresets.ModalPresentationIOS,
+                        }}
+                    >
+                        <Stack.Screen name="RangeDayBudgetScreen" component={RangeDayBudgetScreen}/>
+                        <Stack.Screen name="AccountManagerScreen" component={AccountManagerScreen} options={{title:"Quản lý tài khoản"}}/>
+
+                    </Stack.Group>
+                    
                     
                     <Stack.Group>
                         <Stack.Screen name="AddTrade" component={AddTradeScreen} options={{title:"Thêm giao dịch"}}/>
@@ -53,7 +70,6 @@ export default function AppNav() {
                     </Stack.Group>
 
                     <Stack.Group>
-                        <Stack.Screen name="AccMaScreen" component={AccountManagerScreen} options={{title:"Quản lý tài khoản"}}/>
                         <Stack.Screen name="MyWallet" component={MyWallet} options={{title:"Ví của tôi"}}/>
                         <Stack.Screen name="AddWalletScreen" component={AddWalletScreen} options={{title:"Thêm ví"}}/>
                         <Stack.Screen name="ChangePassWord" component={ChangePassWord} options={{title:"Thay đổi mật khẩu"}}/>

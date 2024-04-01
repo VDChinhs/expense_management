@@ -9,7 +9,7 @@ export default function AccountScreen({ navigation }) {
 
     return (
       <View style = {styles.container}>
-        <TouchableWithoutFeedback onPress={() => navigation.push('AccMaScreen')}>
+        <TouchableWithoutFeedback onPress={() => navigation.push('AccountManagerScreen')}>
           <View style = {styles.info_button}>
             <View style ={styles.info}>
               <Image style = {styles.avatar} source={require('../../assets/man.png')}></Image>
