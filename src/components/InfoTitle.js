@@ -1,10 +1,18 @@
 import { Text, TouchableOpacity, StyleSheet,Image, View } from 'react-native';
 
-export default function InfoTitle({titlel, titles, onPress, money, imageleft, imageright, width, titleright, ...prop}){  
+export default function InfoTitle({titlel, titles, onPress, money, imageleft, numberleft, styleimageleft, imageright, width, titleright, ...prop}){  
     return (
         <TouchableOpacity onPress={onPress} style={[styles.container, {width: width}, {...prop.style}]}>
             <View style = {styles.infoleft}>
-                <Image style = {styles.imageleft} source={imageleft}/>
+                {imageleft ?
+                    <Image style = {[styles.imageleft, styleimageleft]} source={imageleft}/>
+                    :
+                    <View
+                        style = {{justifyContent:'center', alignItems:'center', height: 40, width: 40}}
+                    >
+                        <Text style = {{fontWeight:'bold', fontSize:35}}>{numberleft}</Text>
+                    </View>
+                }
                 <View>
                     <Text
                         style={styles.textl}>
@@ -25,7 +33,7 @@ export default function InfoTitle({titlel, titles, onPress, money, imageleft, im
                     &&
                     <Text
                         style= {[styles.money, money < 0 ? styles.red : styles.green]}>
-                        {typeof(money) == 'number' ? money.toLocaleString() + ' đ' : titles}
+                        {typeof(money) == 'number' ? money.toLocaleString() : titles}
                     </Text>
                 }
                 {titleright 

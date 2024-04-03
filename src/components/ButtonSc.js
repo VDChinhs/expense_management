@@ -24,7 +24,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'space-between',
         backgroundColor: 'white',
-        borderBottomColor: 'black',
+        borderBottomColor: '#D3D3D3',
         borderBottomWidth: 0.5,
     },
     containerleft:{

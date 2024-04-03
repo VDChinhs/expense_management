@@ -16,7 +16,7 @@ export default function MyWallet({ navigation, route}) {
         if (route.params?.wallet != null) {
             SetWallet(route.params?.wallet)
         }
-    });
+    }, [route]);
 
     const data = [
         {name: 'Gia đình', money: 12000000, image: require('../../assets/anuong.png')},
@@ -29,13 +29,18 @@ export default function MyWallet({ navigation, route}) {
         <View style={{height: Dimensions.get('window').height}}>
             <ScrollView>
                 <View style = {styles.container}>
-                    {!isChoose && 
+                    {(!isChoose || isBack == 'Trade') && 
                         <InfoTitle 
-                            titlel={'Tổng cộng'}
-                            titles={values.reduce((acc, item) => acc + item.money, 0)} 
-                            imageleft={require('../../assets/user.png')}
-                            imageright={require('../../assets/angle-small-right.png')}
+                            titlel = {'Tổng cộng'}
+                            titles = {values.reduce((acc, item) => acc + item.money, 0)} 
+                            imageleft = {require('../../assets/user.png')}
+                            imageright = {
+                                isWallet == 'Tổng cộng' ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
+                            }
                             style = {{ backgroundColor: 'white'}}
+                            onPress = {() => {
+                                isChoose && navigation.navigate(isBack, {namewallet: 'Tổng cộng', imagewallet: require('../../assets/user.png')});
+                            }}
 
                         />
                     }
@@ -47,8 +52,10 @@ export default function MyWallet({ navigation, route}) {
                             titlel={value.name} 
                             titles={value.money} 
                             imageleft={value.image}
-                            imageright={require('../../assets/angle-small-right.png')}
-                            style = {{ backgroundColor: isWallet == value.name ? 'powderblue':'white'}}
+                            imageright = {
+                                isWallet == value.name ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
+                            }
+                            style = {{ backgroundColor: 'white'}}
                             onPress={() => {
                                 isChoose && navigation.navigate(isBack, {namewallet: value.name, imagewallet: value.image});
                             }}

@@ -100,7 +100,7 @@ export default function AddTradeScreen({ navigation, route }) {
       setWallet(route.params?.namewallet)
       setImageWallet(route.params?.imagewallet)
     }
-  });
+  },[route]);
 
   return (
     <View style = {styles.container}>

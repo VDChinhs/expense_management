@@ -43,7 +43,7 @@ const dataCharWeek = {
   ]
 };
 
-export default function HomeScreen() {
+export default function HomeScreen({ navigation }) {
   const [isselecttab, setSelectedTab] = useState(true)
   const [isshowmoney, setShowMoney] = useState(true)
   const [isdatachar, setDataChar] = useState(dataCharMonth)
@@ -91,7 +91,11 @@ export default function HomeScreen() {
         <View style = {styles.border}>
           <View style = {styles.containerheader}>
             <Text style = {styles.text}>Ví của tôi</Text>
-            <Text style = {styles.text}>Xem tất cả</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('MyWallet')}
+            >
+              <Text style = {styles.text}>Xem tất cả</Text>
+            </TouchableOpacity>
           </View>
           <View style = {{alignItems:'center'}}>
             {isValuesWallet.map(value => (
@@ -101,6 +105,7 @@ export default function HomeScreen() {
                 titlel={value.name} 
                 money={value.money} 
                 imageleft={value.image}
+                onPress={() => navigation.jumpTo('Trade')}
               />
             ))}
           </View>
@@ -109,7 +114,11 @@ export default function HomeScreen() {
         <View>
           <View style = {styles.containerheader}>
             <Text style = {styles.text}>Báo cáo chi tiêu</Text>
-            <Text style = {styles.text}>Xem tất cả</Text>
+            <TouchableOpacity
+              onPress={() => navigation.navigate('ReportScreen')}
+            >
+              <Text style = {styles.text}>Xem báo cáo</Text>
+            </TouchableOpacity>
           </View>
           <View style = {styles.border}>
               <View style = {{
@@ -180,7 +189,11 @@ export default function HomeScreen() {
         <View>
           <View style = {styles.containerheader}>
             <Text style = {styles.text}>Giao dịch gần đây</Text>
-            <Text style = {styles.text}>Xem tất cả</Text>
+            <TouchableOpacity
+              onPress={() => navigation.jumpTo('Trade')}
+            >
+              <Text style = {styles.text}>Xem tất cả</Text>
+            </TouchableOpacity>
           </View>
           <View style = {styles.border}>
             <View style = {{alignItems:'center'}}>

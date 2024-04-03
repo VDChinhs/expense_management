@@ -1,4 +1,3 @@
-
 import * as React from 'react';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../screens/Home/HomeScreen";
@@ -6,12 +5,10 @@ import TradeScreen from "../screens/Trade/TradeScreen";
 import BudgerScreen from "../screens/Budget/BudgetScreen";
 import AccountScreen from "../screens/Account/AccountScreen";
 import AddTradeScreen from "../screens/Trade/AddTradeScreen";
-import { StyleSheet, View, Image, Text, TouchableOpacity,TouchableWithoutFeedback } from "react-native";
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, View, Image, Text, TouchableWithoutFeedback } from "react-native";
+import HeaderRight from "../components/HeaderRight";
 
 const Tab = createBottomTabNavigator();
-
-// const navigation = useNavigation();
 
 const CustomTabBarButton = ({children, onPress}) => (
     <TouchableWithoutFeedback onPress = {onPress}>
@@ -36,19 +33,6 @@ const CustomTabBarButton = ({children, onPress}) => (
 
 )
 
-function AddTrade({ navigation}) {
-    React.useEffect(() => {
-        const unsubscribe = navigation.addListener('tabPress', (e) => {
-          e.preventDefault();
-    
-          alert('Default behavior prevented');
-          () => navigation.navigate('Add1')
-        });
-    
-        return unsubscribe;
-      }, [navigation]);
-}
-
 export default function TabsBottom({navigation}) {
     return (
         <Tab.Navigator
@@ -64,7 +48,7 @@ export default function TabsBottom({navigation}) {
                     left: 11,
                     right: 11,
                     elevation: 0,
-                    backgroundColor: '#ffffff',
+                    backgroundColor: 'white',
                     borderRadius: 28,
                     height: 46,
                     ...styles.shadow
@@ -92,7 +76,23 @@ export default function TabsBottom({navigation}) {
                 name="Trade" 
                 component={TradeScreen} 
                 options={{
-                    headerShown:false,
+                    headerTitleAlign: 'center',
+                    headerShadowVisible: false,
+                    headerTitle:() => 
+                        <View style = {{
+                                alignItems:'center',
+                            }}
+                        >
+                            <View style = {{alignItems: 'center'}}>
+                                <Text>Số dư</Text>
+                                <Text style ={{fontWeight:'bold', fontSize: 18}}>1,000,000,000 đ</Text>
+                            </View>
+                            
+                        </View>,
+                    headerRight: () => 
+                        <HeaderRight
+                            image2={require('../assets/menu-dots-vertical.png')}
+                        />,
                     tabBarIcon:({focused}) => (
                         <View style = {styles.tabicon}>
                             <Image
@@ -131,6 +131,10 @@ export default function TabsBottom({navigation}) {
                 component={BudgerScreen}
                 options={{
                     title:"Ngân sách áp dụng",
+                    headerRight: () => 
+                        <HeaderRight 
+                            image2={require('../assets/menu-dots-vertical.png')}
+                        />,
                     tabBarIcon:({focused}) => (
                         <View style = {styles.tabicon}>
                             <Image
@@ -183,6 +187,10 @@ const styles = StyleSheet.create({
     image:{
         width:20,
         height:20
+    },
+    images:{
+        width:16,
+        height:16
     },
     text:{
         fontSize: 9,

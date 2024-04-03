@@ -22,6 +22,8 @@ import ChooseGroupCha from "../screens/Account/ChooseGroupCha";
 import ChooseIcon from "../screens/Account/ChooseIcon";
 import AddWalletScreen from "../screens/Account/AddWalletScreen";
 import RangeDayBudgetScreen from "../screens/Budget/RangeDayBudgetScreen";
+import ReportScreen from "../screens/Trade/ReportScreen";
+import DetailReportScreen from "../screens/Trade/DetailReportScreen";
 
 const Stack = createStackNavigator()
 
@@ -32,7 +34,9 @@ export default function AppNav() {
         <NavigationContainer>
             {userToken == null ? (
                 <StartScreen></StartScreen>
-            ) : (
+            ) 
+            : 
+            (
                 <Stack.Navigator 
                     initialRouteName ="TabHome" 
                     screenOptions={{
@@ -88,6 +92,43 @@ export default function AppNav() {
                                         image2={require('../assets/search.png')}
                                     />   
                             }}
+                        />
+                        <Stack.Screen 
+                            name="ReportScreen" 
+                            component={ReportScreen} 
+                            
+                            options={{
+                                title:"Báo cáo chi tiêu",
+                                headerTitleAlign: 'center',
+
+                                headerTitle:() => 
+                                    <View style = {{
+                                            alignItems:'center',
+                                        }}
+                                    >
+                                        <View style = {{alignItems: 'center'}}>
+                                            <Text>Số dư</Text>
+                                            <Text style ={{fontWeight:'bold', fontSize: 18}}>1,000,000,000 đ</Text>
+                                        </View>
+                                        
+                                    </View>,
+                                headerRight: () => 
+                                    <HeaderRight
+                                        image2={require('../assets/menu-dots-vertical.png')}
+                                    />,
+                            }}
+                            
+                        />
+                        <Stack.Screen 
+                            name="DetailReportScreen" 
+                            component={DetailReportScreen} 
+                            options={{
+                                headerRight: () => 
+                                    <HeaderRight
+                                        image2={require('../assets/menu-dots-vertical.png')}
+                                    />,
+                            }}
+                            
                         />
                         <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} options={{title:"Thêm nhóm"}}/>
                         <Stack.Screen name="ChooseGroupCha" component={ChooseGroupCha} options={{title:"Chọn nhóm cha"}}/>
