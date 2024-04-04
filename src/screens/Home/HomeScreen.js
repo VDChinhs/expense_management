@@ -19,7 +19,7 @@ const dataCharMonth = {
   labels: ["Tháng trước", "Tháng này"],
   datasets: [
     {
-      data: [300, 50]
+      data: [300, 100]
     }
   ],
   valuesChiTieu: [
@@ -148,24 +148,23 @@ export default function HomeScreen({ navigation }) {
                   }
                 </View>
                 <View style = {styles.containergraphic}>
-                  <BarChart
-                    data={isdatachar}
-                    width={300}
-                    height={220}
-                    yAxisSuffix=" Tr"
-                    fromZero = {true}
-                    withInnerLines = {false}
-                    showValuesOnTopOfBars = {true}
-                    chartConfig={{
-                      barRadius:5,
-                      backgroundGradientFrom: "white",
-                      backgroundGradientTo: "white",
-                      // backgroundGradientFromOpacity: 1,
-                      // backgroundGradientToOpacity: 0.1,
-                      color: () => 'black',
-                      labelColor: () => 'black',                        
-                    }}
-                  />
+                    <BarChart
+                        data={isdatachar}
+                        width={300}
+                        height={220}
+                        yAxisSuffix=" Tr"
+                        fromZero = {true}
+                        withInnerLines = {false}
+                        showValuesOnTopOfBars = {true}
+                        chartConfig={{
+                            decimalPlaces: 1,
+                            barRadius:5,
+                            backgroundGradientFrom: "white",
+                            backgroundGradientTo: "white",
+                            color: () => 'black',
+                            labelColor: () => 'black',                        
+                        }}
+                    />
                 </View>
               </View>
               <View style = {styles.containerheader}>
@@ -197,9 +196,9 @@ export default function HomeScreen({ navigation }) {
           </View>
           <View style = {styles.border}>
             <View style = {{alignItems:'center'}}>
-              {isValuesTrade.map(value => (
+              {isValuesTrade.map((value, fIndex) => (
                 <InfoTitle 
-                  key={value.id}
+                  key={fIndex}
                   width={'92%'}
                   titlel={value.name}
                   titles={value.date} 

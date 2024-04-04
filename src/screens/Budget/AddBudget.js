@@ -207,6 +207,7 @@ export default function AddBudget({ navigation, route }) {
                     mode = {'date'}
                     is24Hour ={true}
                     themeVariant="dark"
+                    minimumDate={isRangeDateStart}
                     onChange = {(event, selectedDate) => {
                         const chooseDate = selectedDate;
                         setShowPickDateStart(false);
@@ -223,6 +224,7 @@ export default function AddBudget({ navigation, route }) {
                     mode = {'date'}
                     is24Hour ={true}
                     themeVariant="dark"
+                    minimumDate={isOptionDateStart}
                     onChange = {(event, selectedDate) => {
                         const chooseDate = selectedDate;
                         setShowPickDateEnd(false);
@@ -282,25 +284,48 @@ export default function AddBudget({ navigation, route }) {
                                                 {selectedOption != index ? 
                                                     <Text style = {styles.texts}>Tùy chọn</Text>
                                                     :
-                                                    <View style = {{flexDirection:'row'}}>
+                                                    <View style = {{flexDirection:'column', gap: 10, marginTop: 28}}>
                                                         <Text style = {styles.texts} >Tùy chọn</Text>
-
-                                                        <Text 
-                                                            style = {styles.texts} 
-                                                            onPress={() => {
-                                                                setShowPickDateStart(true)
-                                                            }}
-                                                        >
-                                                            {' (' + convertDate(isOptionDateStart) + ' - '}
-                                                        </Text>
-                                                        <Text 
-                                                            style = {styles.texts} 
-                                                            onPress={() => {
-                                                                setShowPickDateEnd(true)
-                                                            }}
-                                                        >
-                                                            {convertDate(isOptionDateEnd) + ')'}
-                                                        </Text>
+                                                        <View style = {{flexDirection:'row', gap: 20, marginLeft: 15}}>
+                                                            <View style = {{flexDirection:'row', alignItems:'center'}}>
+                                                                <Text>Từ:  </Text>
+                                                                <Text 
+                                                                    style = {styles.texts} 
+                                                                    onPress={() => {
+                                                                        setShowPickDateStart(true)
+                                                                    }}
+                                                                >
+                                                                    {convertDate(isOptionDateStart)}
+                                                                </Text>
+                                                                <Image
+                                                                    source={require('../../assets/angle-small-right.png')}
+                                                                    style={{
+                                                                        width: 15, 
+                                                                        height:15,
+                                                                        transform:[{rotate:'90deg'}]
+                                                                    }}
+                                                                />
+                                                            </View>
+                                                            <View style = {{flexDirection:'row', alignItems:'center'}}>
+                                                                <Text>Đến:  </Text>
+                                                                <Text 
+                                                                    style = {styles.texts} 
+                                                                    onPress={() => {
+                                                                        setShowPickDateEnd(true)
+                                                                    }}
+                                                                >
+                                                                    {convertDate(isOptionDateEnd)}
+                                                                </Text>
+                                                                <Image
+                                                                    source={require('../../assets/angle-small-right.png')}
+                                                                    style={{
+                                                                        width: 15, 
+                                                                        height:15,
+                                                                        transform:[{rotate:'90deg'}]
+                                                                    }}
+                                                                />
+                                                            </View>
+                                                        </View>
                                                     </View>
                                                 }
                                             </View>
@@ -378,7 +403,7 @@ const styles = StyleSheet.create({
         width: "100%",
         borderRadius: 25,
         padding: 25,
-        gap:20,
+        gap: 25,
         backgroundColor: 'white',
         alignItems: 'flex-start',
         elevation: 100,

@@ -30,19 +30,21 @@ export default function MyWallet({ navigation, route}) {
             <ScrollView>
                 <View style = {styles.container}>
                     {(!isChoose || isBack == 'Trade') && 
-                        <InfoTitle 
-                            titlel = {'Tổng cộng'}
-                            titles = {values.reduce((acc, item) => acc + item.money, 0)} 
-                            imageleft = {require('../../assets/user.png')}
-                            imageright = {
-                                isWallet == 'Tổng cộng' ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
-                            }
-                            style = {{ backgroundColor: 'white'}}
-                            onPress = {() => {
-                                isChoose && navigation.navigate(isBack, {namewallet: 'Tổng cộng', imagewallet: require('../../assets/user.png')});
-                            }}
+                        <View style = {{marginTop: 30}}>
+                                <InfoTitle 
+                                    titlel = {'Tổng cộng'}
+                                    titles = {values.reduce((acc, item) => acc + item.money, 0)} 
+                                    imageleft = {require('../../assets/user.png')}
+                                    imageright = {
+                                        isWallet == 'Tổng cộng' ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
+                                    }
+                                    style = {{ backgroundColor: 'white'}}
+                                    onPress = {() => {
+                                        isChoose && navigation.navigate(isBack, {namewallet: 'Tổng cộng', imagewallet: require('../../assets/user.png')});
+                                    }}
 
-                        />
+                                />
+                        </View>
                     }
                     <Text style = {styles.text}>Các ví</Text>
 
@@ -87,7 +89,7 @@ export default function MyWallet({ navigation, route}) {
 
 const styles = StyleSheet.create({
     container:{
-        marginTop:10,
+        // marginTop:10,
         // backgroundColor:'white'
     },
     text:{

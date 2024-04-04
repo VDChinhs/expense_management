@@ -37,4 +37,27 @@ const thisyear = (date) =>{
     console.log(new Date(end));
 }
 
-export {thisweek ,thismonth, thisquy, thisyear}
+function getDate(time){
+    if ((new Date(time)).getDate() <= 9) {
+        return(0+''+(new Date(time)).getDate())    
+    }
+    return((new Date(time)).getDate())
+}
+function getDay(time){
+    if ((new Date(time)).getDay() == 0) {
+        return "Chủ nhật"   
+    }
+    return "Thứ " + ((new Date(time)).getDay() + 1)
+}
+function getWeekMonth(time, mode){
+    if (mode == 'sort') {
+        return+((new Date(time)).getMonth() + 1) + "/" + ((new Date(time)).getFullYear())
+    }
+    return "Tháng " + ((new Date(time)).getMonth() + 1) + " " + ((new Date(time)).getFullYear())
+}
+
+function getRangeDate(start, end) {
+    return (((end - start) / (1000*60*60*24)) + 1).toFixed()
+}
+
+export {thisweek ,thismonth, thisquy, thisyear, getDate, getDay, getWeekMonth, getRangeDate}
