@@ -1,45 +1,233 @@
 import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView, Dimensions } from "react-native";
 import { useState, useRef, useEffect } from "react";
-import Button from "../../components/Button";
-import InfoTitle from "../../components/InfoTitle";
+import { PieChart, BarChart } from "react-native-chart-kit";
+
+function randomColorFromBaseColor(baseColor) {
+    var baseRGB = hexToRGB(baseColor);
+
+    var red = Math.floor(Math.random() * 256);
+    var green = Math.floor(Math.random() * 256);
+    var blue = Math.floor(Math.random() * 256);
+
+    var newColor = [
+        clamp(baseRGB[0] + red),
+        clamp(baseRGB[1] + green),
+        clamp(baseRGB[2] + blue)
+    ];
+
+    var newHexColor = RGBToHex(newColor);
+
+    return newHexColor;
+}
+
+function hexToRGB(hex) {
+    var r = parseInt(hex.slice(1, 3), 16);
+    var g = parseInt(hex.slice(3, 5), 16);
+    var b = parseInt(hex.slice(5, 7), 16);
+    return [r, g, b];
+}
+
+function RGBToHex(rgb) {
+    return "#" + ((1 << 24) + (rgb[0] << 16) + (rgb[1] << 8) + rgb[2]).toString(16).slice(1);
+}
+
+function clamp(value) {
+    return Math.max(0, Math.min(255, value));
+}
+
+var baseColor = "#AE4B4B";
 
 const data = [
     {
-        key:0,
+        title:"11/2023",
+        data:{
+            datarong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: []
+                    }
+                ],
+            },
+            datathu:[],
+            datchi:[]
+        }
+    },
+    {
         title:"12/2023",
-        data:{}
+        data:{
+            datarong:{
+                sum:8935325,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: [0.5, 3.3, -4, 7]
+                    }
+                ],
+                
+            },
+            datathu:[
+                {
+                    name: "Công việc",
+                    population: 47436,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                },
+                {
+                    name: "Xã hội",
+                    population: 457325,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                },
+                {
+                    name: "Lãi",
+                    population: 4375525,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                },
+                {
+                    name: "Khác",
+                    population: 657235,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                },
+            ],
+            datachi:[
+                {
+                    name: "Du lịch",
+                    population: 21500000,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                },
+                {
+                    name: "Ăn uống",
+                    population: 2800000,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                },
+                {
+                    name: "Khác",
+                    population: 527612,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                },
+                {
+                    name: "Quà tặng",
+                    population: 11920000,
+                    color: randomColorFromBaseColor(baseColor),
+                    legendFontColor: "#7F7F7F",
+                    legendFontSize: 14
+                }
+            ]
+        }
     },
     {
-        key:1,
         title:"01/2024",
-        data:{}
+        data:{
+            datarong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: []
+                    }
+                ],
+            },
+            datathu:[],
+            datchi:[]
+        }
     },
     {
-        key:2,
         title:"02/2024",
-        data:{}
+        data:{
+            datarong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: []
+                    }
+                ],
+            },
+            datathu:[],
+            datchi:[]
+        }
     },
     {
-        key:3,
         title:"03/2024",
-        data:{}
+        data:{
+            datarong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: []
+                    }
+                ],
+            },
+            datathu:[],
+            datchi:[]
+        }
     },
     {
-        key:4,
         title:"Tháng trước",
-        data:{}
+        data:{
+            datarong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: []
+                    }
+                ],
+            },
+            datathu:[],
+            datchi:[]
+        }
     },
     {
-        key:5,
         title:"Tháng này",
-        data:{}
+        data:{
+            datarong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: []
+                    }
+                ],
+            },
+            datathu:[],
+            datchi:[]
+        }
     },
     {
-        key:6,
         title:"Tương lai",
-        data:{}
+        data:{
+            datarong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: []
+                    }
+                ],
+            },
+            datathu:[],
+            datchi:[]
+        }
     }
 ]
+
+console.log(data[4].data.datachi);
 
 export default function ReportScreen({ navigation, route }) {
     const ref = useRef(null);
@@ -95,7 +283,6 @@ export default function ReportScreen({ navigation, route }) {
                     initialScrollIndex = {index}
                     data={data}
                     keyExtractor={(item, index) => index}
-                    contentContainerStyle={{ paddingLeft: 10 }}
                     showsHorizontalScrollIndicator={false}
                     horizontal
                     renderItem={({ item, index: fIndex }) => {
@@ -131,7 +318,9 @@ export default function ReportScreen({ navigation, route }) {
                         <View style = {styles.containerheader}>
                             <View>
                                 <Text style = {[styles.text, {fontSize: 18}]}>Thu nhập ròng</Text>
-                                <Text style = {[styles.text, {fontSize: 16}]}>10,000,000</Text>
+                                <Text style = {[styles.text, {fontSize: 16}]}>
+                                    {data[index].data.datarong.sum.toLocaleString()}
+                                </Text>
                             </View>
                             <TouchableOpacity
                                 onPress={() => navigation.navigate('ReportScreen')}
@@ -139,10 +328,27 @@ export default function ReportScreen({ navigation, route }) {
                                 <Text style = {styles.text}>Xem chi tiết</Text>
                             </TouchableOpacity>
                         </View>
-                        <View style = {styles.containergraphic}>
-                            <Image
-                                source={require('../../assets/dollar.png')}
-                                style ={{width: 200, height:200}}
+                        <View style = {[styles.containergraphic]}>
+                            <BarChart
+                                data={data[index].data.datarong}
+                                width={300}
+                                height={240}
+                                yAxisSuffix=" Tr"
+                                fromZero = {true}
+                                withInnerLines = {false}
+                                showValuesOnTopOfBars = {true}
+                                chartConfig={{
+                                    decimalPlaces: 1,
+                                    barRadius:5,
+                                    backgroundGradientFrom: "white",
+                                    backgroundGradientTo: "white",
+                                    color: () => 'black',
+                                    labelColor: () => 'black',
+                                    propsForVerticalLabels:{
+                                        fontSize:10,
+                                        rotation: [-25]
+                                    }                     
+                                }}
                             />
                         </View>
                     </View>
@@ -150,38 +356,92 @@ export default function ReportScreen({ navigation, route }) {
                         <View style = {styles.containerheader}>
                             <View>
                                 <Text style = {[styles.text, {fontSize: 18}]}>Khoản thu</Text>
-                                <Text style = {[styles.text, {fontSize: 16, color: 'green'}]}>10,000,000</Text>
+                                {data[index].data.datathu.length != 0 ? 
+                                    <Text 
+                                        style = {[styles.text, {fontSize: 16, color: 'green'}]}
+                                    >
+                                        {data[index].data.datathu.reduce((total, item) => total + item.population, 0).toLocaleString()}
+                                    </Text>
+                                    :
+                                    <Text
+                                        style = {[styles.text, {fontSize: 16, color: 'green'}]}
+                                    >
+                                        0
+                                    </Text>
+                                }
                             </View>
                             <TouchableOpacity
-                                onPress={() => navigation.navigate('DetailReportScreen', {title: 'Chi tiết khoản thu'})}
+                                onPress={() => 
+                                data[index].data.datathu.length != 0 &&
+                                navigation.navigate('DetailReportScreen', {title: 'Chi tiết khoản thu'})}
                             >
                                 <Text style = {styles.text}>Xem chi tiết</Text>
                             </TouchableOpacity>
                         </View>
                         <View style = {styles.containergraphic}>
-                            <Image
-                                source={require('../../assets/dollar.png')}
-                                style ={{width: 200, height:200}}
-                            />
+                            {data[index].data.datathu.length != 0 ?
+                                <PieChart
+                                    data={data[index].data.datathu}
+                                    width={Dimensions.get('screen').width}
+                                    height={170}
+                                    chartConfig={{
+                                        color: () => 'black',
+                                    }}
+                                    accessor={"population"}
+                                    backgroundColor={"transparent"}
+                                    paddingLeft={"10"}
+                                />
+                                :
+                                <View>
+                                    <Text>Không có dữ liệu</Text>
+                                </View>
+                            }
                         </View>
                     </View>
                     <View style = {styles.border}>
                         <View style = {styles.containerheader}>
                             <View>
                                 <Text style = {[styles.text, {fontSize: 18}]}>Khoản chi</Text>
-                                <Text style = {[styles.text, {fontSize: 16, color: 'red'}]}>10,000,000</Text>
+                                {data[index].data.datachi != undefined ? 
+                                    <Text 
+                                        style = {[styles.text, {fontSize: 16, color: 'red'}]}
+                                    >
+                                        {data[index].data.datachi.reduce((total, item) => total + item.population, 0).toLocaleString()}
+                                    </Text>
+                                    :
+                                    <Text
+                                        style = {[styles.text, {fontSize: 16, color: 'red'}]}
+                                    >
+                                        0
+                                    </Text>
+                                }
                             </View>
                             <TouchableOpacity
-                                onPress={() => navigation.navigate('DetailReportScreen', {title: 'Chi tiết khoản chi'})}
+                                onPress={() => 
+                                data[index].data.datachi != undefined &&
+                                navigation.navigate('DetailReportScreen', {title: 'Chi tiết khoản chi'})}
                             >
                                 <Text style = {styles.text}>Xem chi tiết</Text>
                             </TouchableOpacity>
                         </View>
                         <View style = {styles.containergraphic}>
-                            <Image
-                                source={require('../../assets/dollar.png')}
-                                style ={{width: 200, height:200}}
-                            />
+                            {data[index].data.datachi != undefined ?
+                                <PieChart
+                                    data={data[index].data.datachi}
+                                    width={Dimensions.get('screen').width}
+                                    height={170}
+                                    chartConfig={{
+                                        color: () => 'black',
+                                    }}
+                                    accessor={"population"}
+                                    backgroundColor={"transparent"}
+                                    paddingLeft={"10"}
+                                />
+                                :
+                                <View>
+                                    <Text>Không có dữ liệu</Text>
+                                </View>
+                            }
                         </View>
                     </View>
                 </View>
@@ -197,6 +457,7 @@ const styles = StyleSheet.create({
     },
     containergraphic:{
         alignItems:'center',
+        padding:10
     },
     containercalcu:{
         backgroundColor: 'white', 

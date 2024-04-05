@@ -2,12 +2,12 @@ import { useEffect, useState, useRef } from "react";
 import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions } from "react-native";
 import InfoTitle from "../../components/InfoTitle";
 import { ScrollView } from "react-native-gesture-handler";
+import { PieChart } from "react-native-chart-kit";
 
 export default function DetailReportScreen({ navigation, route }) {
     const data = [
         {
             title: "12/2023",
-            moneyall: 32643645,
             data:[
                 {
                     money: 354757,
@@ -85,7 +85,6 @@ export default function DetailReportScreen({ navigation, route }) {
         },
         {
             title:"Tháng này",
-            moneyall: 32643645,
             data:[
                 {
                     money: 354757,
@@ -121,6 +120,37 @@ export default function DetailReportScreen({ navigation, route }) {
         }
     ]
 
+    const datathu = [
+        {
+          name: "Du lịch",
+          population: 21500000,
+          color: "rgba(131, 167, 234, 1)",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 14
+        },
+        {
+          name: "Ăn uống",
+          population: 2800000,
+          color: "#F00",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 14
+        },
+        {
+          name: "Khác",
+          population: 527612,
+          color: "green",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 14
+        },
+        {
+          name: "Quà tặng",
+          population: 11920000,
+          color: "rgb(0, 0, 255)",
+          legendFontColor: "#7F7F7F",
+          legendFontSize: 14
+        }
+    ];
+
     const ref = useRef(null);
     const [index, setIndex] = useState(0);
 
@@ -144,7 +174,6 @@ export default function DetailReportScreen({ navigation, route }) {
                     initialScrollIndex = {index}
                     data={data}
                     keyExtractor={(item, index) => index}
-                    contentContainerStyle={{ paddingLeft: 10 }}
                     showsHorizontalScrollIndicator={false}
                     horizontal
                     renderItem={({ item, index: fIndex }) => {
@@ -181,17 +210,32 @@ export default function DetailReportScreen({ navigation, route }) {
                             <View style = {styles.containerheader}>
                                 <View >
                                     <Text style = {[styles.text, {fontSize: 15}]}>Tổng cộng</Text>
-                                    <Text style = {[styles.text, {fontSize: 20}]}>{data[index].moneyall.toLocaleString()}</Text>
+                                    <Text 
+                                        style = {[styles.text, {fontSize: 20}]}
+                                    >
+                                        {data[index].data.reduce((total, item) => total + item.money, 0).toLocaleString()}
+                                    </Text>
                                 </View>
                                 <View>
                                     <Text style = {[styles.text, {fontSize: 15}]}>Trung bình hàng ngày</Text>
-                                    <Text style = {[styles.text, {fontSize: 20}]}>{(data[index].moneyall / 30).toLocaleString()}</Text>
+                                    <Text 
+                                        style = {[styles.text, {fontSize: 20}]}
+                                    >
+                                        {((data[index].data.reduce((total, item) => total + item.money, 0)) / 30).toLocaleString()}
+                                    </Text>
                                 </View>
                             </View>
                             <View style = {styles.containergraphic}>
-                                <Image
-                                    source={require('../../assets/dollar.png')}
-                                    style = {{width: 150, height: 150}}
+                                <PieChart
+                                    data={datathu}
+                                    width={Dimensions.get('screen').width}
+                                    height={170}
+                                    chartConfig={{
+                                        color: () => 'black',
+                                    }}
+                                    accessor={"population"}
+                                    backgroundColor={"transparent"}
+                                    paddingLeft={"10"}
                                 />
                             </View>
                         </View>
@@ -240,7 +284,8 @@ const styles = StyleSheet.create({
         width: '100%'
     },
     containergraphic:{
-
+        paddingTop: 15, 
+        alignItems:'center'
     },
     text:{
         fontWeight:'bold'

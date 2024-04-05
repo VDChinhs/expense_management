@@ -1,22 +1,221 @@
-import { Text, View, StyleSheet, Image } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ScrollView } from "react-native";
 import Button from "../../components/Button";
+import { useEffect, useState, useRef } from "react";
+import HaldCircle from '../../components/HalfCricle';
+import InfoTitle from "../../components/InfoTitle";
+import * as Progress from 'react-native-progress';
+import { getRangeDate } from "../../process/Date";
 
-export default function BudgetScreen({ navigation }) {
+const data = [
+  {
+    title: 'Tháng này',
+    dateend: '2024-4-30',
+    data:[
+        {
+            money: 2987332,
+            moneyloss: 259830,
+            group:'Du lịch',
+            image:require('../../assets/dulich.png')
+        },
+        {
+            money: 5732543,
+            moneyloss: 2353235,
+            group:'Ăn uống',
+            image:require('../../assets/anuong.png')
+        },
+        {
+            money: 7698346,
+            moneyloss: 4364736,
+            group:'Quà tặng',
+            image:require('../../assets/quatang.png')
+        },
+        {
+            money: 983252,
+            moneyloss: 548568,
+            group:'Tiền mạng',
+            image:require('../../assets/tienmang.png')
+        },
+    ]
+  },
+  {
+    title: '12/5 - 16/5',
+    dateend: '2024-5-16',
+    data:[
+        {
+            money: 12000000,
+            moneyloss: 5204000,
+            group:'Du lịch',
+            image:require('../../assets/dulich.png')
+        },
+        {
+            money: 3000000,
+            moneyloss: 1200000,
+            group:'Ăn uống',
+            image:require('../../assets/anuong.png')
+        },
+        {
+            money: 3420000,
+            moneyloss: 730000,
+            group:'Quà tặng',
+            image:require('../../assets/quatang.png')
+        },
+        {
+            money: 1100000,
+            moneyloss: 360000,
+            group:'Tiền mạng',
+            image:require('../../assets/tienmang.png')
+        },
+    ]
+  },
+]
+export default function BudgetScreen({ navigation, route }) {
+    const ref = useRef(null);
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        ref.current?.scrollToIndex({
+            index,
+            animated: true,
+            viewPosition : 0.5,
+        });
+        if (data.length == 0) {
+            navigation.setOptions({
+                headerShadowVisible: true,
+            });
+        }
+    },[index, route])
+    
+    const [isCurrentDate , setCurrentDate] = useState(new Date())
     return (
-      <View style = {styles.container}>
-        <Image
-          style = {styles.image}
-          source={require('../../assets/dollar.png')}
-        />
-        <View style = {styles.textinfo}>
-          <Text style = {styles.textbold}>Bạn chưa có ngân sách</Text>
-          <Text style = {{textAlign: 'center'}}>Bắt đầu tiết kiệm bằng cách tạo ngân sách và chúng tôi sẽ giúp bạn kiểm soát ngân sách</Text>
+        <View>
+            {data.length != 0 ?
+                <View>
+                    <View style = {{backgroundColor: 'white'}}>
+                        <FlatList
+                            ref={ref}
+                            initialScrollIndex = {index}
+                            data={data}
+                            keyExtractor={(item, index) => index.toString()}
+                            showsHorizontalScrollIndicator={false}
+                            horizontal
+                            renderItem={({ item, index: fIndex }) => {
+                                return (
+                                    <TouchableOpacity onPress={() => {
+                                        setIndex(fIndex)
+                                    }}>
+                                        <View
+                                            style={{
+                                                padding: 10,
+                                                width: Dimensions.get('screen').width / 3,
+                                                alignItems:'center',
+                                                borderBottomColor: 'black',
+                                                borderBottomWidth: fIndex === index ? 2 : 0,
+                                            }}>
+                                            <Text style={{
+                                                    fontWeight: 'bold',
+                                                    fontSize: 15,
+                                                    opacity: fIndex === index ? 1 : 0.5,
+                                                }}
+                                            >
+                                                {item.title}
+                                            </Text>
+                                        </View>
+                                    </TouchableOpacity>
+                                );
+                            }}
+                        />
+                    </View>
+                    <ScrollView>
+                        <View style = {{marginBottom: 160}}>
+                            <View style = {styles.containergraphic}>
+                                <View>
+                                    <HaldCircle
+                                        textColortitle={'black'}
+                                        color="green"
+                                        percentage={
+                                            data[index].data.reduce((total, item) => total + item.moneyloss, 0)
+                                        }
+                                        text={
+                                            data[index].data.reduce((total, item) => total + item.money, 0) -
+                                            data[index].data.reduce((total, item) => total + item.moneyloss, 0)
+                                        }
+                                        max={data[index].data.reduce((total, item) => total + item.money, 0)}
+                                        radius={160}
+                                    />
+                                </View>
+                                <View style = {styles.containerundergraphic}>
+                                    <View style = {{alignItems:'center'}}>
+                                        <Text 
+                                            style = {[styles.textbold,{fontSize: 19}]}
+                                        >
+                                            {data[index].data.reduce((total, item) => total + item.money, 0).toLocaleString()}
+                                        </Text>
+                                        <Text>Tổng ngân sách</Text>
+                                    </View>
+                                    <View style = {{alignItems:'center'}}>
+                                        <Text 
+                                            style = {[styles.textbold,{fontSize: 19}]}
+                                        >
+                                            {data[index].data.reduce((total, item) => total + item.moneyloss, 0).toLocaleString()}
+                                        </Text>
+                                        <Text>Tổng đã chi</Text>
+                                    </View>
+                                    <View style = {{alignItems:'center'}}>
+                                        <Text 
+                                            style = {[styles.textbold,{fontSize: 19}]}
+                                        >
+                                            {getRangeDate(isCurrentDate, new Date(data[index].dateend))} ngày
+                                        </Text>
+                                        <Text>Đến cuối kỳ</Text>
+                                    </View>
+                                </View>
+                                <Button
+                                    title={'Tạo ngận sách'}
+                                    style={{width: 150, height: 50}}
+                                    onPress={() => navigation.navigate("AddBudget")}
+                                />
+                            </View>
+                            <View style = {{gap: 20, marginTop: 20}}>
+                                {data[index].data.map((value, fIndex) =>(
+                                    <View style = {styles.containerbudget}key = {fIndex}>
+                                        <InfoTitle
+
+                                            titlel={value.group}
+                                            styleimageleft={{width: 30, height: 30}}
+                                            imageleft={value.image}
+                                            titlerightl={value.money}
+                                            titlerights={value.money - value.moneyloss}
+                                        />
+                                        <View style = {{alignItems:'flex-end', padding: 10}}>
+                                            <Progress.Bar 
+                                                progress={value.moneyloss/ value.money} 
+                                                color="green" 
+                                                width={260}
+                                            />
+                                        </View>
+                                    </View>
+                                ))}
+                            </View>
+                        </View>
+                    </ScrollView>
+                </View>
+                :
+                <View style = {styles.container}>
+                    <Image
+                        style = {styles.image}
+                        source={require('../../assets/dollar.png')}
+                    />
+                    <View style = {styles.textinfo}>
+                        <Text style = {[styles.textbold, {fontSize: 15}]}>Bạn chưa có ngân sách</Text>
+                        <Text style = {{textAlign: 'center'}}>Bắt đầu tiết kiệm bằng cách tạo ngân sách và chúng tôi sẽ giúp bạn kiểm soát ngân sách</Text>
+                    </View>
+                    <Button 
+                        title={"Tạo ngân sách"}
+                        onPress={() => navigation.navigate("AddBudget")}
+                    />
+                </View>
+            }
         </View>
-        <Button 
-          title={"Tạo ngân sách"}
-          onPress={() => navigation.navigate("AddBudget")}
-        />
-      </View>
     );
 }
 
@@ -25,6 +224,24 @@ const styles = StyleSheet.create({
         top:100,
         alignItems: 'center',
         gap:20
+    },
+    containergraphic:{
+        alignItems:'center',
+        backgroundColor: 'white', 
+        marginTop: 20, 
+        paddingVertical: 20
+    },
+    containerundergraphic:{
+        flexDirection: 'row', 
+        width:'100%', 
+        justifyContent:'space-around', 
+        marginTop: -140, 
+        paddingBottom: 20,
+        paddingHorizontal: 10
+    },
+    containerbudget:{
+        backgroundColor:'white',
+        paddingHorizontal: 15,
     },
     image:{
       width:150,
@@ -37,6 +254,5 @@ const styles = StyleSheet.create({
     },
     textbold:{
       fontWeight:'bold',
-      fontSize:15
     }
 })

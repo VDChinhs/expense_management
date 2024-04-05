@@ -40,7 +40,6 @@ export default function AppNav() {
                 <Stack.Navigator 
                     initialRouteName ="TabHome" 
                     screenOptions={{
-                        headerShadowVisible:false,
                         headerStyle:{
                             height:70,
                         }
@@ -85,6 +84,7 @@ export default function AppNav() {
                             name="ChooseGroup" 
                             component={TabsTopGroup} 
                             options={{
+                                headerShadowVisible:false,
                                 title:"Nhóm",
                                 headerRight: () => 
                                     <HeaderRight 
@@ -96,8 +96,8 @@ export default function AppNav() {
                         <Stack.Screen 
                             name="ReportScreen" 
                             component={ReportScreen} 
-                            
                             options={{
+                                headerShadowVisible:false,
                                 title:"Báo cáo chi tiêu",
                                 headerTitleAlign: 'center',
 
@@ -123,6 +123,7 @@ export default function AppNav() {
                             name="DetailReportScreen" 
                             component={DetailReportScreen} 
                             options={{
+                                headerShadowVisible:false,
                                 headerRight: () => 
                                     <HeaderRight
                                         image2={require('../assets/menu-dots-vertical.png')}

@@ -2,15 +2,16 @@ import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView, 
 import { useState, useRef, useEffect } from "react";
 import Button from "../../components/Button";
 import InfoTitle from "../../components/InfoTitle";
+import { getDate, getDay, getWeekMonth } from "../../process/Date";
 
 const data = [
     {
         title: "12/2023",
-        moneyin: 32643645,
-        moneyout: 54756865,
+        moneyin: 36434625,
+        moneyout: 12431525,
         data:[
             {
-                date: '2023-5-13',
+                date: '2024-4-23',
                 detail:[
                     {
                         money: 354757,
@@ -30,7 +31,7 @@ const data = [
                 ]
             },
             {
-                date:'2023-5-12',
+                date:'2024-4-24',
                 detail:[
                     {
                         money:-780546,
@@ -69,11 +70,11 @@ const data = [
     },
     {
         title:"Tháng này",
-        moneyin: 32643645,
-        moneyout: 54756865,
+        moneyin: 79845365,
+        moneyout: 2135478,
         data:[
             {
-                date: '2023-5-13',
+                date: '2024-5-13',
                 detail:[
                     {
                         money: 354757,
@@ -174,7 +175,6 @@ export default function TradeScreen({ navigation, route }) {
                     initialScrollIndex = {index}
                     data={data}
                     keyExtractor={(item, index) => index}
-                    contentContainerStyle={{ paddingLeft: 10 }}
                     showsHorizontalScrollIndicator={false}
                     horizontal
                     renderItem={({ item, index: fIndex }) => {
@@ -246,10 +246,10 @@ export default function TradeScreen({ navigation, route }) {
                                 ]}
                             >
                                 <InfoTitle
-                                    titlel={'Chủ nhật'}
-                                    titles={'Tháng 2 2024'}
+                                    titlel={getDay(value.date)}
+                                    titles={getWeekMonth(value.date)}
                                     money={value.detail.reduce((total, item) => total + item.money, 0)}
-                                    numberleft={'09'}
+                                    numberleft={getDate(value.date)}
                                     style = {styles.borderbottom}
                                 />
                                 {value.detail.map((item, indexitem) =>(

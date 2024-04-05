@@ -130,6 +130,7 @@ export default function TabsBottom({navigation}) {
                 name="Budget" 
                 component={BudgerScreen}
                 options={{
+                    headerShadowVisible: false,
                     title:"Ngân sách áp dụng",
                     headerRight: () => 
                         <HeaderRight 
