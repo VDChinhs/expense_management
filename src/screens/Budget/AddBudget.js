@@ -180,7 +180,6 @@ export default function AddBudget({ navigation, route }) {
                     sizeimg = {20} 
                     fontsize = {15}
                     onPress = {() => setModalVisible(true)}
-                    //   onPress = {() => navigation.navigate('RangeDayBudgetScreen')}
                 />
 
                 <TitleInput 

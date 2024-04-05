@@ -21,7 +21,6 @@ import AddGroupScreen from "../screens/Account/AddGroupScreen";
 import ChooseGroupCha from "../screens/Account/ChooseGroupCha";
 import ChooseIcon from "../screens/Account/ChooseIcon";
 import AddWalletScreen from "../screens/Account/AddWalletScreen";
-import RangeDayBudgetScreen from "../screens/Budget/RangeDayBudgetScreen";
 import ReportScreen from "../screens/Trade/ReportScreen";
 import DetailReportScreen from "../screens/Trade/DetailReportScreen";
 
@@ -55,7 +54,6 @@ export default function AppNav() {
                             ...TransitionPresets.ModalPresentationIOS,
                         }}
                     >
-                        <Stack.Screen name="RangeDayBudgetScreen" component={RangeDayBudgetScreen}/>
                         <Stack.Screen name="AccountManagerScreen" component={AccountManagerScreen} options={{title:"Quản lý tài khoản"}}/>
 
                     </Stack.Group>
