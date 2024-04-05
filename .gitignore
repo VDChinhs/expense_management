@@ -33,3 +33,8 @@ yarn-error.*
 
 # typescript
 *.tsbuildinfo
+
+#file draff
+src/screens/Chinh.js
+src/screens/TestScreen.js
+src/screens/DaboardScreen.js
