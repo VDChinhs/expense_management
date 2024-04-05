@@ -1,6 +1,20 @@
 import { Text, TouchableOpacity, StyleSheet,Image, View } from 'react-native';
 
-export default function InfoTitle({titlel, titles, onPress, money, imageleft, numberleft, styleimageleft, imageright, width, titleright, ...prop}){  
+export default function InfoTitle({
+    titlel, 
+    titles, 
+    onPress, 
+    money, 
+    imageleft, 
+    numberleft, 
+    styleimageleft, 
+    imageright, 
+    width, 
+    titleright,
+    titlerightl,
+    titlerights,
+    ...prop
+}){  
     return (
         <TouchableOpacity onPress={onPress} style={[styles.container, {width: width}, {...prop.style}]}>
             <View style = {styles.infoleft}>
@@ -43,6 +57,20 @@ export default function InfoTitle({titlel, titles, onPress, money, imageleft, nu
                         {titleright}
                     </Text>
                 }
+                {titlerightl 
+                    &&
+                    <Text
+                        style= {[styles.money,{fontSize: 17}]}>
+                        {titlerightl.toLocaleString()}
+                    </Text>
+                }
+                {titlerights
+                    &&
+                    <Text
+                        style= {{fontSize:12}}>
+                        Còn lại {titlerights.toLocaleString()}
+                    </Text>
+                }
                 {imageright 
                     &&
                     <Image
@@ -71,6 +99,9 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         alignItems:'center'
     },
+    inforight:{
+        alignItems:'flex-end'
+    },  
     imageleft:{
         width:25,
         height:25
