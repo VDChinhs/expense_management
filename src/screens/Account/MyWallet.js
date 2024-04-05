@@ -38,7 +38,7 @@ export default function MyWallet({ navigation, route}) {
                                     imageright = {
                                         isWallet == 'Tổng cộng' ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
                                     }
-                                    style = {{ backgroundColor: 'white'}}
+                                    style = {{ backgroundColor: 'white', height: 60}}
                                     onPress = {() => {
                                         isChoose && navigation.navigate(isBack, {namewallet: 'Tổng cộng', imagewallet: require('../../assets/user.png')});
                                     }}
@@ -57,7 +57,7 @@ export default function MyWallet({ navigation, route}) {
                             imageright = {
                                 isWallet == value.name ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
                             }
-                            style = {{ backgroundColor: 'white'}}
+                            style = {{ backgroundColor: 'white', height: 60}}
                             onPress={() => {
                                 isChoose && navigation.navigate(isBack, {namewallet: value.name, imagewallet: value.image});
                             }}
@@ -98,7 +98,7 @@ const styles = StyleSheet.create({
         fontWeight:'bold',
     },
     button:{
-        width: 60,
+        width: 50,
         height: 50,
         borderRadius: 35,
         right:50,
