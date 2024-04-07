@@ -32,7 +32,7 @@ export default function InfoTitle({
                         style={styles.textl}>
                         {titlel}
                     </Text>
-                    {titles 
+                    {(titles || (typeof (titles) == 'number')) 
                         &&
                         <Text
                             style={styles.texts}>
