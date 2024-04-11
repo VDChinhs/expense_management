@@ -36,8 +36,8 @@ export default function SignScreen({navigation}) {
             </View>
             <Button 
                 title={"Đăng ký"}
-                onPress={() => {
-                    if (handleSign(name,username,password)){
+                onPress={async () => {
+                    if(await handleSign(name.trim(), username.trim(),password.trim())){
                         navigation.goBack()
                     }
                 }}

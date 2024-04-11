@@ -60,4 +60,11 @@ function getRangeDate(start, end) {
     return (((end - start) / (1000*60*60*24)) + 1).toFixed()
 }
 
-export {thisweek ,thismonth, thisquy, thisyear, getDate, getDay, getWeekMonth, getRangeDate}
+function getFullDate(time) {
+    var date = new Date(time).getDate();
+    var month = new Date(time).getMonth() + 1;
+    var year = new Date(time).getFullYear();
+    return date + '/' + month + '/' + year
+}
+
+export {thisweek ,thismonth, thisquy, thisyear, getDate, getDay, getWeekMonth, getRangeDate, getFullDate}

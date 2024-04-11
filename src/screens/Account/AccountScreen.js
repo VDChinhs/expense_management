@@ -5,7 +5,7 @@ import { AuthContext } from "../../context/AuthContext";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function AccountScreen({ navigation }) {
-  const {logout} = useContext(AuthContext);
+  const {logout, isData} = useContext(AuthContext);
 
     return (
       <View style = {styles.container}>
@@ -13,8 +13,8 @@ export default function AccountScreen({ navigation }) {
           <View style = {styles.info_button}>
             <View style ={styles.info}>
               <Image style = {styles.avatar} source={require('../../assets/man.png')}></Image>
-              <Text style = {styles.text}>Vu Duc Chinh</Text>
-              <Text style = {styles.text}>chinhvu005@huce.edu.vn</Text>
+              <Text style = {styles.text}>{isData.data.name}</Text>
+              <Text style = {styles.text}>{isData.data.username}</Text>
             </View>
             <Image style = {styles.buttonright} source={require('../../assets/angle-small-right.png')}></Image>
           </View>
