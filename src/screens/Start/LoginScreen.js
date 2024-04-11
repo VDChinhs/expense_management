@@ -31,8 +31,7 @@ export default function LoginScreen({navigation}) {
                 <Button
                     style = {styles.margin} 
                     title={"Đăng nhập"}
-                    // onPress={() => {handleLogin(username,password)}}
-                    onPress={() => {login()}}
+                    onPress={async() => {await login(username.trim(), password.trim())}}
 
                 />
                 {/* <Text style = {styles.word} >Quên mật khẩu?</Text> */}

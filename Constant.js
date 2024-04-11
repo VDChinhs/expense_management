@@ -1,3 +1,3 @@
-const IP = '192.168.1.6'
+const IP = '192.168.1.13'
 
 export {IP}
