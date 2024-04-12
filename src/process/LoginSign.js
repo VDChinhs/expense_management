@@ -1,63 +1,81 @@
 import { Alert } from "react-native";
+import { IP } from "../../Constant";
 
 // Đăng ký
-const handleSign = async (name, username, password, props) => {
+const handleSign = async (name, username, password) => {
     if (name == "" || username == "" || password == "" ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
         ]);
-        return
+        return false
     }
     const data = {
         name,
         username,
         password
     };
-    let response = await fetch('http://192.168.1.6:3000/test/sign', {
+    let response = await fetch(`http://${IP}:3000/sign`, {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
     })
-    if (response.status != 200) {
-        console.log("Đăng ký thất bại");
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi đăng ký tài khoản', [
+            {text: 'OK'}
+        ]);
+        return false
     }
     else{
         let json = await response.json()
+        if (!json.status) {
+            Alert.alert('Cảnh báo', json.mes, [
+                {text: 'OK'}
+            ]);
+            return false
+        }
         console.log(json);
         return true
     }
 }
 
 //Đăng nhập
-const handleLogin = (username,password) => {
+const handleLogin = async (username,password) => {
     if (username == "" || password == "" ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
         ]);
-        return
+        return false
     }
     const data = {
         username,
         password
     };
-    console.log(data);
-    fetch('http://192.168.1.6:3000/test/login', {
+    let response = await fetch(`http://${IP}:3000/login`, {
         method: 'Post',
         headers: {
             'Content-Type': 'application/json',
         },
         body: JSON.stringify(data),
     })
-    .then((response) => {
-        if (response.ok) {
-           console.log('Đăng nhập thành công!');
-        } else {
-           const error = response.statusText;
-           console.log('Lỗi đăng nhập:', error);
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi đăng nhập', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    else{
+        let json = await response.json()
+        if (!json.status) {
+            Alert.alert('Cảnh báo', json.mes, [
+                {text: 'OK'}
+            ]);
+            return false
         }
-    });
+        // console.log(json);
+        return json
+    }
 }
 
 export {handleSign, handleLogin};
