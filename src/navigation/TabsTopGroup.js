@@ -1,62 +1,67 @@
-import * as React from 'react';
-import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, FlatList } from 'react-native';
+import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, ActivityIndicator, RefreshControl } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import CardGroup from '../components/CardGroup';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect, useContext, useCallback } from 'react';
 import { AuthContext } from "../context/AuthContext";
+import HeaderRight from "../components/HeaderRight";
+import { myGroup } from "../process/GroupController";
 
 function ChiScreen({ navigation, route }) {
+    // const data = [
+    //     {
+    //         root: {name: 'Family', image: require('../assets/anuong.png')},
+    //         node: [
+    //             {name:'Ăn uống', image: require('../assets/anuong.png')},
+    //             {name:'Tiền mạng', image: require('../assets/tienmang.png')},
+    //             {name:'Sức khỏe', image: require('../assets/suckhoe.png')},
+    //         ],
+    //     },
+    //     {
+    //         root: {name: 'Entertaiment', image: require('../assets/thoitrang.png')},
+    //         node: [
+    //             {name:'Thời trang', image: require('../assets/thoitrang.png')},
+    //             {name:'Di chuyển', image: require('../assets/dichuyen.png')},
+    //             {name:'Thú cưng', image: require('../assets/thucung.png')},
+    //             {name:'Giáo dục', image: require('../assets/giaoduc.png')},
+    //         ]
+    //     },
+    //     {
+    //         root: {name: 'Game', image: require('../assets/tiennuoc.png')},
+    //         node: [
+    //             {name:'Tiền nước', image: require('../assets/tiennuoc.png')},
+    //             {name:'Tiền điện', image: require('../assets/tiendien.png')},
+    //             {name:'Giải trí', image: require('../assets/giaitri.png')},
+    //             {name:'Quà tặng', image: require('../assets/quatang.png')},
+    //             {name:'Du lịch', image: require('../assets/dulich.png')},
+    //         ]
+    //     },
+    // ]
     const state = route.params;
-    const {isWalleting} = useContext(AuthContext);
+
+    const {userToken, isWalleting} = useContext(AuthContext);
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);
     const [isGroup, SetGroup] = useState(undefined);
-    const data1 = [
-        {name:'Ăn uống', image: require('../assets/anuong.png')},
-        {name:'Tiền mạng', image: require('../assets/tienmang.png')},
-        {name:'Sức khỏe', image: require('../assets/suckhoe.png')},
-        {name:'Thời trang', image: require('../assets/thoitrang.png')},
-        {name:'Di chuyển', image: require('../assets/dichuyen.png')},
-        {name:'Thú cưng', image: require('../assets/thucung.png')},
-        {name:'Giáo dục', image: require('../assets/giaoduc.png')},
-        {name:'Tiền nước', image: require('../assets/tiennuoc.png')},
-        {name:'Tiền điện', image: require('../assets/tiendien.png')},
-        {name:'Giải trí', image: require('../assets/giaitri.png')},
-        {name:'Quà tặng', image: require('../assets/quatang.png')},
-        {name:'Du lịch', image: require('../assets/dulich.png')},
-    ]
-    const data = [
-        {
-            root: {name: 'Family', image: require('../assets/anuong.png')},
-            node: [
-                {name:'Ăn uống', image: require('../assets/anuong.png')},
-                {name:'Tiền mạng', image: require('../assets/tienmang.png')},
-                {name:'Sức khỏe', image: require('../assets/suckhoe.png')},
-            ],
-        },
-        {
-            root: {name: 'Entertaiment', image: require('../assets/thoitrang.png')},
-            node: [
-                {name:'Thời trang', image: require('../assets/thoitrang.png')},
-                {name:'Di chuyển', image: require('../assets/dichuyen.png')},
-                {name:'Thú cưng', image: require('../assets/thucung.png')},
-                {name:'Giáo dục', image: require('../assets/giaoduc.png')},
-            ]
-        },
-        {
-            root: {name: 'Game', image: require('../assets/tiennuoc.png')},
-            node: [
-                {name:'Tiền nước', image: require('../assets/tiennuoc.png')},
-                {name:'Tiền điện', image: require('../assets/tiendien.png')},
-                {name:'Giải trí', image: require('../assets/giaitri.png')},
-                {name:'Quà tặng', image: require('../assets/quatang.png')},
-                {name:'Du lịch', image: require('../assets/dulich.png')},
-            ]
-        },
-    ]
-    const [values, setValues] = useState(data);
+
+    const [values, setValues] = useState(values);
+    const [isLoading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+
+    async function getMyParent(type) {
+        var data = await myGroup(userToken, type, isWalleting._id)
+        setValues(data)
+        setLoading(false)
+    }
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        getMyParent(0)
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    });
 
     useEffect(() => {
+        getMyParent(0)
         if (state.route.params?.back) {
             SetBack(state.route.params?.back)
         }
@@ -66,162 +71,172 @@ function ChiScreen({ navigation, route }) {
         if (state.route.params?.group != null) {
             SetGroup(state.route.params?.group)
         }
-    });
+    },[navigation,state]);
+
 
     return (
-        <ScrollView>
-            <View style = {styles.container}>
-                {/* <View style={styles.containertab}>
-                    <FlatList
-                            data={values}
-                            keyExtractor={(item) => item.name}
-                            numColumns={3}
-                            columnWrapperStyle = {{gap: 20}}
-                            contentContainerStyle ={{gap: 20, paddingHorizontal:10}}
-                            showsVerticalScrollIndicator= {false}
-                            renderItem={({item}) => {
-                                return(
-                                    <TouchableOpacity>
-                                        <CardGroup 
-                                            key={item.name}
-                                            title={item.name} 
-                                            image={item.image}
-                                            style = {{ backgroundColor: isGroup == item.name ? 'powderblue':'white'}}
-                                            onPress={() => {
-                                                isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image});
-                                            }}
-                                        />
-                                    </TouchableOpacity>
-                                )
-                            }}
-                        />
-                </View> */}
-                <TouchableOpacity 
-                    onPress={() => navigation.navigate({
-                        name:'AddGroupScreen',
-                        params: {type:'Khoản chi'}
-                    })}
+        <View>
+            {isLoading ? 
+                <View style = {{height: 500, justifyContent:'center', alignContent:'center'}}>
+                    <ActivityIndicator color={'balck'} size={'large'}/>
+                </View>
+            :
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
                 >
-                    <View style = {styles.containeraddgroup}>
-                        <Image
-                            source={require('../assets/add.png')}
-                            style = {styles.imageleft}
-                        />
-                        <Text style = {styles.textl}>Nhóm mới</Text>
-                    </View>
-                </TouchableOpacity>
-                {values.map(value => (
-                    <View key={value.root.name} style = {{backgroundColor:'white'}}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                isChoose && navigation.navigate(isBack, {namegroup: value.root.name, imagegroup: value.root.image});
-                            }}
+                    <View style = {styles.container}>
+                        <TouchableOpacity 
+                            onPress={() => navigation.navigate({
+                                name:'AddGroupScreen',
+                                params: {type:'Khoản chi'}
+                            })}
                         >
-                            <View style = {styles.containerroot}>
-                                <View style = {styles.rootleft}>
-                                    <Image
-                                        source={value.root.image}
-                                        style = {styles.imageleft}
-                                    />
-                                    <View style = {styles.containertext}>
-                                        <Text style = {styles.textl}>{value.root.name}</Text>
-                                        <Text style = {styles.texts}>{isWalleting}</Text>
-                                    </View>
-                                </View>
-                                {
-                                    !isChoose &&
-                                    <Image
-                                        source={require('../assets/angle-small-right.png')}
-                                        style = {styles.imageright}
-                                    />
-                                }
-                                {
-                                    isGroup == value.root.name && 
-                                    <Image
-                                        source={require('../assets/check-mark.png')}
-                                        style = {styles.imageright}
-                                    />
-                                }
+                            <View style = {styles.containeraddgroup}>
+                                <Image
+                                    source={Number(require('../assets/add.png'))}
+                                    style = {styles.imageleft}
+                                />
+                                <Text style = {styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
-                        {value.node.map(item => (
-                            <TouchableOpacity
-                                key={item.name}
-                                onPress={() => {
-                                isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image});
-                            }}
-                            >
-                                <View style = {styles.containernode}>
-                                    <View style = {styles.nodeleft}>
-                                        <Image
-                                            source={item.image}
-                                            style = {styles.imageleft}
-                                        />
-                                        <View style = {styles.containertext}>
-                                            <Text style = {styles.textl}>{item.name}</Text>
-                                            <Text style = {styles.texts}>{isWalleting}</Text>
+                        {values.map(value => (
+                            <View key={value.root.name} style = {{backgroundColor:'white'}}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        if (isChoose) {
+                                            navigation.navigate(isBack, {namegroup: value.root.name, imagegroup: value.root.image, group: value.root});
+                                        }
+                                        else{
+                                            navigation.navigate('AddGroupScreen', {group: value.root});
+                                        }
+                                    }}
+                                >
+                                    <View style = {styles.containerroot}>
+                                        <View style = {styles.rootleft}>
+                                            <Image
+                                                source={Number(value.root.image)}
+                                                style = {styles.imageleft}
+                                            />
+                                            <View style = {styles.containertext}>
+                                                <Text style = {styles.textl}>{value.root.name}</Text>
+                                                <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                            </View>
                                         </View>
+                                        {
+                                            !isChoose &&
+                                            <Image
+                                                source={Number(require('../assets/angle-small-right.png'))}
+                                                style = {styles.imageright}
+                                            />
+                                        }
+                                        {
+                                            isGroup == value.root.name && 
+                                            <Image
+                                                source={Number(require('../assets/check-mark.png'))}
+                                                style = {styles.imageright}
+                                            />
+                                        }
                                     </View>
-                                    {
-                                        !isChoose &&
-                                        <Image
-                                            source={require('../assets/angle-small-right.png')}
-                                            style = {styles.imageright}
-                                        />
-                                    }
-                                    {
-                                    isGroup == item.name && 
-                                    <Image
-                                        source={require('../assets/check-mark.png')}
-                                        style = {styles.imageright}
-                                    />
-                                    }
-                                    <View style = {styles.lineroottop}/>
-                                    {(value.node.length - 1 != value.node.indexOf(item)) && <View style = {styles.linerootbot}/>}
-                                </View>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                                {value.node.map(item => (
+                                    <TouchableOpacity
+                                        key={item.name}
+                                        onPress={() => {
+                                            if(isChoose){
+                                                navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image, group: item});
+                                            }
+                                            // else{
+                                            //     navigation.navigate('AddGroupScreen', {group: item, title: "Xem nhóm", mode:'edit'});
+                                            // }
+                                    }}
+                                    >
+                                        <View style = {styles.containernode}>
+                                            <View style = {styles.nodeleft}>
+                                                <Image
+                                                    source={Number(item.image)}
+                                                    style = {styles.imageleft}
+                                                />
+                                                <View style = {styles.containertext}>
+                                                    <Text style = {styles.textl}>{item.name}</Text>
+                                                    <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                                </View>
+                                            </View>
+                                            {
+                                                !isChoose &&
+                                                <Image
+                                                    source={Number(require('../assets/angle-small-right.png'))}
+                                                    style = {styles.imageright}
+                                                />
+                                            }
+                                            {
+                                            isGroup == item.name && 
+                                            <Image
+                                                source={Number(require('../assets/check-mark.png'))}
+                                                style = {styles.imageright}
+                                            />
+                                            }
+                                            <View style = {styles.lineroottop}/>
+                                            {(value.node.length - 1 != value.node.indexOf(item)) && <View style = {styles.linerootbot}/>}
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
                         ))}
                     </View>
-                ))}
-            </View>
-        </ScrollView>
+                </ScrollView>
+            }
+        </View>
     );
 }
 
 function ThuScreen({ navigation, route }) {
+    // const data = [
+    //     {
+    //         root: {name: 'Xã Hội', image: require('../assets/anuong.png')},
+    //         node: [
+    //             {name:'Gia đình', image: require('../assets/anuong.png')},
+    //             {name:'Công việc', image: require('../assets/tienmang.png')},
+    //             {name:'Sở thích', image: require('../assets/suckhoe.png')},
+    //         ],
+    //     },
+    //     {
+    //         root: {name: 'Công ty', image: require('../assets/thoitrang.png')},
+    //         node: [
+    //             {name:'Thưởng', image: require('../assets/thoitrang.png')},
+    //             {name:'Lãi', image: require('../assets/dichuyen.png')},
+    //             {name:'Xổ số', image: require('../assets/thucung.png')},
+    //         ]
+    //     },
+    // ]
     const state = route.params;
+
+    const {userToken, isWalleting} = useContext(AuthContext);
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);
     const [isGroup, SetGroup] = useState(undefined);
-    const data1 = [
-        {name:'Gia đình', image: require('../assets/anuong.png')},
-        {name:'Công việc', image: require('../assets/tienmang.png')},
-        {name:'Sở thích', image: require('../assets/suckhoe.png')},
-        {name:'Thưởng', image: require('../assets/thoitrang.png')},
-        {name:'Lãi', image: require('../assets/dichuyen.png')},
-        {name:'Xổ số', image: require('../assets/thucung.png')},
-    ]
-    const data = [
-        {
-            root: {name: 'Xã Hội', image: require('../assets/anuong.png')},
-            node: [
-                {name:'Gia đình', image: require('../assets/anuong.png')},
-                {name:'Công việc', image: require('../assets/tienmang.png')},
-                {name:'Sở thích', image: require('../assets/suckhoe.png')},
-            ],
-        },
-        {
-            root: {name: 'Công ty', image: require('../assets/thoitrang.png')},
-            node: [
-                {name:'Thưởng', image: require('../assets/thoitrang.png')},
-                {name:'Lãi', image: require('../assets/dichuyen.png')},
-                {name:'Xổ số', image: require('../assets/thucung.png')},
-            ]
-        },
-    ]
-    const[values, setValues] = useState(data);
+
+    const[values, setValues] = useState(values);
+    const [isLoading, setLoading] = useState(true);
+    const [refreshing, setRefreshing] = useState(false);
+
+    async function getMyParent(type) {
+        var data = await myGroup(userToken, type, isWalleting._id)
+        setValues(data)
+        setLoading(false)
+    }    
+
+    const onRefresh = useCallback(() => {
+        setRefreshing(true);
+        getMyParent(1)
+        setTimeout(() => {
+            setRefreshing(false);
+        }, 1000);
+    });
 
     useEffect(() => {
+        getMyParent(1)
         if (state.route.params?.back) {
             SetBack(state.route.params?.back)
         }
@@ -234,127 +249,139 @@ function ThuScreen({ navigation, route }) {
     });
 
     return (
-        <ScrollView>
-            <View style = {styles.container}>
-                {/* <View style={styles.containertab}>
-                    <FlatList
-                        data={values}
-                        keyExtractor={(item) => item.name}
-                        numColumns={3}
-                        columnWrapperStyle = {{gap: 20}}
-                        contentContainerStyle ={{gap: 20, paddingHorizontal: 10}}
-                        showsVerticalScrollIndicator= {false}
-                        renderItem={({item}) => {
-                            return(
-                                <TouchableOpacity>
-                                    <CardGroup 
-                                        key={item.name}
-                                        title={item.name} 
-                                        image={item.image}
-                                        style = {{ backgroundColor: isGroup == item.name ? 'powderblue':'white'}}
-                                        onPress={() => {
-                                            isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image});
-                                        }}
-                                    />
-                                </TouchableOpacity>
-                            )
-                        }}
-                    />
-                </View> */}
-                <TouchableOpacity onPress={() => navigation.navigate({
-                        name:'AddGroupScreen',
-                        params: {type:'Khoản thu'}
-                    })}
+        <View>
+            {isLoading ? 
+                <View style = {{height: 500, justifyContent:'center', alignContent:'center'}}>
+                    <ActivityIndicator color={'balck'} size={'large'}/>
+                </View>
+            :
+                <ScrollView
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
                 >
-                    <View style = {styles.containeraddgroup}>
-                        <Image
-                            source={require('../assets/add.png')}
-                            style = {styles.imageleft}
-                        />
-                        <Text style = {styles.textl}>Nhóm mới</Text>
-                    </View>
-                </TouchableOpacity>
-                {values.map(value => (
-                    <View key={value.root.name} style = {{backgroundColor:'white'}}>
-                        <TouchableOpacity
-                            onPress={() => {
-                                isChoose && navigation.navigate(isBack, {namegroup: value.root.name, imagegroup: value.root.image});
-                            }}
+                    <View style = {styles.container}>
+                        <TouchableOpacity onPress={() => navigation.navigate({
+                                name:'AddGroupScreen',
+                                params: {type:'Khoản thu'}
+                            })}
                         >
-                            <View style = {styles.containerroot}>
-                                <View style = {styles.rootleft}>
-                                    <Image
-                                        source={value.root.image}
-                                        style = {styles.imageleft}
-                                    />
-                                    <View style = {styles.containertext}>
-                                        <Text style = {styles.textl}>{value.root.name}</Text>
-                                        <Text style = {styles.texts}>Gia đình</Text>
-                                    </View>
-                                </View>
-                                {
-                                    !isChoose &&
-                                    <Image
-                                        source={require('../assets/angle-small-right.png')}
-                                        style = {styles.imageright}
-                                    />
-                                }
-                                {
-                                    isGroup == value.root.name && 
-                                    <Image
-                                        source={require('../assets/check-mark.png')}
-                                        style = {styles.imageright}
-                                    />
-                                }
+                            <View style = {styles.containeraddgroup}>
+                                <Image
+                                    source={Number(require('../assets/add.png'))}
+                                    style = {styles.imageleft}
+                                />
+                                <Text style = {styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
-                        {value.node.map(item => (
-                            <TouchableOpacity
-                                key={item.name}
-                                onPress={() => {
-                                isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image});
-                            }}
-                            >
-                                <View style = {styles.containernode}>
-                                    <View style = {styles.nodeleft}>
-                                        <Image
-                                            source={item.image}
-                                            style = {styles.imageleft}
-                                        />
-                                        <View style = {styles.containertext}>
-                                            <Text style = {styles.textl}>{item.name}</Text>
-                                            <Text style = {styles.texts}>Ví tiền</Text>
+                        {values.map(value => (
+                            <View key={value.root.name} style = {{backgroundColor:'white'}}>
+                                <TouchableOpacity
+                                    onPress={() => {
+                                        isChoose && navigation.navigate(isBack, {namegroup: value.root.name, imagegroup: value.root.image, group: value.root});
+                                    }}
+                                >
+                                    <View style = {styles.containerroot}>
+                                        <View style = {styles.rootleft}>
+                                            <Image
+                                                source={Number(value.root.image)}
+                                                style = {styles.imageleft}
+                                            />
+                                            <View style = {styles.containertext}>
+                                                <Text style = {styles.textl}>{value.root.name}</Text>
+                                                <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                            </View>
                                         </View>
+                                        {
+                                            !isChoose &&
+                                            <Image
+                                                source={Number(require('../assets/angle-small-right.png'))}
+                                                style = {styles.imageright}
+                                            />
+                                        }
+                                        {
+                                            isGroup == value.root.name && 
+                                            <Image
+                                                source={Number(require('../assets/check-mark.png'))}
+                                                style = {styles.imageright}
+                                            />
+                                        }
                                     </View>
-                                    {
-                                        !isChoose &&
-                                        <Image
-                                            source={require('../assets/angle-small-right.png')}
-                                            style = {styles.imageright}
-                                        />
-                                    }
-                                    {
-                                    isGroup == item.name && 
-                                    <Image
-                                        source={require('../assets/check-mark.png')}
-                                        style = {styles.imageright}
-                                    />
-                                    }
-                                    <View style = {styles.lineroottop}/>
-                                    {(value.node.length - 1 != value.node.indexOf(item)) && <View style = {styles.linerootbot}/>}
-                                </View>
-                            </TouchableOpacity>
+                                </TouchableOpacity>
+                                {(value.node.length != 0) && value.node.map(item => (
+                                    <TouchableOpacity
+                                        key={item.name}
+                                        onPress={() => {
+                                        isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image, group: item});
+                                    }}
+                                    >
+                                        <View style = {styles.containernode}>
+                                            <View style = {styles.nodeleft}>
+                                                <Image
+                                                    source={Number(item.image)}
+                                                    style = {styles.imageleft}
+                                                />
+                                                <View style = {styles.containertext}>
+                                                    <Text style = {styles.textl}>{item.name}</Text>
+                                                    <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                                </View>
+                                            </View>
+                                            {
+                                                !isChoose &&
+                                                <Image
+                                                    source={Number(require('../assets/angle-small-right.png'))}
+                                                    style = {styles.imageright}
+                                                />
+                                            }
+                                            {
+                                            isGroup == item.name && 
+                                            <Image
+                                                source={Number(require('../assets/check-mark.png'))}
+                                                style = {styles.imageright}
+                                            />
+                                            }
+                                            <View style = {styles.lineroottop}/>
+                                            {(value.node.length - 1 != value.node.indexOf(item)) && <View style = {styles.linerootbot}/>}
+                                        </View>
+                                    </TouchableOpacity>
+                                ))}
+                            </View>
                         ))}
                     </View>
-                ))}
-            </View>
-        </ScrollView>
+                </ScrollView>
+            }
+        </View>
   );
 }
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function TabsTopGroup({route}) {
+export default function TabsTopGroup({navigation, route}) {
+
+    const {isWalleting ,setWalleting} = useContext(AuthContext);
+
+    useEffect(() => {   
+        if (route.params?.wallet) {
+            setWalleting(route.params?.wallet)
+        }
+      },[route]);
+
+    useEffect(() => {
+        navigation.setOptions({
+            headerRight: () => 
+                <HeaderRight 
+                    image1={require('../assets/wallet.png')}
+                    onPress1={() => {
+                        navigation.navigate({
+                            name:'MyWallet',
+                            params: {back: 'ChooseGroup', wallet: isWalleting, type:'choose' }
+                        })
+                    }}
+                    image2={require('../assets/search.png')}
+                />  
+        });
+    },[route]);
+    
     return (
         <Tab.Navigator
             initialRouteName='GroupChi'

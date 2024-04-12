@@ -1,6 +1,9 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
+import HeaderRight from "../../components/HeaderRight";
+import { addGroup, deleGroup } from "../../process/GroupController";
+import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -53,38 +56,42 @@ function TitleInput ({ image, sizeimg, titlel, titles, onPress, fontsize }){
     );
 }
 
-function HandlerSave(name, icon, groupcha) {
-    data = {
-        name: name,
-        icon: icon,
-        groupcha: groupcha
-    }
-    console.log(data);
-}
-
 export default function AddGroupScreen({ navigation, route }) {
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isGroupType, setGroupType] = useState('');
-    const [isGroupCha, setGroupCha] = useState('Chọn nhóm');
+    const [isGroupCha, setGroupCha] = useState({name: 'Chọn nhóm'});
+    const { userToken, isWalleting } = useContext(AuthContext); 
+
+    const [ isMode, setMode ] = useState("save"); 
+    const [ isGroup, setGroup ] = useState(null); 
 
     useEffect(() => {
         if (route.params?.type) {
             setGroupType(route.params?.type)
         }
         if (route.params?.namegroup) {
-            setGroupCha(route.params?.namegroup)
+            setGroupCha(route.params?.group)
         }
         if (route.params?.imagegroup) {
             setIcon(route.params?.imagegroup)
         }
-    });
+        if (route.params?.group) {
+            setGroupType(route.params?.type == 0 ? "Khoản chi" : "Khoản thu")
+            setGroupCha(route.params?.group)
+            setIcon(route.params?.group.image)
+            setNameGroup(route.params?.group.name)
+            setMode(route.params?.mode)
+            setGroup(route.params?.group)
+        }
+    },[navigation, route]);
 
     return(
         <View style = {styles.container}>
             <View style = {styles.inputs}>
                 <Input 
                     label ={"Tên nhóm"} 
+                    value = {isNameGroup}
                     image = {isIcon} 
                     sizeimg = {35} 
                     fontsize = {25} 
@@ -105,7 +112,7 @@ export default function AddGroupScreen({ navigation, route }) {
                 <TitleInput 
                     image = {require('../../assets/family-tree.png')} 
                     titles ={'Nhóm cha'}
-                    titlel={isGroupCha}
+                    titlel={isGroupCha.name}
                     sizeimg = {25} 
                     fontsize = {20}
                     onPress={() => navigation.navigate({
@@ -114,11 +121,29 @@ export default function AddGroupScreen({ navigation, route }) {
                     })}
                 />
             </View>
-            <Button
-                style={{top:400}}
-                title={"Lưu"}
-                onPress={() => HandlerSave(isNameGroup, isIcon, isGroupCha)}
-            />
+            {isMode != 'edit' ?
+                <Button
+                    style={{top:400}}
+                    title={"Lưu"}
+                    onPress={async () => {
+                            if(await addGroup(
+                                userToken, 
+                                isNameGroup, 
+                                isIcon, 
+                                isGroupType, 
+                                isGroupCha._id,
+                                isWalleting._id
+                            )){
+                                navigation.goBack()
+                        }}
+                    }
+                />
+            :
+                <Button
+                    style={{top:400}}
+                    title={"Sửa"}
+                /> 
+            }
         </View>
     )
 }
