@@ -43,7 +43,7 @@ export default function InfoTitle({
             </View>
 
             <View style = {styles.inforight}>
-                {money 
+                {(money || (typeof (money) == 'number')) 
                     &&
                     <Text
                         style= {[styles.money, money < 0 ? styles.red : styles.green]}>

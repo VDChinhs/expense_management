@@ -84,11 +84,17 @@ export default function AppNav() {
                             options={{
                                 headerShadowVisible:false,
                                 title:"Nhóm",
-                                headerRight: () => 
-                                    <HeaderRight 
-                                        image1={require('../assets/wallet.png')}
-                                        image2={require('../assets/search.png')}
-                                    />   
+                                // headerRight: () => 
+                                //     <HeaderRight 
+                                //         image1={require('../assets/wallet.png')}
+                                //         onPress1={() => {
+                                //             navigation.navigate({
+                                //                 name:'MyWallet',
+                                //                 params: {back: 'ChooseGroup', wallet: isWallet, type:'choose' }
+                                //             })
+                                //         }}
+                                //         image2={require('../assets/search.png')}
+                                //     />   
                             }}
                         />
                         <Stack.Screen 
