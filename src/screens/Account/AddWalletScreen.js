@@ -1,6 +1,8 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
+import { addWallet } from "../../process/WalletController";
+import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -23,19 +25,11 @@ function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     );
 }
 
-function HandlerSave(name, icon, money) {
-    data = {
-        name: name,
-        icon: icon,
-        money: money
-    }
-    console.log(data);
-}
-
 export default function AddWalletScreen({ navigation, route }) {
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isMoney, setMoney] = useState(null);
+    const {userToken} = useContext(AuthContext);
  
     useEffect(() => {
         if (route.params?.imagegroup) {
@@ -74,7 +68,11 @@ export default function AddWalletScreen({ navigation, route }) {
             <Button
                 style={{top:400}}
                 title={"Lưu"}
-                onPress={() => HandlerSave(isNameGroup, isIcon, isMoney)}
+                onPress={async () => {
+                    if(await addWallet(userToken, isNameGroup, isMoney, isIcon)){
+                        navigation.goBack()
+                    }
+                }}
             />
         </View>
     )

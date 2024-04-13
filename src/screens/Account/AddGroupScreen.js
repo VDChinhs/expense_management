@@ -57,11 +57,12 @@ function TitleInput ({ image, sizeimg, titlel, titles, onPress, fontsize }){
 }
 
 export default function AddGroupScreen({ navigation, route }) {
+    const { userToken, isWalleting } = useContext(AuthContext); 
+    
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isGroupType, setGroupType] = useState('');
     const [isGroupCha, setGroupCha] = useState({name: 'Chọn nhóm'});
-    const { userToken, isWalleting } = useContext(AuthContext); 
 
     const [ isMode, setMode ] = useState("save"); 
     const [ isGroup, setGroup ] = useState(null); 
@@ -70,19 +71,13 @@ export default function AddGroupScreen({ navigation, route }) {
         if (route.params?.type) {
             setGroupType(route.params?.type)
         }
-        if (route.params?.namegroup) {
-            setGroupCha(route.params?.group)
-        }
-        if (route.params?.imagegroup) {
-            setIcon(route.params?.imagegroup)
-        }
         if (route.params?.group) {
-            setGroupType(route.params?.type == 0 ? "Khoản chi" : "Khoản thu")
+            setGroupType(route.params?.group.type == 0 ? "Khoản chi" : "Khoản thu")
             setGroupCha(route.params?.group)
             setIcon(route.params?.group.image)
-            setNameGroup(route.params?.group.name)
+
             setMode(route.params?.mode)
-            setGroup(route.params?.group)
+            // setGroup(route.params?.group)
         }
     },[navigation, route]);
 

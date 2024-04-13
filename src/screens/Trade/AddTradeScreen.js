@@ -1,8 +1,9 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import Button from "../../components/Button";
-import { useState,useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
-
+import { addTrade } from "../../process/TradeController";
+import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
   return (
@@ -30,7 +31,7 @@ function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
         style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
         onPress={onPress}>
           <Image
-            source={image}
+            source={Number(image)}
             style = {{
               width: sizeimg,
               height: sizeimg,
@@ -66,39 +67,29 @@ const convertDate = (chooseDate) => {
   }
 } 
 
-function handlerAddTrade(money, group, note, date, wallet) {
-  data = {
-    money: money,
-    group: group,
-    note: note,
-    date: date,
-    wallet: wallet
-  }
-  console.log(data);
-}
-
 export default function AddTradeScreen({ navigation, route }) {
+  const { userToken, isWalleting } = useContext(AuthContext); 
+
   const [isMoney, setMoney] = useState(null);
-  const [isGroup, setGroup] = useState('Chọn nhóm');
+  const [isGroup, setGroup] = useState({name: 'Chọn nhóm'});
   const [isImageGroup, setImageGroup] = useState(require('../../assets/question.png'));
   const [isNote, setNote] = useState('');
   const [isDate, setDate] = useState(new Date());
-  const [isWallet, setWallet] = useState('Học tập');
-  const [isImageWallet, setImageWallet] = useState(require('../../assets/wallet.png'));
+  const [isWallet, setWallet] = useState(isWalleting);
 
   const [isshowpickdate, setShowPickDate] = useState(false);
 
   useEffect(() => {   
-    if (route.params?.namegroup) {
-      setGroup(route.params?.namegroup)
+    if (route.params?.group) {
+      setGroup(route.params?.group)
       setImageGroup(route.params?.imagegroup)
     }
     if (route.params?.note) {
       setNote(route.params?.note)
     }
-    if (route.params?.namewallet) {
-      setWallet(route.params?.namewallet)
-      setImageWallet(route.params?.imagewallet)
+    if (route.params?.wallet) {
+      setWallet(route.params?.wallet)
+      setGroup({name: 'Chọn nhóm'})
     }
   },[route]);
 
@@ -120,7 +111,7 @@ export default function AddTradeScreen({ navigation, route }) {
         />
         
         <TitleInput 
-          title = {isGroup} 
+          title = {isGroup.name} 
           image = {isImageGroup} 
           sizeimg = {30} 
           fontsize = {20}
@@ -136,11 +127,6 @@ export default function AddTradeScreen({ navigation, route }) {
           sizeimg = {20} 
           fontsize = {15}
           onChangeText = {(value) => setNote(value)}
-          // value = {isNote}
-          // onPressIn={() => navigation.navigate({
-          //   name:'AddNote',
-          //   params: { note: isNote }
-          // })}
         />
 
         <TitleInput 
@@ -152,8 +138,8 @@ export default function AddTradeScreen({ navigation, route }) {
         />
 
         <TitleInput 
-          image = {isImageWallet} 
-          title ={isWallet}
+          image = {isWallet.image} 
+          title ={isWallet.name}
           sizeimg = {20} 
           fontsize = {15}
           onPress = {() => navigation.navigate({
@@ -164,9 +150,12 @@ export default function AddTradeScreen({ navigation, route }) {
 
       </View>
 
-      <Button title={"Lưu"} onPress={() => 
-          handlerAddTrade(isMoney, isGroup, isNote, isDate, isWallet)}>
-        </Button>
+        <Button title={"Lưu"} onPress={async () => {
+                if(await addTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)){
+                    navigation.goBack()
+                }
+            }}
+        />
 
       {isshowpickdate && (
         <DateTimePicker

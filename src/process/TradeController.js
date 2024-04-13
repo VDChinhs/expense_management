@@ -1,5 +1,6 @@
 import { Alert } from "react-native";
 import { IP } from "../../Constant";
+import { convertFirstDay } from "./Date";
 
 const addTrade = async (token, money, groupId, note, date, walletId) => {
     if (token == "" || money == null || groupId == undefined || walletId == undefined ){
@@ -12,7 +13,7 @@ const addTrade = async (token, money, groupId, note, date, walletId) => {
         money: money,
         groupId: groupId,
         note: note,
-        date: date,
+        date: convertFirstDay(date),
         walletId: walletId
     };
 

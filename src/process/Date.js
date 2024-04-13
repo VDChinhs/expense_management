@@ -67,4 +67,8 @@ function getFullDate(time) {
     return date + '/' + month + '/' + year
 }
 
-export {thisweek ,thismonth, thisquy, thisyear, getDate, getDay, getWeekMonth, getRangeDate, getFullDate}
+function convertFirstDay(time) {
+    return time.toISOString().split('T')[0] + 'T00:00:00.000Z'
+}
+
+export {thisweek ,thismonth, thisquy, thisyear, getDate, getDay, getWeekMonth, getRangeDate, getFullDate, convertFirstDay}
