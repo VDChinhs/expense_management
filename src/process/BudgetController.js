@@ -10,6 +10,12 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
         ]);
         return false
     }
+    if (money <= 0) {
+        Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
     data = {
         money: money,
         groupId: groupId,

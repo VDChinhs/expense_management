@@ -10,7 +10,7 @@ function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
         <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
         <Image
-            source={image}
+            source={Number(image)}
             style = {{
             width: sizeimg,
             height: sizeimg,
@@ -32,7 +32,7 @@ function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
             style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
             onPress={onPress}>
             <Image
-                source={image}
+                source={Number(image)}
                 style = {{
                 width: sizeimg,
                 height: sizeimg,
@@ -161,7 +161,9 @@ export default function AddBudget({ navigation, route }) {
                     keyboardType = "number-pad"
                     onChangeText = {(money) => {
                         // setMoney(parseFloat(money.replace(/,/g, '')))
-                        setMoney(money)
+                        if (!money.startsWith('0')){
+                            setMoney(money)
+                        }
                     }}
                     value = {isMoney && isMoney.toLocaleString()}
                 />
