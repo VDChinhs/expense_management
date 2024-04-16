@@ -27,13 +27,13 @@ function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
 
 export default function AddWalletScreen({ navigation, route }) {
     const [isNameGroup, setNameGroup] = useState('');
-    const [isIcon, setIcon] = useState(require('../../assets/question.png'));
+    const [isIcon, setIcon] = useState({image: require('../../assets/question.png')});
     const [isMoney, setMoney] = useState(null);
     const {userToken} = useContext(AuthContext);
  
     useEffect(() => {
-        if (route.params?.imagegroup) {
-            setIcon(route.params?.imagegroup)
+        if (route.params?.icon) {
+            setIcon(route.params?.icon)
         }
     });
 
@@ -42,7 +42,7 @@ export default function AddWalletScreen({ navigation, route }) {
             <View style = {styles.inputs}>
                 <Input 
                     label ={"Tên ví"} 
-                    image = {isIcon} 
+                    image = {isIcon.image} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}
@@ -70,7 +70,7 @@ export default function AddWalletScreen({ navigation, route }) {
                 style={{top:400}}
                 title={"Lưu"}
                 onPress={async () => {
-                    if(await addWallet(userToken, isNameGroup, isMoney, isIcon)){
+                    if(await addWallet(userToken, isNameGroup, isMoney, isIcon.image)){
                         navigation.goBack()
                     }
                 }}

@@ -60,7 +60,7 @@ export default function AddGroupScreen({ navigation, route }) {
     const { userToken, isWalleting } = useContext(AuthContext); 
     
     const [isNameGroup, setNameGroup] = useState('');
-    const [isIcon, setIcon] = useState(require('../../assets/question.png'));
+    const [isIcon, setIcon] = useState({image: require('../../assets/question.png')});
     const [isGroupType, setGroupType] = useState('');
     const [isGroupCha, setGroupCha] = useState({name: 'Chọn nhóm'});
 
@@ -71,12 +71,14 @@ export default function AddGroupScreen({ navigation, route }) {
         if (route.params?.type) {
             setGroupType(route.params?.type)
         }
+        if (route.params?.icon) {
+            setIcon(route.params?.icon)
+        }
         if (route.params?.group) {
-            setGroupType(route.params?.group.type == 0 ? "Khoản chi" : "Khoản thu")
             setGroupCha(route.params?.group)
-            setIcon(route.params?.group.image)
-
-            setMode(route.params?.mode)
+            // setGroupType(route.params?.group.type == 0 ? "Khoản chi" : "Khoản thu")
+            // setIcon(route.params?.group.image)
+            // setMode(route.params?.mode)
             // setGroup(route.params?.group)
         }
     },[navigation, route]);
@@ -87,7 +89,7 @@ export default function AddGroupScreen({ navigation, route }) {
                 <Input 
                     label ={"Tên nhóm"} 
                     value = {isNameGroup}
-                    image = {isIcon} 
+                    image = {isIcon.image} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}
@@ -124,7 +126,7 @@ export default function AddGroupScreen({ navigation, route }) {
                             if(await addGroup(
                                 userToken, 
                                 isNameGroup, 
-                                isIcon, 
+                                isIcon.image, 
                                 isGroupType, 
                                 isGroupCha._id,
                                 isWalleting._id

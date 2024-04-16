@@ -21,33 +21,33 @@ export default function ChooseIcon({ navigation, route }) {
         {id:11, image: require('../../assets/check-mark.png')},
         {id:12, image: require('../../assets/coins.png')},
         {id:13, image: require('../../assets/delete-user.png')},
-        {id:14, image: require('../../assets/dulich.png')},
-        {id:15, image: require('../../assets/dulich.png')},
-        {id:16, image: require('../../assets/dulich.png')},
-        {id:17, image: require('../../assets/dulich.png')},
-        {id:18, image: require('../../assets/dulich.png')},
-        {id:19, image: require('../../assets/dulich.png')},
-        {id:20, image: require('../../assets/dulich.png')}, 
-        {id:21, image: require('../../assets/dulich.png')}, 
-        {id:22, image: require('../../assets/dulich.png')}, 
-        {id:23, image: require('../../assets/dulich.png')}, 
-        {id:24, image: require('../../assets/dulich.png')}, 
-        {id:25, image: require('../../assets/dulich.png')}, 
-        {id:26, image: require('../../assets/dulich.png')}, 
-        {id:27, image: require('../../assets/dulich.png')}, 
-        {id:28, image: require('../../assets/dulich.png')}, 
-        {id:29, image: require('../../assets/dulich.png')}, 
-        {id:30, image: require('../../assets/dulich.png')}, 
-        {id:31, image: require('../../assets/dulich.png')}, 
-        {id:32, image: require('../../assets/dulich.png')}, 
-        {id:33, image: require('../../assets/dulich.png')}, 
-        {id:34, image: require('../../assets/dulich.png')}, 
-        {id:35, image: require('../../assets/dulich.png')}, 
-        {id:36, image: require('../../assets/dulich.png')}, 
-        {id:37, image: require('../../assets/dulich.png')}, 
-        {id:38, image: require('../../assets/dulich.png')}, 
-        {id:39, image: require('../../assets/dulich.png')}, 
-        {id:40, image: require('../../assets/dulich.png')}, 
+        {id:14, image: require('../../assets/eye-crossed.png')},
+        {id:15, image: require('../../assets/eye.png')},
+        {id:16, image: require('../../assets/family-tree.png')},
+        {id:17, image: require('../../assets/giaitri.png')},
+        {id:18, image: require('../../assets/giaoduc.png')},
+        {id:19, image: require('../../assets/home.png')},
+        {id:20, image: require('../../assets/logo.png')}, 
+        {id:21, image: require('../../assets/man.png')}, 
+        {id:22, image: require('../../assets/menu-dots-vertical.png')}, 
+        {id:23, image: require('../../assets/plus-minus.png')}, 
+        {id:24, image: require('../../assets/plus-small.png')}, 
+        {id:25, image: require('../../assets/quatang.png')}, 
+        {id:26, image: require('../../assets/question.png')}, 
+        {id:27, image: require('../../assets/replace.png')}, 
+        {id:28, image: require('../../assets/search.png')}, 
+        {id:29, image: require('../../assets/settings.png')}, 
+        {id:30, image: require('../../assets/suckhoe.png')}, 
+        {id:31, image: require('../../assets/themnhom.png')}, 
+        {id:32, image: require('../../assets/thoitrang.png')}, 
+        {id:33, image: require('../../assets/thucung.png')}, 
+        {id:34, image: require('../../assets/tiendien.png')}, 
+        {id:35, image: require('../../assets/tienmang.png')}, 
+        {id:36, image: require('../../assets/tiennuoc.png')}, 
+        {id:37, image: require('../../assets/trash.png')}, 
+        {id:38, image: require('../../assets/user-headset.png')}, 
+        {id:39, image: require('../../assets/user.png')}, 
+        {id:40, image: require('../../assets/wallet.png')}, 
         {id:41, image: require('../../assets/dulich.png')}, 
         {id:42, image: require('../../assets/dulich.png')}, 
         {id:43, image: require('../../assets/dulich.png')}, 
@@ -88,7 +88,7 @@ export default function ChooseIcon({ navigation, route }) {
                 renderItem={({item}) => {
                     return(
                         <TouchableOpacity
-                            onPress={() =>navigation.navigate(isBack, {imagegroup: item.image})
+                            onPress={() =>navigation.navigate(isBack, {icon: item})
                                 }
                         >
                             <Image
@@ -110,7 +110,7 @@ const styles = StyleSheet.create({
     image:{
         width: 50,
         height: 50,
-        backgroundColor:'gray',
+        backgroundColor:'#C0C0C0',
         borderRadius: 10
     }
 })

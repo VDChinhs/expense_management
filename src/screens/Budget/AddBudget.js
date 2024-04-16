@@ -94,8 +94,7 @@ export default function AddBudget({ navigation, route }) {
     const { userToken, isWalleting } = useContext(AuthContext); 
 
     const [isMoney, setMoney] = useState(null);
-    const [isGroup, setGroup] = useState({name: 'Chọn nhóm'});
-    const [isImageGroup, setImageGroup] = useState(require('../../assets/question.png'));
+    const [isGroup, setGroup] = useState({name: 'Chọn nhóm', image: require('../../assets/question.png')});
     const [isRangeDateStart, setRangeDateStart] = useState(new Date());
     const [isRangeDateEnd, setRangeDateEnd] = useState(new Date());
     const [isWallet, setWallet] = useState(isWalleting);
@@ -140,11 +139,10 @@ export default function AddBudget({ navigation, route }) {
     
     useEffect(() => {   
         if (route.params?.group) {
-        setGroup(route.params?.group)
-        setImageGroup(route.params?.imagegroup)
+            setGroup(route.params?.group)
         }
         if (route.params?.wallet) {
-        setWallet(route.params?.wallet)
+            setWallet(route.params?.wallet)
         }
     });
 
@@ -170,7 +168,7 @@ export default function AddBudget({ navigation, route }) {
                 
                 <TitleInput 
                     title = {isGroup.name} 
-                    image = {isImageGroup} 
+                    image = {isGroup.image} 
                     sizeimg = {30} 
                     fontsize = {20}
                     onPress = {() => navigation.navigate({

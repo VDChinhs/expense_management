@@ -68,112 +68,112 @@ const convertDate = (chooseDate) => {
 } 
 
 export default function AddTradeScreen({ navigation, route }) {
-  const { userToken, isWalleting } = useContext(AuthContext); 
+    const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
 
-  const [isMoney, setMoney] = useState(null);
-  const [isGroup, setGroup] = useState({name: 'Chọn nhóm'});
-  const [isImageGroup, setImageGroup] = useState(require('../../assets/question.png'));
-  const [isNote, setNote] = useState('');
-  const [isDate, setDate] = useState(new Date());
-  const [isWallet, setWallet] = useState(isWalleting);
+    const [isMoney, setMoney] = useState(null);
+    const [isGroup, setGroup] = useState({name: 'Chọn nhóm', image: require('../../assets/question.png')});
+    const [isNote, setNote] = useState('');
+    const [isDate, setDate] = useState(new Date());
+    const [isWallet, setWallet] = useState(isWalleting);
 
-  const [isshowpickdate, setShowPickDate] = useState(false);
+    const [isshowpickdate, setShowPickDate] = useState(false);
 
-  useEffect(() => {   
-    if (route.params?.group) {
-      setGroup(route.params?.group)
-      setImageGroup(route.params?.imagegroup)
-    }
-    if (route.params?.note) {
-      setNote(route.params?.note)
-    }
-    if (route.params?.wallet) {
-      setWallet(route.params?.wallet)
-      setGroup({name: 'Chọn nhóm'})
-    }
-  },[route]);
+    useEffect(() => {   
+        if (route.params?.group) {
+            setGroup(route.params?.group)
+        }
+        if (route.params?.note) {
+            setNote(route.params?.note)
+        }
+        if (route.params?.wallet) {
+            setWallet(route.params?.wallet)
+            setWalleting(route.params?.wallet)
+            setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
+        }
+    },[route]);
 
-  return (
-    <View style = {styles.container}>
-      <View style = {styles.inputs}>
+    return (
+        <View style = {styles.container}>
+        <View style = {styles.inputs}>
+                <Input 
+                label ={"0"} 
+                image = {require('../../assets/coins.png')} 
+                sizeimg = {30} 
+                fontsize = {30} 
+                autoFocus = {true}
+                keyboardType = "number-pad"
+                onChangeText = {(money) => {
+                    // setMoney(parseFloat(money.replace(/,/g, '')))
+                    if (!money.startsWith('0')){
+                        setMoney(money)
+                    }
+                }}
+                value = {isMoney && isMoney.toLocaleString()}
+                />
+            
+            <TitleInput 
+            title = {isGroup.name} 
+            image = {isGroup.image} 
+            sizeimg = {30} 
+            fontsize = {20}
+            onPress = {() => navigation.navigate({
+                name:'ChooseGroup',
+                params: {back: 'AddTrade', group: isGroup, type:'choose' }
+            })}
+            />
 
-        <Input 
-          label ={"0"} 
-          image = {require('../../assets/coins.png')} 
-          sizeimg = {30} 
-          fontsize = {30} 
-          autoFocus = {true}
-          keyboardType = "number-pad"
-          onChangeText = {(money) => {
-            // setMoney(parseFloat(money.replace(/,/g, '')))
-            setMoney(money)
-          }}
-          value = {isMoney && isMoney.toLocaleString()}
-        />
-        
-        <TitleInput 
-          title = {isGroup.name} 
-          image = {isImageGroup} 
-          sizeimg = {30} 
-          fontsize = {20}
-          onPress = {() => navigation.navigate({
-            name:'ChooseGroup',
-            params: {back: 'AddTrade', group: isGroup, type:'choose' }
-          })}
-        />
+            <Input 
+            label ={"Ghi chú"} 
+            image = {require('../../assets/align-left.png')} 
+            sizeimg = {20} 
+            fontsize = {15}
+            onChangeText = {(value) => setNote(value)}
+            />
 
-        <Input 
-          label ={"Ghi chú"} 
-          image = {require('../../assets/align-left.png')} 
-          sizeimg = {20} 
-          fontsize = {15}
-          onChangeText = {(value) => setNote(value)}
-        />
+            <TitleInput 
+            title = {convertDate(isDate)} 
+            image = {require('../../assets/calendar-day.png')} 
+            sizeimg = {20} 
+            fontsize = {15}
+            onPress = {() => setShowPickDate(true)}
+            />
 
-        <TitleInput 
-          title = {convertDate(isDate)} 
-          image = {require('../../assets/calendar-day.png')} 
-          sizeimg = {20} 
-          fontsize = {15}
-          onPress = {() => setShowPickDate(true)}
-        />
+            <TitleInput 
+            image = {isWallet.image} 
+            title ={isWallet.name}
+            sizeimg = {20} 
+            fontsize = {15}
+            onPress = {() => navigation.navigate({
+                name:'MyWallet',
+                params: {back: 'AddTrade', wallet: isWallet, type:'choose' }
+            })}
+            />
 
-        <TitleInput 
-          image = {isWallet.image} 
-          title ={isWallet.name}
-          sizeimg = {20} 
-          fontsize = {15}
-          onPress = {() => navigation.navigate({
-            name:'MyWallet',
-            params: {back: 'AddTrade', wallet: isWallet, type:'choose' }
-          })}
-        />
+        </View>
 
-      </View>
+            <Button title={"Lưu"} onPress={async () => {
+                    if(await addTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)){
+                        navigation.goBack()
+                    }
+                }}
+            />
 
-        <Button title={"Lưu"} onPress={async () => {
-                if(await addTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)){
-                    navigation.goBack()
-                }
+        {isshowpickdate && (
+            <DateTimePicker
+            testID = "dateTimePicker"
+            value = {isDate}
+            mode = {'date'}
+            is24Hour ={true}
+            timeZoneName="Asia/Bangkok"
+            onChange = {(event, selectedDate) => {
+                const chooseDate = selectedDate;
+                setShowPickDate(false);
+                setDate(chooseDate);
             }}
-        />
-
-      {isshowpickdate && (
-        <DateTimePicker
-          testID = "dateTimePicker"
-          value = {isDate}
-          mode = {'date'}
-          is24Hour ={true}
-          timeZoneName="Asia/Bangkok"
-          onChange = {(event, selectedDate) => {
-            const chooseDate = selectedDate;
-            setShowPickDate(false);
-            setDate(chooseDate);
-          }}
-        />
-      )}
-    </View>
-  );
+            />
+        )}
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({

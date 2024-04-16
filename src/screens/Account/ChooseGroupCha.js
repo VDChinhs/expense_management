@@ -39,7 +39,7 @@ export default function ChooseGroupCha({navigation, route}) {
                         <View key={value._id} >
                             <TouchableOpacity
                                 onPress={() => {
-                                    isChoose && navigation.navigate('AddGroupScreen', {namegroup: value.name, group: value});
+                                    isChoose && navigation.navigate('AddGroupScreen', {group: value});
                                 }}
                             >
                                 <View style = {styles.containerroot}>
