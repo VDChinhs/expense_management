@@ -64,6 +64,7 @@ const myWallet = async (token) => {
     }
 }
 
+//Lấy các ví đầu tiên
 const walletFirst = async (token) => {
     let response = await fetch(`http://${IP}:3000/user/wallet/walletfirst`, {
         method: 'Get',

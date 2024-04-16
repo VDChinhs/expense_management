@@ -1,6 +1,8 @@
 import { Alert } from "react-native";
 import { IP } from "../../Constant";
+import { convertFirstDay } from "./Date";
 
+//Thêm ngân sách
 const addBudget = async (token, money, groupId, startDate, endDate, walletId) => {
     if (token == "" || money == null || groupId == undefined || walletId == undefined ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
@@ -11,8 +13,8 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
     data = {
         money: money,
         groupId: groupId,
-        startDate: startDate,
-        endDate: endDate,
+        startDate: convertFirstDay(startDate),
+        endDate: convertFirstDay(endDate),
         walletId: walletId
     };
 
@@ -43,4 +45,32 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
     }
 }
 
-export { addBudget };
+//Lấy tất cả các ngân sách
+const myBudget = async (token) => {
+    let response = await fetch(`http://${IP}:3000/user/budget/mybudget`, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi lây ngân sách', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    else{
+        let json = await response.json()
+        if (!json.status) {
+            Alert.alert('Cảnh báo', json.mes, [
+                {text: 'OK'}
+            ]);
+            return false
+        }
+        // console.log(json);
+        return json
+    }
+}
+
+export { addBudget, myBudget };
