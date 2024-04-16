@@ -232,7 +232,7 @@ export default function HomeScreen({ navigation }) {
                             <View style = {{alignItems:'center'}}>
                                 {isDataChar.valuesChiTieu.length == 0 ? 
                                     <View style = {{width:'92%', padding: 50, alignItems: 'center'}}>
-                                        <Text>Không có dữ liệu</Text>
+                                        <Text style = {styles.text}>Không có dữ liệu</Text>
                                     </View>
                                     :
                                     <View>
@@ -265,7 +265,7 @@ export default function HomeScreen({ navigation }) {
                             <View style = {{alignItems:'center'}}>
                                 {isValuesTrade.length == 0 ? 
                                     <View style = {{padding: 50, alignItems: 'center'}}>
-                                        <Text>Không có dữ liệu</Text>
+                                        <Text style = {styles.text}>Không có dữ liệu</Text>
                                     </View>
                                 :
                                     <View>
