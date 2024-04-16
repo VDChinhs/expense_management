@@ -1,8 +1,10 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Modal } from "react-native";
 import Button from "../../components/Button";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear } from "../../process/Date";
+import { addBudget } from "../../process/BudgetController";
+import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -89,13 +91,14 @@ function handlerAddBudget(money, group, datestart, dateend, wallet) {
 }
 
 export default function AddBudget({ navigation, route }) {
+    const { userToken, isWalleting } = useContext(AuthContext); 
+
     const [isMoney, setMoney] = useState(null);
-    const [isGroup, setGroup] = useState('Chọn nhóm');
+    const [isGroup, setGroup] = useState({name: 'Chọn nhóm'});
     const [isImageGroup, setImageGroup] = useState(require('../../assets/question.png'));
     const [isRangeDateStart, setRangeDateStart] = useState(new Date());
     const [isRangeDateEnd, setRangeDateEnd] = useState(new Date());
-    const [isWallet, setWallet] = useState('Học tập');
-    const [isImageWallet, setImageWallet] = useState(require('../../assets/wallet.png'));
+    const [isWallet, setWallet] = useState(isWalleting);
 
     const [isOptionDateStart, setOptionDateStart] = useState(new Date());
     const [isOptionDateEnd, setOptionDateEnd] = useState(new Date());
@@ -136,13 +139,12 @@ export default function AddBudget({ navigation, route }) {
     ];
     
     useEffect(() => {   
-        if (route.params?.namegroup) {
-        setGroup(route.params?.namegroup)
+        if (route.params?.group) {
+        setGroup(route.params?.group)
         setImageGroup(route.params?.imagegroup)
         }
-        if (route.params?.namewallet) {
-        setWallet(route.params?.namewallet)
-        setImageWallet(route.params?.imagewallet)
+        if (route.params?.wallet) {
+        setWallet(route.params?.wallet)
         }
     });
 
@@ -158,13 +160,14 @@ export default function AddBudget({ navigation, route }) {
                     autoFocus = {true}
                     keyboardType = "number-pad"
                     onChangeText = {(money) => {
-                        setMoney(parseFloat(money.replace(/,/g, '')))
+                        // setMoney(parseFloat(money.replace(/,/g, '')))
+                        setMoney(money)
                     }}
                     value = {isMoney && isMoney.toLocaleString()}
                 />
                 
                 <TitleInput 
-                    title = {isGroup} 
+                    title = {isGroup.name} 
                     image = {isImageGroup} 
                     sizeimg = {30} 
                     fontsize = {20}
@@ -183,8 +186,8 @@ export default function AddBudget({ navigation, route }) {
                 />
 
                 <TitleInput 
-                    image = {isImageWallet} 
-                    title ={isWallet}
+                    image = {isWallet.image} 
+                    title ={isWallet.name}
                     sizeimg = {20} 
                     fontsize = {15}
                     onPress = {() => navigation.navigate({
@@ -194,9 +197,12 @@ export default function AddBudget({ navigation, route }) {
                 />
             </View>
 
-            <Button title={"Lưu"} onPress={() => 
-                handlerAddBudget(isMoney, isGroup, isRangeDateStart, isRangeDateEnd, isWallet)}>
-            </Button>
+            <Button title={"Lưu"} onPress={ async () => {
+                    if(await addBudget(userToken, isMoney, isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)){
+                        navigation.goBack()
+                    }
+                }}
+            />
 
             {isshowpickdatestart && (
                 <DateTimePicker
@@ -297,7 +303,7 @@ export default function AddBudget({ navigation, route }) {
                                                                     {convertDate(isOptionDateStart)}
                                                                 </Text>
                                                                 <Image
-                                                                    source={require('../../assets/angle-small-right.png')}
+                                                                    source={Number(require('../../assets/angle-small-right.png'))}
                                                                     style={{
                                                                         width: 15, 
                                                                         height:15,
@@ -316,7 +322,7 @@ export default function AddBudget({ navigation, route }) {
                                                                     {convertDate(isOptionDateEnd)}
                                                                 </Text>
                                                                 <Image
-                                                                    source={require('../../assets/angle-small-right.png')}
+                                                                    source={Number(require('../../assets/angle-small-right.png'))}
                                                                     style={{
                                                                         width: 15, 
                                                                         height:15,

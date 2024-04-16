@@ -60,7 +60,8 @@ export default function AddWalletScreen({ navigation, route }) {
                     fontsize = {30} 
                     keyboardType = "number-pad"
                     onChangeText = {(money) => {
-                        setMoney(parseFloat(money.replace(/,/g, '')))
+                        // setMoney(parseFloat(money.replace(/,/g, '')))
+                        setMoney(money)
                     }}
                     value = {isMoney && isMoney.toLocaleString()}
                 />

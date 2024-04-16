@@ -7,6 +7,8 @@ import AccountScreen from "../screens/Account/AccountScreen";
 import AddTradeScreen from "../screens/Trade/AddTradeScreen";
 import { StyleSheet, View, Image, Text, TouchableWithoutFeedback } from "react-native";
 import HeaderRight from "../components/HeaderRight";
+import { AuthContext } from "../context/AuthContext";
+import { useContext } from "react";
 
 const Tab = createBottomTabNavigator();
 
@@ -34,6 +36,8 @@ const CustomTabBarButton = ({children, onPress}) => (
 )
 
 export default function TabsBottom({navigation}) {
+    const {isWalleting} = useContext(AuthContext);
+
     return (
         <Tab.Navigator
             initialRouteName="Home"
@@ -85,7 +89,7 @@ export default function TabsBottom({navigation}) {
                         >
                             <View style = {{alignItems: 'center'}}>
                                 <Text>Số dư</Text>
-                                <Text style ={{fontWeight:'bold', fontSize: 18}}>1,000,000,000 đ</Text>
+                                <Text style ={{fontWeight:'bold', fontSize: 18}}>{(isWalleting.money).toLocaleString()} đ</Text>
                             </View>
                             
                         </View>,

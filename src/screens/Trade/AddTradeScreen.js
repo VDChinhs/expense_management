@@ -105,7 +105,8 @@ export default function AddTradeScreen({ navigation, route }) {
           autoFocus = {true}
           keyboardType = "number-pad"
           onChangeText = {(money) => {
-            setMoney(parseFloat(money.replace(/,/g, '')))
+            // setMoney(parseFloat(money.replace(/,/g, '')))
+            setMoney(money)
           }}
           value = {isMoney && isMoney.toLocaleString()}
         />

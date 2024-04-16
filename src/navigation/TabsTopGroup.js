@@ -364,13 +364,13 @@ export default function TabsTopGroup({navigation, route}) {
         if (route.params?.wallet) {
             setWalleting(route.params?.wallet)
         }
-      },[route]);
+    },[route]);
 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => 
                 <HeaderRight 
-                    image1={require('../assets/wallet.png')}
+                    image1={isWalleting.image}
                     onPress1={() => {
                         navigation.navigate({
                             name:'MyWallet',

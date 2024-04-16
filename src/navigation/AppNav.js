@@ -27,7 +27,7 @@ import DetailReportScreen from "../screens/Trade/DetailReportScreen";
 const Stack = createStackNavigator()
 
 export default function AppNav() {
-    const {userToken} = useContext(AuthContext);
+    const {userToken, isWalleting} = useContext(AuthContext);
 
     return(
         <NavigationContainer>
@@ -112,7 +112,7 @@ export default function AppNav() {
                                     >
                                         <View style = {{alignItems: 'center'}}>
                                             <Text>Số dư</Text>
-                                            <Text style ={{fontWeight:'bold', fontSize: 18}}>1,000,000,000 đ</Text>
+                                            <Text style ={{fontWeight:'bold', fontSize: 18}}>{(isWalleting.money).toLocaleString()} đ</Text>
                                         </View>
                                         
                                     </View>,

@@ -58,13 +58,14 @@ export default function HomeScreen({ navigation }) {
     const [isValuesWallet, setvaluesWallet] = useState(null)
     const [isValuesTrade, setvaluesTrade] = useState(null)
 
-    const {userToken} = useContext(AuthContext);
+    const {userToken, setWalleting} = useContext(AuthContext);
     const [isLoading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
     async function getData() {
+        let current = new Date()
         let _myWallet = await myWallet(userToken)
-        let _mostTradeMonth = await mostTradeMonth(userToken, 4)
+        let _mostTradeMonth = await mostTradeMonth(userToken, current.getMonth() + 1)
         let _mostTradeWeek = await mostTradeWeek(userToken)
         let _tradeRecent = await tradeRecent(userToken)
 
@@ -156,7 +157,10 @@ export default function HomeScreen({ navigation }) {
                                     titlel={value.name} 
                                     money={value.money} 
                                     imageleft={value.image}
-                                    onPress={() => navigation.jumpTo('Trade')}
+                                    onPress={() => {
+                                        setWalleting(value)
+                                        navigation.jumpTo('Trade')
+                                    }}
                                 />
                             ))}
                         </View>
