@@ -140,7 +140,7 @@ export default function EditGroupScreen({ navigation, route }) {
                 />
                 <TitleInput 
                     imagel = {require('../../assets/family-tree.png')} 
-                    imager = {require('../../assets/family-tree.png')} 
+                    imager = {require('../../assets/cross.png')} 
                     titles ={'Nhóm cha'}
                     titlel={isGroupCha.name}
                     sizeimg = {25} 
@@ -185,7 +185,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     containertitle:{
-        width: '180%',
+        width: '200%',
         flexDirection:'row',
         paddingLeft: 15,
         padding: 15,

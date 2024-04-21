@@ -25,33 +25,54 @@ function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     );
 }
 
-function TitleInput ({ image, sizeimg, titlel, titles, onPress, fontsize }){
+function TitleInput ({ imagel, imager, sizeimg, titlel, titles, onPress1, onPress2, fontsize }){
     return (
-        <TouchableOpacity 
-          style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
-          onPress={onPress}>
-            <Image
-              source={image}
-              style = {{
-                width: sizeimg,
-                height: sizeimg,
-              }}
-            />
-            <View>
-              {titles && <Text style = {{
-                  opacity: titles == 'Nhóm cha' ? 0.4 : 1,
-                  fontSize:14
-                }}
-              >
-                {titles}
-              </Text>}
-              <Text
-                style = {{fontSize:fontsize}}
-              >
-                {titlel}
-              </Text>
+        <View>
+            <View style = {{flexDirection:'row', alignItems: 'center', justifyContent:'space-between', paddingRight: 20}}>
+                <TouchableOpacity 
+                    onPress={onPress1}>
+                            <View style = {[styles.containertitle, {gap: 55 - sizeimg}]}>
+                                <Image
+                                    source={imagel}
+                                    style = {{
+                                        width: sizeimg,
+                                        height: sizeimg,
+                                    }}
+                                />
+                                <View>
+                                    {titles && 
+                                        <Text style = {{
+                                            opacity: titles == 'Nhóm cha' ? 0.4 : 1,
+                                            fontSize: 14
+                                        }}
+                                        >
+                                            {titles}
+                                        </Text>
+                                    }
+                                    <Text
+                                        style = {{fontSize:fontsize}}
+                                    >
+                                        {titlel}
+                                    </Text>
+                                </View>
+                            </View>
+                </TouchableOpacity>
+                {
+                    imager &&
+                    <TouchableOpacity
+                        onPress={onPress2}
+                    >
+                        <Image
+                            source={imager}
+                            style = {{
+                                width: sizeimg,
+                                height: sizeimg,
+                            }}
+                        />
+                    </TouchableOpacity>
+                }
             </View>
-        </TouchableOpacity>
+        </View>
     );
 }
 
@@ -93,21 +114,24 @@ export default function AddGroupScreen({ navigation, route }) {
                       })}
                 />
                 <TitleInput 
-                    image = {require('../../assets/plus-minus.png')} 
+                    imagel = {require('../../assets/plus-minus.png')} 
                     titlel ={isGroupType}
                     sizeimg = {25} 
                     fontsize = {20}
                 />
                 <TitleInput 
-                    image = {require('../../assets/family-tree.png')} 
+                    imagel = {require('../../assets/family-tree.png')} 
+                    imager = {require('../../assets/cross.png')} 
                     titles ={'Nhóm cha'}
                     titlel={isGroupCha.name}
                     sizeimg = {25} 
                     fontsize = {20}
-                    onPress={() => navigation.navigate({
+                    onPress1={() => navigation.navigate({
                         name:'ChooseGroupCha',
                         params: {back: 'AddGroupScreen' ,group: isGroupCha, khoan: isGroupType, type:'choose'}
                     })}
+                    onPress2 = {() => setGroupCha({name: 'Chọn nhóm'})}
+
                 />
             </View>
 
@@ -143,6 +167,7 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     containertitle:{
+        width: '200%',
         flexDirection:'row',
         paddingLeft: 15,
         padding: 15,
