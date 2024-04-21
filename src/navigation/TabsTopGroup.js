@@ -71,8 +71,7 @@ function ChiScreen({ navigation, route }) {
         if (state.route.params?.group != null) {
             SetGroup(state.route.params?.group)
         }
-    },[navigation,state]);
-
+    },[]);
 
     return (
         <View>
@@ -101,15 +100,18 @@ function ChiScreen({ navigation, route }) {
                                 <Text style = {styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
-                        {values.map(value => (
-                            <View key={value.root.name} style = {{backgroundColor:'white'}}>
+                        {values.map((value, fIndex) => (
+                            <View key={fIndex} style = {{backgroundColor:'white'}}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         if (isChoose) {
-                                            navigation.navigate(isBack, {namegroup: value.root.name, imagegroup: value.root.image, group: value.root});
+                                            navigation.navigate(isBack, {group: value.root});
                                         }
                                         else{
-                                            navigation.navigate('AddGroupScreen', {group: value.root});
+                                            navigation.navigate({
+                                                name:'EditGroupScreen',
+                                                params: {group: value.root, type:'Khoản chi' }
+                                            });
                                         }
                                     }}
                                 >
@@ -140,16 +142,19 @@ function ChiScreen({ navigation, route }) {
                                         }
                                     </View>
                                 </TouchableOpacity>
-                                {value.node.map(item => (
+                                {(value.node.length != 0) && value.node.map((item, fIndex) => (
                                     <TouchableOpacity
-                                        key={item.name}
+                                        key={fIndex}
                                         onPress={() => {
                                             if(isChoose){
-                                                navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image, group: item});
+                                                navigation.navigate(isBack, {group: item});
                                             }
-                                            // else{
-                                            //     navigation.navigate('AddGroupScreen', {group: item, title: "Xem nhóm", mode:'edit'});
-                                            // }
+                                            else{
+                                                navigation.navigate({
+                                                    name:'EditGroupScreen',
+                                                    params: {group: item, type:'Khoản chi' }
+                                                });
+                                            }
                                     }}
                                     >
                                         <View style = {styles.containernode}>
@@ -246,7 +251,7 @@ function ThuScreen({ navigation, route }) {
         if (state.route.params?.group) {
             SetGroup(state.route.params?.group)
         }
-    });
+    }, []);
 
     return (
         <View>
@@ -274,11 +279,19 @@ function ThuScreen({ navigation, route }) {
                                 <Text style = {styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
-                        {values.map(value => (
-                            <View key={value.root.name} style = {{backgroundColor:'white'}}>
+                        {values.map((value, fIndex) => (
+                            <View key={fIndex} style = {{backgroundColor:'white'}}>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        isChoose && navigation.navigate(isBack, {namegroup: value.root.name, imagegroup: value.root.image, group: value.root});
+                                        if (isChoose){
+                                            navigation.navigate(isBack, {group: value.root});
+                                        }
+                                        else{
+                                            navigation.navigate({
+                                                name:'EditGroupScreen',
+                                                params: {group: value.root, type:'Khoản thu' }
+                                            });
+                                        }
                                     }}
                                 >
                                     <View style = {styles.containerroot}>
@@ -308,11 +321,19 @@ function ThuScreen({ navigation, route }) {
                                         }
                                     </View>
                                 </TouchableOpacity>
-                                {(value.node.length != 0) && value.node.map(item => (
+                                {(value.node.length != 0) && value.node.map((item, fIndex) => (
                                     <TouchableOpacity
-                                        key={item.name}
+                                        key={fIndex}
                                         onPress={() => {
-                                        isChoose && navigation.navigate(isBack, {namegroup: item.name, imagegroup: item.image, group: item});
+                                            if (isChoose){
+                                                navigation.navigate(isBack, {group: item});
+                                            }
+                                            else{
+                                                navigation.navigate({
+                                                    name:'EditGroupScreen',
+                                                    params: {group: value, type:'Khoản thu' }
+                                                });
+                                            }
                                     }}
                                     >
                                         <View style = {styles.containernode}>

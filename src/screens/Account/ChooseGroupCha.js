@@ -11,6 +11,9 @@ export default function ChooseGroupCha({navigation, route}) {
     const [isLoading, setLoading] = useState(true);
     const [values, setValues] = useState(null);
 
+    const [isBack, SetBack] = useState('');
+
+
     async function getGroupParent(type) {
         var data = await groupParent(userToken, type, isWalleting._id)
         setValues(data)
@@ -24,6 +27,10 @@ export default function ChooseGroupCha({navigation, route}) {
         }
         if (route.params?.group != null) {
             SetGroup(route.params?.group)
+        }
+
+        if (route.params?.back) {
+            SetBack(route.params?.back)
         }
     },[route]);
 
@@ -39,7 +46,7 @@ export default function ChooseGroupCha({navigation, route}) {
                         <View key={value._id} >
                             <TouchableOpacity
                                 onPress={() => {
-                                    isChoose && navigation.navigate('AddGroupScreen', {group: value});
+                                    isChoose && navigation.navigate(isBack, {groupcha: value});
                                 }}
                             >
                                 <View style = {styles.containerroot}>

@@ -132,7 +132,9 @@ export default function HomeScreen({ navigation }) {
                         </View>
                         <Text style ={{fontSize:13, fontWeight:'bold'}}>Tổng số dư</Text>
                     </View>
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={() => navigation.jumpTo('Account')}
+                    >
                         <Image
                             source={require('../../assets/man.png')}
                             style = {styles.imageheder}
@@ -256,7 +258,7 @@ export default function HomeScreen({ navigation }) {
                         <View style = {styles.containerheader}>
                             <Text style = {styles.text}>Giao dịch gần đây</Text>
                             <TouchableOpacity
-                            onPress={() => navigation.jumpTo('Trade')}
+                                onPress={() => navigation.jumpTo('Trade')}
                             >
                             <Text style = {styles.text}>Xem tất cả</Text>
                             </TouchableOpacity>

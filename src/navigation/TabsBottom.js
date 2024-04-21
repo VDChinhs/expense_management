@@ -93,10 +93,6 @@ export default function TabsBottom({navigation}) {
                             </View>
                             
                         </View>,
-                    headerRight: () => 
-                        <HeaderRight
-                            image2={require('../assets/menu-dots-vertical.png')}
-                        />,
                     tabBarIcon:({focused}) => (
                         <View style = {styles.tabicon}>
                             <Image

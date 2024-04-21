@@ -1,8 +1,7 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
-import HeaderRight from "../../components/HeaderRight";
-import { addGroup, deleGroup } from "../../process/GroupController";
+import { addGroup } from "../../process/GroupController";
 import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
@@ -60,12 +59,9 @@ export default function AddGroupScreen({ navigation, route }) {
     const { userToken, isWalleting } = useContext(AuthContext); 
     
     const [isNameGroup, setNameGroup] = useState('');
-    const [isIcon, setIcon] = useState({image: require('../../assets/question.png')});
+    const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isGroupType, setGroupType] = useState('');
     const [isGroupCha, setGroupCha] = useState({name: 'Chọn nhóm'});
-
-    const [ isMode, setMode ] = useState("save"); 
-    const [ isGroup, setGroup ] = useState(null); 
 
     useEffect(() => {
         if (route.params?.type) {
@@ -74,14 +70,10 @@ export default function AddGroupScreen({ navigation, route }) {
         if (route.params?.icon) {
             setIcon(route.params?.icon)
         }
-        if (route.params?.group) {
-            setGroupCha(route.params?.group)
-            // setGroupType(route.params?.group.type == 0 ? "Khoản chi" : "Khoản thu")
-            // setIcon(route.params?.group.image)
-            // setMode(route.params?.mode)
-            // setGroup(route.params?.group)
+        if (route.params?.groupcha) {
+            setGroupCha(route.params?.groupcha)
         }
-    },[navigation, route]);
+    },[route]);
 
     return(
         <View style = {styles.container}>
@@ -89,7 +81,7 @@ export default function AddGroupScreen({ navigation, route }) {
                 <Input 
                     label ={"Tên nhóm"} 
                     value = {isNameGroup}
-                    image = {isIcon.image} 
+                    image = {Number(isIcon)} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}
@@ -114,33 +106,28 @@ export default function AddGroupScreen({ navigation, route }) {
                     fontsize = {20}
                     onPress={() => navigation.navigate({
                         name:'ChooseGroupCha',
-                        params: {group: isGroupCha, khoan: isGroupType, type:'choose'}
+                        params: {back: 'AddGroupScreen' ,group: isGroupCha, khoan: isGroupType, type:'choose'}
                     })}
                 />
             </View>
-            {isMode != 'edit' ?
-                <Button
-                    style={{top:400}}
-                    title={"Lưu"}
-                    onPress={async () => {
-                            if(await addGroup(
-                                userToken, 
-                                isNameGroup, 
-                                isIcon.image, 
-                                isGroupType, 
-                                isGroupCha._id,
-                                isWalleting._id
-                            )){
-                                navigation.goBack()
-                        }}
-                    }
-                />
-            :
-                <Button
-                    style={{top:400}}
-                    title={"Sửa"}
-                /> 
-            }
+
+            <Button
+                style={{top:400}}
+                title={"Lưu"}
+                onPress={async () => {
+                        if(await addGroup(
+                            userToken, 
+                            isNameGroup, 
+                            isIcon.image, 
+                            isGroupType, 
+                            isGroupCha._id,
+                            isWalleting._id
+                        )){
+                            navigation.goBack()
+                    }}
+                }
+            />
+
         </View>
     )
 }

@@ -25,6 +25,7 @@ import ReportScreen from "../screens/Trade/ReportScreen";
 import DetailReportScreen from "../screens/Trade/DetailReportScreen";
 import EditTradeScreen from "../screens/Trade/EditTradeScreen";
 import EditWalletScreen from "../screens/Account/EditWalletScreen";
+import EditGroupScreen from "../screens/Account/EditGroupScreen";
 
 const Stack = createStackNavigator()
 
@@ -87,18 +88,7 @@ export default function AppNav() {
                             component={TabsTopGroup} 
                             options={{
                                 headerShadowVisible:false,
-                                title:"Nhóm",
-                                // headerRight: () => 
-                                //     <HeaderRight 
-                                //         image1={require('../assets/wallet.png')}
-                                //         onPress1={() => {
-                                //             navigation.navigate({
-                                //                 name:'MyWallet',
-                                //                 params: {back: 'ChooseGroup', wallet: isWallet, type:'choose' }
-                                //             })
-                                //         }}
-                                //         image2={require('../assets/search.png')}
-                                //     />   
+                                title:"Nhóm", 
                             }}
                         />
                         <Stack.Screen 
@@ -119,11 +109,7 @@ export default function AppNav() {
                                             <Text style ={{fontWeight:'bold', fontSize: 18}}>{(isWalleting.money).toLocaleString()} đ</Text>
                                         </View>
                                         
-                                    </View>,
-                                headerRight: () => 
-                                    <HeaderRight
-                                        image2={require('../assets/menu-dots-vertical.png')}
-                                    />,
+                                    </View>
                             }}
                             
                         />
@@ -132,17 +118,15 @@ export default function AppNav() {
                             component={DetailReportScreen} 
                             options={{
                                 headerShadowVisible:false,
-                                headerRight: () => 
-                                    <HeaderRight
-                                        image2={require('../assets/menu-dots-vertical.png')}
-                                    />,
                             }}
                             
                         />
+                    </Stack.Group>
+
                         <Stack.Screen name="AddGroupScreen" component={AddGroupScreen} options={{title:"Thêm nhóm"}}/>
+                        <Stack.Screen name="EditGroupScreen" component={EditGroupScreen} options={{title:"Sửa nhóm"}}/>
                         <Stack.Screen name="ChooseGroupCha" component={ChooseGroupCha} options={{title:"Chọn nhóm cha"}}/>
                         <Stack.Screen name="ChooseIcon" component={ChooseIcon} options={{title:"Chọn biểu tượng"}}/>
-                    </Stack.Group>
 
                 </Stack.Navigator>
             )}
