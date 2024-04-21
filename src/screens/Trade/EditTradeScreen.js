@@ -94,7 +94,7 @@ export default function EditTradeScreen({ navigation, route }) {
             setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
         }
         if (route.params?.trade) {
-            setMoney(route.params.trade.money < 0 ? - (route.params.trade.money) : (route.params.trade.money))
+            setMoney(route.params.trade.money < 0 ? -(route.params.trade.money) : (route.params.trade.money))
             setGroup(route.params.trade.groupId)
             setNote(route.params?.trade.note)
             setDate(new Date(route.params.trade.date))

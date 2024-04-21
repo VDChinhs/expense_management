@@ -24,6 +24,7 @@ import AddWalletScreen from "../screens/Account/AddWalletScreen";
 import ReportScreen from "../screens/Trade/ReportScreen";
 import DetailReportScreen from "../screens/Trade/DetailReportScreen";
 import EditTradeScreen from "../screens/Trade/EditTradeScreen";
+import EditWalletScreen from "../screens/Account/EditWalletScreen";
 
 const Stack = createStackNavigator()
 
@@ -74,6 +75,7 @@ export default function AppNav() {
 
                     <Stack.Group>
                         <Stack.Screen name="MyWallet" component={MyWallet} options={{title:"Ví của tôi"}}/>
+                        <Stack.Screen name="EditWalletScreen" component={EditWalletScreen} options={{title:"Sửa ví"}}/>
                         <Stack.Screen name="AddWalletScreen" component={AddWalletScreen} options={{title:"Thêm ví"}}/>
                         <Stack.Screen name="ChangePassWord" component={ChangePassWord} options={{title:"Thay đổi mật khẩu"}}/>
                         <Stack.Screen name="DeleAccount" component={DeleAccount} options={{title:"Xóa tài khoản"}}/>

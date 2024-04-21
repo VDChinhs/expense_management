@@ -74,9 +74,9 @@ export default function MyWallet({ navigation, route}) {
                                     </View>
                                 }
                                 <Text style = {styles.text}>Các ví</Text>
-                                {values.map(value => (
+                                {values.map((value, fIndex) => (
                                     <InfoTitle 
-                                        key={value.name}
+                                        key={fIndex}
                                         titlel={value.name} 
                                         titles={value.money} 
                                         imageleft={value.image}
@@ -85,7 +85,15 @@ export default function MyWallet({ navigation, route}) {
                                         }
                                         style = {{ backgroundColor: 'white', height: 60}}
                                         onPress={() => {
-                                            isChoose && navigation.navigate(isBack, {namewallet: value.name, imagewallet: value.image, wallet: value});
+                                            if (isChoose){
+                                                navigation.navigate(isBack, {namewallet: value.name, imagewallet: value.image, wallet: value});
+                                            }
+                                            else{
+                                                navigation.navigate({
+                                                    name:'EditWalletScreen',
+                                                    params: {wallet: value }
+                                                });
+                                            }
                                         }}
                                     />
                                 ))}

@@ -42,6 +42,85 @@ const addWallet = async (token, name, money, image) => {
     }
 }
 
+//Sửa ví
+const changeWallet = async (token, id, name, image) => {
+    if (token == "" || id == "" || name == "" || image == 24 ){
+        Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    const data = {
+        id: id,
+        name: name,
+        image: image
+    };
+    let response = await fetch(`http://${IP}:3000/user/wallet/changewallet`, {
+        method: 'Put',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi sửa ví', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    else{
+        let json = await response.json()
+        if (!json.status) {
+            Alert.alert('Cảnh báo', json.mes, [
+                {text: 'OK'}
+            ]);
+            return false
+        }
+        console.log(json);
+        return true
+    }
+}
+
+//Xóa ví
+const deleWallet = async (token, id) => {
+    if (token == "" || id == "" ){
+        Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    const data = {
+        id: id
+    };
+    console.log(data);
+    let response = await fetch(`http://${IP}:3000/user/wallet/delewallet`, {
+        method: 'Delete',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi xóa ví', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    else{
+        let json = await response.json()
+        if (!json.status) {
+            Alert.alert('Cảnh báo', json.mes, [
+                {text: 'OK'}
+            ]);
+            return false
+        }
+        console.log(json);
+        return true
+    }
+}
+
 //Lấy tất các ví
 const myWallet = async (token) => {
     let response = await fetch(`http://${IP}:3000/user/wallet/mywallet`, {
@@ -86,4 +165,4 @@ const walletFirst = async (token) => {
     }
 }
 
-export { addWallet, myWallet, walletFirst };
+export { addWallet, changeWallet, deleWallet, myWallet, walletFirst };

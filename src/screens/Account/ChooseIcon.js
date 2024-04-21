@@ -88,7 +88,7 @@ export default function ChooseIcon({ navigation, route }) {
                 renderItem={({item}) => {
                     return(
                         <TouchableOpacity
-                            onPress={() =>navigation.navigate(isBack, {icon: item})
+                            onPress={() =>navigation.navigate(isBack, {icon: item.image})
                                 }
                         >
                             <Image
