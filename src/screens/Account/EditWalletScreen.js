@@ -74,7 +74,7 @@ export default function EditWalletScreen({ navigation, route }) {
                     onPressImage={() => 
                       navigation.navigate({
                         name: 'ChooseIcon',
-                        params: {back: 'AddWalletScreen'}
+                        params: {back: 'EditWalletScreen'}
                       })}
                 />
                 <Input 
@@ -94,7 +94,7 @@ export default function EditWalletScreen({ navigation, route }) {
                 style={{top:400}}
                 title={"Sửa"}
                 onPress={async () => {
-                    if(await changeWallet(userToken, isWallet._id, isName, isIcon.image)){
+                    if(await changeWallet(userToken, isWallet._id, isName, isIcon)){
                         navigation.goBack()
                     }
                 }}
