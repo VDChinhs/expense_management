@@ -51,6 +51,90 @@ const addTrade = async (token, money, groupId, note, date, walletId) => {
     }
 }
 
+const changeTrade = async (token, id, money, groupId, note, date, walletId) => {
+    if (token == "" || money == null || groupId == undefined || walletId == undefined ){
+        Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    if (money <= 0) {
+        Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    data = {
+        id: id,
+        money: Number(money),
+        groupId: groupId,
+        note: note,
+        date: convertFirstDay(date),
+        walletId: walletId
+    };
+    let response = await fetch(`http://${IP}:3000/user/trade/changetrade`, {
+        method: 'Put',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi sửa giao dịch', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    else{
+        let json = await response.json()
+        if (!json.status) {
+            Alert.alert('Cảnh báo', json.mes, [
+                {text: 'OK'}
+            ]);
+            return false
+        }
+        console.log(json);
+        return true
+    }
+}
+
+const deleTrade = async (token, id) => {
+    if (token == ""){
+        Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    data = {
+        id: id
+    }
+    let response = await fetch(`http://${IP}:3000/user/trade/deletrade`, {
+        method: 'Delete',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(data),
+    })
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi xóa giao dịch', [
+            {text: 'OK'}
+        ]);
+        return false
+    }
+    else{
+        let json = await response.json()
+        if (!json.status) {
+            Alert.alert('Cảnh báo', json.mes, [
+                {text: 'OK'}
+            ]);
+            return false
+        }
+        console.log(json);
+        return true
+    }
+}
 //Lấy các giao dịch gần đây
 const tradeRecent = async (token) => {
     let response = await fetch(`http://${IP}:3000/user/trade/traderecent`, {
@@ -219,4 +303,4 @@ const tradeReportDetail = async (token, numbermonth, walletId, type) => {
     }
 }
 
-export { addTrade, tradeRecent, mostTradeMonth, mostTradeWeek, tradeMonths, tradeReports, tradeReportDetail };
+export { addTrade, changeTrade, deleTrade, tradeRecent, mostTradeMonth, mostTradeWeek, tradeMonths, tradeReports, tradeReportDetail };

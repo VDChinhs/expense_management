@@ -5,7 +5,7 @@ import { BarChart } from "react-native-chart-kit";
 import { useState, useContext, useEffect, useCallback } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { tradeRecent, mostTradeMonth, mostTradeWeek } from "../../process/TradeController";
-import { walletFirst, myWallet } from "../../process/WalletController";
+import { myWallet } from "../../process/WalletController";
 import { getFullDate } from "../../process/Date";
  
 // const valuesWallet = [
@@ -277,6 +277,10 @@ export default function HomeScreen({ navigation }) {
                                                 titles={getFullDate(value.date)} 
                                                 money={value.money} 
                                                 imageleft={Number(value.groupId.image)}
+                                                onPress={() => navigation.navigate({
+                                                    name:'EditTradeScreen',
+                                                    params: {trade: value }
+                                                })}
                                             />
                                         ))}
                                     </View>

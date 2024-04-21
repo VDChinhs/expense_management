@@ -6,6 +6,39 @@ import { PieChart } from "react-native-chart-kit";
 import { tradeReportDetail } from "../../process/TradeController";
 import { AuthContext } from "../../context/AuthContext";
 
+const data = [
+    {
+        title:"mm/yyyy",
+        data:[],
+        datachar:[]
+    },
+    {
+        title:"mm/yyyy",
+        data:[],
+        datachar:[]
+    },
+    {
+        title:"mm/yyyy",
+        data:[],
+        datachar:[]
+    },
+    {
+        title:"mm/yyyy",
+        data:[],
+        datachar:[]
+    },
+    {
+        title:"mm/yyyy",
+        data:[],
+        datachar:[]
+    },
+    {
+        title:"mm/yyyy",
+        data:[],
+        datachar:[]
+    },
+]
+
 // const data = [
 //     {
 //         title: "12/2023",
@@ -219,7 +252,7 @@ export default function DetailReportScreen({ navigation, route }) {
 
     const ref = useRef(null);
     const [index, setIndex] = useState(0);
-    const [isValues, setValues] = useState([]);
+    const [isValues, setValues] = useState(data);
     const [isType, setType] = useState(null);
 
     const {userToken, isWalleting} = useContext(AuthContext);
@@ -348,6 +381,10 @@ export default function DetailReportScreen({ navigation, route }) {
                                             money={value.money}
                                             imageleft={Number(value.groupId.image)}
                                             style = {styles.bordertop}
+                                            onPress={() => navigation.navigate({
+                                                name:'EditTradeScreen',
+                                                params: {trade: value }
+                                            })}
                                         />
                                     ))
 

@@ -23,6 +23,7 @@ import ChooseIcon from "../screens/Account/ChooseIcon";
 import AddWalletScreen from "../screens/Account/AddWalletScreen";
 import ReportScreen from "../screens/Trade/ReportScreen";
 import DetailReportScreen from "../screens/Trade/DetailReportScreen";
+import EditTradeScreen from "../screens/Trade/EditTradeScreen";
 
 const Stack = createStackNavigator()
 
@@ -58,7 +59,6 @@ export default function AppNav() {
 
                     </Stack.Group>
                     
-                    
                     <Stack.Group>
                         <Stack.Screen name="AddTrade" component={AddTradeScreen} options={{title:"Thêm giao dịch"}}/>
                         <Stack.Screen 
@@ -66,8 +66,10 @@ export default function AppNav() {
                             component={NoteScreen} 
                             options={{
                                 title:"Ghi chú",                              
-                            }}/>
-                        
+                            }}
+                        />
+                        <Stack.Screen name="EditTradeScreen" component={EditTradeScreen} options={{title:"Sửa giao dịch"}}/>
+ 
                     </Stack.Group>
 
                     <Stack.Group>

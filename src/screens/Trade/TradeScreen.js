@@ -8,74 +8,19 @@ import { AuthContext } from "../../context/AuthContext";
 
 const data = [
     {
-        title: "12/2023",
-        moneyin: 36434625,
-        moneyout: 12431525,
-        data:[
-            {
-                date: '2024-4-23',
-                detail:[
-                    {
-                        money: 354757,
-                        groupId:{
-                            name: 'Du lịch',
-                            image: require('../../assets/dulich.png')
-                        }
-                    },
-                    {
-                        money: -65846,
-                        groupId:{
-                            name: 'Ăn uống',
-                            image: require('../../assets/anuong.png')
-                        }
-                    }, 
-                    {
-                        money: 23354,
-                        groupId:{
-                            name: 'Tiền mạng',
-                            image: require('../../assets/tienmang.png')
-                        }
-                    },
-                ]
-            },
-            {
-                date:'2024-4-24',
-                detail:[
-                    {
-                        money:-780546,
-                        groupId:{
-                            name: 'Quà tặng',
-                            image: require('../../assets/quatang.png')
-                        }
-                    },
-                    {
-                        money:5472,
-                        groupId:{
-                            name: 'Sức khỏe',
-                            image: require('../../assets/suckhoe.png')
-                        }
-                    },
-                    {
-                        money:479,
-                        groupId:{
-                            name: 'Thời trang',
-                            image: require('../../assets/thoitrang.png')
-                        }
-                    },
-                ]
-            },
-        ]
-    },
-    {
-        title:"01/2024",
+        title:"mm/yyyy",
         data:[]
     },
     {
-        title:"02/2024",
+        title:"mm/yyyy",
         data:[]
     },
     {
-        title:"03/2024",
+        title:"mm/yyyy",
+        data:[]
+    },
+    {
+        title:"mm/yyyy",
         data:[]
     },
     {
@@ -84,68 +29,154 @@ const data = [
     },
     {
         title:"Tháng này",
-        moneyin: 79845365,
-        moneyout: 2135478,
-        data:[
-            {
-                date: '2024-5-13',
-                detail:[
-                    {
-                        money: 354757,
-                        groupId:{
-                            name: 'Du lịch',
-                            image: require('../../assets/dulich.png')
-                        }
-                    },
-                    {
-                        money: -65846,
-                        groupId:{
-                                name: 'Ăn uống',
-                                image: require('../../assets/anuong.png')
-                        }
-                    }, 
-                    {
-                        money: 23354,
-                        groupId:{
-                            name: 'Tiền mạng',
-                            image: require('../../assets/tienmang.png')
-                        }
-                    },
-                ]
-            },
-            {
-                date:'2023-5-12',
-                detail:[
-                    {
-                        money:-780546,
-                        groupId:{
-                            name: 'Quà tặng',
-                            image: require('../../assets/quatang.png')
-                        }
-                    },
-                    {
-                        money:5472,
-                        groupId:{
-                            name: 'Sức khỏe',
-                            image: require('../../assets/suckhoe.png')
-                        }
-                    },
-                    {
-                        money:479,
-                        groupId:{
-                            name: 'Thời trang',
-                            image: require('../../assets/thoitrang.png')
-                        }
-                    },
-                ]
-            },
-        ]
+        data:[]
     },
     {
         title:"Tương lai",
         data:[]
-    }
+    },
 ]
+
+// const data = [
+//     {
+//         title: "12/2023",
+//         moneyin: 36434625,
+//         moneyout: 12431525,
+//         data:[
+//             {
+//                 date: '2024-4-23',
+//                 detail:[
+//                     {
+//                         money: 354757,
+//                         groupId:{
+//                             name: 'Du lịch',
+//                             image: require('../../assets/dulich.png')
+//                         }
+//                     },
+//                     {
+//                         money: -65846,
+//                         groupId:{
+//                             name: 'Ăn uống',
+//                             image: require('../../assets/anuong.png')
+//                         }
+//                     }, 
+//                     {
+//                         money: 23354,
+//                         groupId:{
+//                             name: 'Tiền mạng',
+//                             image: require('../../assets/tienmang.png')
+//                         }
+//                     },
+//                 ]
+//             },
+//             {
+//                 date:'2024-4-24',
+//                 detail:[
+//                     {
+//                         money:-780546,
+//                         groupId:{
+//                             name: 'Quà tặng',
+//                             image: require('../../assets/quatang.png')
+//                         }
+//                     },
+//                     {
+//                         money:5472,
+//                         groupId:{
+//                             name: 'Sức khỏe',
+//                             image: require('../../assets/suckhoe.png')
+//                         }
+//                     },
+//                     {
+//                         money:479,
+//                         groupId:{
+//                             name: 'Thời trang',
+//                             image: require('../../assets/thoitrang.png')
+//                         }
+//                     },
+//                 ]
+//             },
+//         ]
+//     },
+//     {
+//         title:"01/2024",
+//         data:[]
+//     },
+//     {
+//         title:"02/2024",
+//         data:[]
+//     },
+//     {
+//         title:"03/2024",
+//         data:[]
+//     },
+//     {
+//         title:"Tháng trước",
+//         data:[]
+//     },
+//     {
+//         title:"Tháng này",
+//         moneyin: 79845365,
+//         moneyout: 2135478,
+//         data:[
+//             {
+//                 date: '2024-5-13',
+//                 detail:[
+//                     {
+//                         money: 354757,
+//                         groupId:{
+//                             name: 'Du lịch',
+//                             image: require('../../assets/dulich.png')
+//                         }
+//                     },
+//                     {
+//                         money: -65846,
+//                         groupId:{
+//                                 name: 'Ăn uống',
+//                                 image: require('../../assets/anuong.png')
+//                         }
+//                     }, 
+//                     {
+//                         money: 23354,
+//                         groupId:{
+//                             name: 'Tiền mạng',
+//                             image: require('../../assets/tienmang.png')
+//                         }
+//                     },
+//                 ]
+//             },
+//             {
+//                 date:'2023-5-12',
+//                 detail:[
+//                     {
+//                         money:-780546,
+//                         groupId:{
+//                             name: 'Quà tặng',
+//                             image: require('../../assets/quatang.png')
+//                         }
+//                     },
+//                     {
+//                         money:5472,
+//                         groupId:{
+//                             name: 'Sức khỏe',
+//                             image: require('../../assets/suckhoe.png')
+//                         }
+//                     },
+//                     {
+//                         money:479,
+//                         groupId:{
+//                             name: 'Thời trang',
+//                             image: require('../../assets/thoitrang.png')
+//                         }
+//                     },
+//                 ]
+//             },
+//         ]
+//     },
+//     {
+//         title:"Tương lai",
+//         data:[]
+//     }
+// ]
 
 export default function TradeScreen({ navigation, route }) {
     const ref = useRef(null);
@@ -322,6 +353,10 @@ export default function TradeScreen({ navigation, route }) {
                                                     marginLeft: 5,
                                                     marginRight: 10,
                                                 }}
+                                                onPress={() => navigation.navigate({
+                                                    name:'EditTradeScreen',
+                                                    params: {trade: item }
+                                                })}
                                             />
                                         ))}
                                     </View>

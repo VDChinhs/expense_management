@@ -4,6 +4,105 @@ import { PieChart, BarChart } from "react-native-chart-kit";
 import { AuthContext } from "../../context/AuthContext";
 import { tradeReports } from "../../process/TradeController";
 
+const data = [
+    {
+        title:"11/2023",
+        data:{
+            datadong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: [0,0,0,0,0]
+                    }
+                ],
+            },
+            datathu:[],
+            datachi:[]
+        }
+    },
+    {
+        title:"11/2023",
+        data:{
+            datadong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: [0,0,0,0,0]
+                    }
+                ],
+            },
+            datathu:[],
+            datachi:[]
+        }
+    },
+    {
+        title:"11/2023",
+        data:{
+            datadong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: [0,0,0,0,0]
+                    }
+                ],
+            },
+            datathu:[],
+            datachi:[]
+        }
+    },
+    {
+        title:"11/2023",
+        data:{
+            datadong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: [0,0,0,0,0]
+                    }
+                ],
+            },
+            datathu:[],
+            datachi:[]
+        }
+    },
+    {
+        title:"11/2023",
+        data:{
+            datadong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: [0,0,0,0,0]
+                    }
+                ],
+            },
+            datathu:[],
+            datachi:[]
+        }
+    },
+    {
+        title:"11/2023",
+        data:{
+            datadong:{
+                sum: 0,
+                labels: ["01/03 - 07/03", "08/03 - 14/03", "15/03 - 22/03", "23/03 - 31/03"],
+                datasets: [
+                    {
+                    data: [0,0,0,0,0]
+                    }
+                ],
+            },
+            datathu:[],
+            datachi:[]
+        }
+    },
+]
+
 // const data = [
 //     {
 //         title:"11/2023",
@@ -18,7 +117,7 @@ import { tradeReports } from "../../process/TradeController";
 //                 ],
 //             },
 //             datathu:[],
-//             datchi:[]
+//             datachi:[]
 //         }
 //     },
 //     {
@@ -109,7 +208,7 @@ import { tradeReports } from "../../process/TradeController";
 //                 ],
 //             },
 //             datathu:[],
-//             datchi:[]
+//             datachi:[]
 //         }
 //     },
 //     {
@@ -125,7 +224,7 @@ import { tradeReports } from "../../process/TradeController";
 //                 ],
 //             },
 //             datathu:[],
-//             datchi:[]
+//             datachi:[]
 //         }
 //     },
 //     {
@@ -141,7 +240,7 @@ import { tradeReports } from "../../process/TradeController";
 //                 ],
 //             },
 //             datathu:[],
-//             datchi:[]
+//             datachi:[]
 //         }
 //     },
 //     {
@@ -157,7 +256,7 @@ import { tradeReports } from "../../process/TradeController";
 //                 ],
 //             },
 //             datathu:[],
-//             datchi:[]
+//             datachi:[]
 //         }
 //     },
 //     {
@@ -173,7 +272,7 @@ import { tradeReports } from "../../process/TradeController";
 //                 ],
 //             },
 //             datathu:[],
-//             datchi:[]
+//             datachi:[]
 //         }
 //     },
 //     {
@@ -189,7 +288,7 @@ import { tradeReports } from "../../process/TradeController";
 //                 ],
 //             },
 //             datathu:[],
-//             datchi:[]
+//             datachi:[]
 //         }
 //     }
 // ]
@@ -199,7 +298,7 @@ export default function ReportScreen({ navigation, route }) {
     const [index, setIndex] = useState(0);
     const [isWallet, setWallet] = useState('Tổng cộng');
     const [isImageWallet, setImageWallet] = useState(require('../../assets/coins.png'));
-    const [isValues, setValues] = useState([]);
+    const [isValues, setValues] = useState(data);
 
     const {userToken, isWalleting, setWalleting} = useContext(AuthContext);
     const [isLoading, setLoading] = useState(true);
@@ -247,7 +346,7 @@ export default function ReportScreen({ navigation, route }) {
                         <TouchableOpacity
                             onPress = {() => navigation.navigate({
                                 name:'MyWallet',
-                                params: {back: 'Trade', wallet: isWalleting, type:'choose' }
+                                params: {back: 'ReportScreen', wallet: isWalleting, type:'choose' }
                             })}
                         >  
                             <View style = {{
