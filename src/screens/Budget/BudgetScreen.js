@@ -229,14 +229,20 @@ export default function BudgetScreen({ navigation, route }) {
                                     </View>
                                     <View style = {{gap: 20, marginTop: 20}}>
                                         {isValues[index].data.map((value, fIndex) =>(
-                                            <View style = {styles.containerbudget}key = {fIndex}>
+                                            <View style = {styles.containerbudget} key = {fIndex}>
                                                 <InfoTitle
 
-                                                    titlel={value.group.name}
+                                                    titlel={value.groupId.name}
                                                     styleimageleft={{width: 30, height: 30}}
-                                                    imageleft={Number(value.group.image)}
+                                                    imageleft={Number(value.groupId.image)}
                                                     titlerightl={value.money}
                                                     titlerights={value.money - value.moneyloss}
+                                                    onPress={() => {
+                                                        navigation.navigate({
+                                                            name:'EditBudgetScreen',
+                                                            params: {budget: value }
+                                                        });
+                                                    }}
                                                 />
                                                 <View style = {{alignItems:'flex-end', padding: 10}}>
                                                     <Progress.Bar 

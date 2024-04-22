@@ -1,9 +1,10 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Modal } from "react-native";
 import Button from "../../components/Button";
 import { useState, useEffect, useContext } from "react";
+import HeaderRight from "../../components/HeaderRight";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear } from "../../process/Date";
-import { addBudget } from "../../process/BudgetController";
+import { changeBudget, deleBudget } from "../../process/BudgetController";
 import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
@@ -78,7 +79,7 @@ const convertDate = (chooseDate) => {
     return date + '/' + month + '/' + year    
 } 
 
-export default function AddBudget({ navigation, route }) {
+export default function EditBudgetScreen({ navigation, route }) {
     const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
 
     const [isMoney, setMoney] = useState(null);
@@ -86,6 +87,8 @@ export default function AddBudget({ navigation, route }) {
     const [isRangeDateStart, setRangeDateStart] = useState(new Date());
     const [isRangeDateEnd, setRangeDateEnd] = useState(new Date());
     const [isWallet, setWallet] = useState(isWalleting);
+
+    const [isBudget, setBudget] = useState(null);
 
     const [isOptionDateStart, setOptionDateStart] = useState(new Date());
     const [isOptionDateEnd, setOptionDateEnd] = useState(new Date());
@@ -124,7 +127,7 @@ export default function AddBudget({ navigation, route }) {
             end: isOptionDateEnd,
         }
     ];
-    
+
     useEffect(() => {   
         if (route.params?.group) {
             setGroup(route.params?.group)
@@ -134,14 +137,36 @@ export default function AddBudget({ navigation, route }) {
             setWalleting(route.params?.wallet)
             setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
         }
-    }, [route]);
+        if (route.params?.budget) {
+            setMoney(route.params.budget.money)
+            setRangeDateStart(new Date(route.params.budget.start))
+            setRangeDateEnd(new Date(route.params.budget.end))
+            setGroup(route.params.budget.groupId)
+            setWalleting(route.params.budget.walletId)
+            setWallet(route.params.budget.walletId)
+
+            setBudget(route.params.budget)
+            
+        }
+        navigation.setOptions({
+            headerRight: () => 
+                <HeaderRight 
+                    onPress2={async () => {
+                        if(await deleBudget(userToken, route.params.budget._id)){
+                            navigation.goBack()
+                        }
+                    }}
+                    image2={require('../../assets/trash.png')}
+                />  
+        });
+    },[route]);
 
     return (
         <View style = {styles.container}>
             <View style = {styles.inputs}>
 
                 <Input 
-                    label ={"0"} 
+                    value = {String(isMoney)}
                     image = {require('../../assets/coins.png')} 
                     sizeimg = {30} 
                     fontsize = {30} 
@@ -153,7 +178,6 @@ export default function AddBudget({ navigation, route }) {
                             setMoney(money)
                         }
                     }}
-                    value = {isMoney && isMoney.toLocaleString()}
                 />
                 
                 <TitleInput 
@@ -163,7 +187,7 @@ export default function AddBudget({ navigation, route }) {
                     fontsize = {20}
                     onPress = {() => navigation.navigate({
                         name:'ChooseGroup',
-                        params: {back:'AddBudget', group: isGroup, type:'choose'}
+                        params: {back:'EditBudgetScreen', group: isGroup, type:'choose'}
                     })}
                 />
 
@@ -182,13 +206,21 @@ export default function AddBudget({ navigation, route }) {
                     fontsize = {15}
                     onPress = {() => navigation.navigate({
                         name:'MyWallet',
-                        params: {back:'AddBudget', wallet: isWallet, type:'choose' }
+                        params: {back:'EditBudgetScreen', wallet: isWallet, type:'choose' }
                     })}
                 />
             </View>
 
-            <Button title={"Lưu"} onPress={ async () => {
-                    if(await addBudget(userToken, isMoney, isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)){
+            <Button title={"Sửa"} onPress={ async () => {
+                    if(await changeBudget(
+                        userToken, 
+                        isBudget._id, 
+                        isMoney, 
+                        isGroup._id, 
+                        isRangeDateStart, 
+                        isRangeDateEnd, 
+                        isWallet._id)
+                    ){
                         navigation.goBack()
                     }
                 }}

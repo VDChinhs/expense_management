@@ -26,6 +26,7 @@ import DetailReportScreen from "../screens/Trade/DetailReportScreen";
 import EditTradeScreen from "../screens/Trade/EditTradeScreen";
 import EditWalletScreen from "../screens/Account/EditWalletScreen";
 import EditGroupScreen from "../screens/Account/EditGroupScreen";
+import EditBudgetScreen from "../screens/Budget/EditBudgetScreen";
 
 const Stack = createStackNavigator()
 
@@ -49,6 +50,7 @@ export default function AppNav() {
                 >
                     <Stack.Screen name="TabHome" component={TabsBottom} options={{headerShown: false}}/>
                     <Stack.Screen name="AddBudget" component={AddBudget} options={{title:'Thêm ngân sách'}}/>
+                    <Stack.Screen name="EditBudgetScreen" component={EditBudgetScreen} options={{title:'Sửa ngân sách'}}/>
                     <Stack.Group
                         screenOptions={{
                             headerShown: false,
