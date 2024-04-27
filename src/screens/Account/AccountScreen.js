@@ -2,7 +2,6 @@ import { Text, View, StyleSheet,Image,TouchableWithoutFeedback } from "react-nat
 import ButtonSc from "../../components/ButtonSc";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function AccountScreen({ navigation }) {
   const {logout, isData} = useContext(AuthContext);

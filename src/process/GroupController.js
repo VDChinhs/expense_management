@@ -54,6 +54,7 @@ const addGroup = async (token, name, image, type, parent, walletId) => {
     }
 }
 
+// Sửa nhóm
 const changeGroup = async (token, id, name, image, parent, walletId) => {
     if (token == "" || id == "" || name == "" || image == ""){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [

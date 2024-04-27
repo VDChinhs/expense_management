@@ -331,7 +331,7 @@ function ThuScreen({ navigation, route }) {
                                             else{
                                                 navigation.navigate({
                                                     name:'EditGroupScreen',
-                                                    params: {group: value, type:'Khoản thu' }
+                                                    params: {group: item, type:'Khoản thu' }
                                                 });
                                             }
                                     }}
