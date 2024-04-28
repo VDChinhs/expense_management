@@ -79,7 +79,8 @@ export default function MyWallet({ navigation, route}) {
                                         key={fIndex}
                                         titlel={value.name} 
                                         titles={value.money} 
-                                        imageleft={value.image}
+                                        imageleft={{uri: value.image}}
+                                        styleimageleft={{width: 35, height: 35}}
                                         imageright = {
                                             isWallet._id == value._id ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
                                         }

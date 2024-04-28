@@ -42,7 +42,7 @@ export default function AddWalletScreen({ navigation, route }) {
             <View style = {styles.inputs}>
                 <Input 
                     label ={"Tên ví"} 
-                    image = {isIcon} 
+                    image = {(typeof isIcon) == 'number' ? Number(isIcon) : {uri: isIcon}} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}
@@ -70,7 +70,7 @@ export default function AddWalletScreen({ navigation, route }) {
                 style={{top:400}}
                 title={"Lưu"}
                 onPress={async () => {
-                    if(await addWallet(userToken, isNameGroup, isMoney, isIcon.image)){
+                    if(await addWallet(userToken, isNameGroup, isMoney, isIcon)){
                         navigation.goBack()
                     }
                 }}

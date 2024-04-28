@@ -2,7 +2,7 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "reac
 import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
-import { addWallet, changeWallet, deleWallet } from "../../process/WalletController";
+import { changeWallet, deleWallet } from "../../process/WalletController";
 import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
@@ -30,7 +30,7 @@ export default function EditWalletScreen({ navigation, route }) {
     const {userToken} = useContext(AuthContext);
 
     const [isName, setName] = useState('');
-    const [isIcon, setIcon] = useState(require('../../assets/question.png'));
+    const [isIcon, setIcon] = useState(null);
     const [isMoney, setMoney] = useState(null);
 
     const [isWallet, setWallet] = useState(null);
@@ -66,7 +66,7 @@ export default function EditWalletScreen({ navigation, route }) {
             <View style = {styles.inputs}>
                 <Input 
                     value = {isName}
-                    image = {isIcon} 
+                    image = {{uri: isIcon}} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}
