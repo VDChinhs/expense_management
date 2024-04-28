@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TouchableOpacity } from "react-native";
+import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { TransitionPresets } from '@react-navigation/stack';
@@ -13,7 +13,6 @@ import StartScreen from "../screens/Start/StartScreen";
 import AddTradeScreen from "../screens/Trade/AddTradeScreen";
 import AccountManagerScreen from "../screens/Account/AccountManagerScreen";
 import TabsTopGroup from "./TabsTopGroup";
-import HeaderRight from "../components/HeaderRight";
 import MyWallet from "../screens/Account/MyWallet";
 import NoteScreen from '../screens/AddTrace/NoteScreen'
 import AddBudget from "../screens/Budget/AddBudget";

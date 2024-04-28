@@ -247,7 +247,7 @@ export default function TradeScreen({ navigation, route }) {
                                 }}
                             >
                                 <Image
-                                    source={Number(isWalleting.image)}
+                                    source={{uri: isWalleting.image}}
                                     style = {styles.images}
                                 />
                                 <Text style = {{fontWeight:'bold'}}>{isWalleting.name}</Text>
@@ -348,7 +348,7 @@ export default function TradeScreen({ navigation, route }) {
                                                 key={indexitem}
                                                 titlel={item.groupId.name}
                                                 money={item.money}
-                                                imageleft={Number(item.groupId.image)}
+                                                imageleft={{uri: item.groupId.image}}
                                                 styleimageleft={{
                                                     marginLeft: 5,
                                                     marginRight: 10,

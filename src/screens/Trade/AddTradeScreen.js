@@ -31,7 +31,7 @@ function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
         style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
         onPress={onPress}>
           <Image
-            source={Number(image)}
+            source={image}
             style = {{
               width: sizeimg,
               height: sizeimg,
@@ -94,63 +94,63 @@ export default function AddTradeScreen({ navigation, route }) {
 
     return (
         <View style = {styles.container}>
-        <View style = {styles.inputs}>
+            <View style = {styles.inputs}>
                 <Input 
-                label ={"0"} 
-                image = {require('../../assets/coins.png')} 
-                sizeimg = {30} 
-                fontsize = {30} 
-                autoFocus = {true}
-                keyboardType = "number-pad"
-                onChangeText = {(money) => {
-                    // setMoney(parseFloat(money.replace(/,/g, '')))
-                    if (!money.startsWith('0')){
-                        setMoney(money)
-                    }
-                }}
-                value = {isMoney && isMoney.toLocaleString()}
+                    label ={"0"} 
+                    image = {Number(require('../../assets/coins.png'))} 
+                    sizeimg = {30} 
+                    fontsize = {30} 
+                    autoFocus = {true}
+                    keyboardType = "number-pad"
+                    onChangeText = {(money) => {
+                        // setMoney(parseFloat(money.replace(/,/g, '')))
+                        if (!money.startsWith('0')){
+                            setMoney(money)
+                        }
+                    }}
+                    value = {isMoney && isMoney.toLocaleString()}
                 />
             
             <TitleInput 
-            title = {isGroup.name} 
-            image = {isGroup.image} 
-            sizeimg = {30} 
-            fontsize = {20}
-            onPress = {() => navigation.navigate({
-                name:'ChooseGroup',
-                params: {back: 'AddTrade', group: isGroup, type:'choose' }
-            })}
+                title = {isGroup.name} 
+                image = {(typeof isGroup.image) == 'number' ? Number(isGroup.image) : {uri: isGroup.image}} 
+                sizeimg = {30} 
+                fontsize = {20}
+                onPress = {() => navigation.navigate({
+                    name:'ChooseGroup',
+                    params: {back: 'AddTrade', group: isGroup, type:'choose' }
+                })}
             />
 
             <Input 
-            label ={"Ghi chú"} 
-            image = {require('../../assets/align-left.png')} 
-            sizeimg = {20} 
-            fontsize = {15}
-            onChangeText = {(value) => setNote(value)}
+                label ={"Ghi chú"} 
+                image = {Number(require('../../assets/align-left.png'))} 
+                sizeimg = {20} 
+                fontsize = {15}
+                onChangeText = {(value) => setNote(value)}
             />
 
             <TitleInput 
-            title = {convertDate(isDate)} 
-            image = {require('../../assets/calendar-day.png')} 
-            sizeimg = {20} 
-            fontsize = {15}
-            onPress = {() => setShowPickDate(true)}
+                title = {convertDate(isDate)} 
+                image = {require('../../assets/calendar-day.png')} 
+                sizeimg = {20} 
+                fontsize = {15}
+                onPress = {() => setShowPickDate(true)}
             />
 
             <TitleInput 
-            image = {isWallet.image} 
-            title ={isWallet.name}
-            sizeimg = {20} 
-            fontsize = {15}
-            onPress = {() => navigation.navigate({
-                name:'MyWallet',
-                params: {back: 'AddTrade', wallet: isWallet, type:'choose' }
-            })}
+                title ={isWallet.name}
+                image = {(typeof isWallet.image) == 'number' ? Number(isWallet.image) : {uri: isWallet.image}} 
+                sizeimg = {20} 
+                fontsize = {15}
+                onPress = {() => navigation.navigate({
+                    name:'MyWallet',
+                    params: {back: 'AddTrade', wallet: isWallet, type:'choose' }
+                })}
             />
 
         </View>
-
+        
             <Button title={"Lưu"} onPress={async () => {
                     if(await addTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)){
                         navigation.goBack()
@@ -160,16 +160,16 @@ export default function AddTradeScreen({ navigation, route }) {
 
         {isshowpickdate && (
             <DateTimePicker
-            testID = "dateTimePicker"
-            value = {isDate}
-            mode = {'date'}
-            is24Hour ={true}
-            timeZoneName="Asia/Bangkok"
-            onChange = {(event, selectedDate) => {
-                const chooseDate = selectedDate;
-                setShowPickDate(false);
-                setDate(chooseDate);
-            }}
+                testID = "dateTimePicker"
+                value = {isDate}
+                mode = {'date'}
+                is24Hour ={true}
+                timeZoneName="Asia/Bangkok"
+                onChange = {(event, selectedDate) => {
+                    const chooseDate = selectedDate;
+                    setShowPickDate(false);
+                    setDate(chooseDate);
+                }}
             />
         )}
         </View>

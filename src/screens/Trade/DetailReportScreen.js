@@ -379,7 +379,7 @@ export default function DetailReportScreen({ navigation, route }) {
                                             key={index}
                                             titlel={value.groupId.name}
                                             money={value.money}
-                                            imageleft={Number(value.groupId.image)}
+                                            imageleft={{uri: value.groupId.image}}
                                             style = {styles.bordertop}
                                             onPress={() => navigation.navigate({
                                                 name:'EditTradeScreen',

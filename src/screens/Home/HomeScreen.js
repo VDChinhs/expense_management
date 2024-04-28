@@ -158,7 +158,7 @@ export default function HomeScreen({ navigation }) {
                                     width={'92%'}
                                     titlel={value.name} 
                                     money={value.money} 
-                                    imageleft={value.image}
+                                    imageleft={{uri: value.image}}
                                     onPress={() => {
                                         setWalleting(value)
                                         navigation.jumpTo('Trade')
@@ -245,7 +245,7 @@ export default function HomeScreen({ navigation }) {
                                                 titlel={value.group.name}
                                                 titles={value.money} 
                                                 titleright={value.percent} 
-                                                imageleft={Number(value.group.image)}
+                                                imageleft={{uri: value.group.image}}
                                             />
                                         ))}
                                     </View>
@@ -278,7 +278,7 @@ export default function HomeScreen({ navigation }) {
                                                 titlel={value.groupId.name}
                                                 titles={getFullDate(value.date)} 
                                                 money={value.money} 
-                                                imageleft={Number(value.groupId.image)}
+                                                imageleft={{uri: value.groupId.image}}
                                                 onPress={() => navigation.navigate({
                                                     name:'EditTradeScreen',
                                                     params: {trade: value }

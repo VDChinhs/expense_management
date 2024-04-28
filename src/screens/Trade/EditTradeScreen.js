@@ -32,7 +32,7 @@ function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
         style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
         onPress={onPress}>
           <Image
-            source={Number(image)}
+            source={image}
             style = {{
               width: sizeimg,
               height: sizeimg,
@@ -72,10 +72,10 @@ export default function EditTradeScreen({ navigation, route }) {
     const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
 
     const [isMoney, setMoney] = useState();
-    const [isGroup, setGroup] = useState({name:'', image:''});
+    const [isGroup, setGroup] = useState({name: null, image: null});
     const [isNote, setNote] = useState('');
     const [isDate, setDate] = useState(new Date());
-    const [isWallet, setWallet] = useState({name:'', image:''});
+    const [isWallet, setWallet] = useState({name: null, image: null});
 
     const [isTrade, setTrade] = useState(null);
 
@@ -134,7 +134,7 @@ export default function EditTradeScreen({ navigation, route }) {
                 
                 <TitleInput 
                     title = {isGroup.name} 
-                    image = {isGroup.image} 
+                    image = {{uri: isGroup.image}} 
                     sizeimg = {30} 
                     fontsize = {20}
                     onPress = {() => navigation.navigate({
@@ -160,7 +160,7 @@ export default function EditTradeScreen({ navigation, route }) {
                 />
 
                 <TitleInput 
-                    image = {isWallet.image} 
+                    image = {{uri: isWallet.image}} 
                     title ={isWallet.name}
                     sizeimg = {20} 
                     fontsize = {15}

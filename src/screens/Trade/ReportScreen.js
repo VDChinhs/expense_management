@@ -361,7 +361,7 @@ export default function ReportScreen({ navigation, route }) {
                                 }}
                             >
                                 <Image
-                                    source={Number(isWalleting.image)}
+                                    source={{uri: isWalleting.image}}
                                     style = {styles.images}
                                 />
                                 <Text style = {{fontWeight:'bold'}}>{isWalleting.name}</Text>
