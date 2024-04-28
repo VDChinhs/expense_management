@@ -222,7 +222,7 @@ export default function BudgetScreen({ navigation, route }) {
                                             </View>
                                         </View>
                                         <Button
-                                            title={'Tạo ngận sách'}
+                                            title={'Tạo ngân sách'}
                                             style={{width: 150, height: 50}}
                                             onPress={() => navigation.navigate("AddBudget")}
                                         />

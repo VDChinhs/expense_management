@@ -246,6 +246,7 @@ export default function HomeScreen({ navigation }) {
                                                 titles={value.money} 
                                                 titleright={value.percent} 
                                                 imageleft={{uri: value.group.image}}
+                                                imageleftsmall={{uri: value.wallet.image}}
                                             />
                                         ))}
                                     </View>
@@ -279,6 +280,7 @@ export default function HomeScreen({ navigation }) {
                                                 titles={getFullDate(value.date)} 
                                                 money={value.money} 
                                                 imageleft={{uri: value.groupId.image}}
+                                                imageleftsmall={{uri: value.walletId.image}}
                                                 onPress={() => navigation.navigate({
                                                     name:'EditTradeScreen',
                                                     params: {trade: value }

@@ -1,8 +1,12 @@
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-export default function Button({title, onPress, transparent,style}){    
+export default function Button({title, onPress, transparent, style, disabled}){    
     return (
-        <TouchableOpacity onPress={onPress} style={[styles.button, transparent && styles.transparent, style]}>
+        <TouchableOpacity 
+            onPress={onPress} 
+            style={[styles.button, transparent && styles.transparent, disabled && styles.styledisable, style]} 
+            disabled = {disabled}
+        >
             <Text
                 style={[styles.text, transparent && styles.textcolor]}>{title}
             </Text>
@@ -32,5 +36,8 @@ const styles = StyleSheet.create({
     },
     textcolor:{
         color:'#AE4B4B'
+    },
+    styledisable:{
+        opacity: 0.5
     }
 });

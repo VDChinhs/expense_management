@@ -5,7 +5,8 @@ export default function InfoTitle({
     titles, 
     onPress, 
     money, 
-    imageleft, 
+    imageleft,
+    imageleftsmall,
     numberleft, 
     styleimageleft, 
     imageright, 
@@ -19,7 +20,16 @@ export default function InfoTitle({
         <TouchableOpacity onPress={onPress} style={[styles.container, {width: width}, {...prop.style}]}>
             <View style = {styles.infoleft}>
                 {imageleft ?
-                    <Image style = {[styles.imageleft, styleimageleft]} source={imageleft}/>
+                    <View>
+                        <Image style = {[styles.imageleft, styleimageleft]} source={imageleft}/>
+                        {
+                            imageleftsmall &&
+                            <View style = {styles.containerimageleftsmall}
+                            >
+                                <Image style = {styles.imageleftsmall} source={imageleftsmall}/>
+                            </View>
+                        }
+                    </View>
                     :
                     <View
                         style = {{justifyContent:'center', alignItems:'center', height: 40, width: 40}}
@@ -103,8 +113,23 @@ const styles = StyleSheet.create({
         alignItems:'flex-end'
     },  
     imageleft:{
-        width:25,
-        height:25
+        width:30,
+        height:30
+    },
+    imageleftsmall:{
+        width:15,
+        height:15
+    },
+    containerimageleftsmall:{
+        width: 17,
+        height: 17,
+        alignItems:'center',
+        justifyContent:'center',
+        backgroundColor:'white',
+        borderRadius: 10,     
+        position:'absolute',
+        bottom: -7,
+        right: -7,
     },
     imageright:{
         width:24,
