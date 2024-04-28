@@ -33,7 +33,7 @@ function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
             style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
             onPress={onPress}>
             <Image
-                source={Number(image)}
+                source={image}
                 style = {{
                 width: sizeimg,
                 height: sizeimg,
@@ -83,10 +83,10 @@ export default function EditBudgetScreen({ navigation, route }) {
     const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
 
     const [isMoney, setMoney] = useState(null);
-    const [isGroup, setGroup] = useState({name: 'Chọn nhóm', image: require('../../assets/question.png')});
+    const [isGroup, setGroup] = useState({name: null, image: null});
     const [isRangeDateStart, setRangeDateStart] = useState(new Date());
     const [isRangeDateEnd, setRangeDateEnd] = useState(new Date());
-    const [isWallet, setWallet] = useState(isWalleting);
+    const [isWallet, setWallet] = useState({name: null, image: null});
 
     const [isBudget, setBudget] = useState(null);
 
@@ -182,7 +182,7 @@ export default function EditBudgetScreen({ navigation, route }) {
                 
                 <TitleInput 
                     title = {isGroup.name} 
-                    image = {isGroup.image} 
+                    image = {{uri: isGroup.image}} 
                     sizeimg = {30} 
                     fontsize = {20}
                     onPress = {() => navigation.navigate({
@@ -200,7 +200,7 @@ export default function EditBudgetScreen({ navigation, route }) {
                 />
 
                 <TitleInput 
-                    image = {isWallet.image} 
+                    image = {{uri: isWallet.image}} 
                     title ={isWallet.name}
                     sizeimg = {20} 
                     fontsize = {15}

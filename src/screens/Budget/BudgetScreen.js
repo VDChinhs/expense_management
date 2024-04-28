@@ -234,7 +234,7 @@ export default function BudgetScreen({ navigation, route }) {
 
                                                     titlel={value.groupId.name}
                                                     styleimageleft={{width: 30, height: 30}}
-                                                    imageleft={Number(value.groupId.image)}
+                                                    imageleft={{uri: value.groupId.image}}
                                                     titlerightl={value.money}
                                                     titlerights={value.money - value.moneyloss}
                                                     onPress={() => {

@@ -32,7 +32,7 @@ function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
             style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
             onPress={onPress}>
             <Image
-                source={Number(image)}
+                source={image}
                 style = {{
                 width: sizeimg,
                 height: sizeimg,
@@ -158,7 +158,7 @@ export default function AddBudget({ navigation, route }) {
                 
                 <TitleInput 
                     title = {isGroup.name} 
-                    image = {isGroup.image} 
+                    image = {(typeof isGroup.image) == 'number' ? Number(isGroup.image) : {uri: isGroup.image}} 
                     sizeimg = {30} 
                     fontsize = {20}
                     onPress = {() => navigation.navigate({
@@ -176,7 +176,7 @@ export default function AddBudget({ navigation, route }) {
                 />
 
                 <TitleInput 
-                    image = {isWallet.image} 
+                    image = {(typeof isWallet.image) == 'number' ? Number(isWallet.image) : {uri: isWallet.image}} 
                     title ={isWallet.name}
                     sizeimg = {20} 
                     fontsize = {15}
