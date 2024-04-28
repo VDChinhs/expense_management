@@ -52,7 +52,7 @@ export default function ChooseGroupCha({navigation, route}) {
                                 <View style = {styles.containerroot}>
                                     <View style = {styles.rootleft}>
                                         <Image
-                                            source={Number(value.image)}
+                                            source={{uri: value.image}}
                                             style = {styles.imageleft}
                                         />
                                         <View style = {styles.containertext}>

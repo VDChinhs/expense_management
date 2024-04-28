@@ -81,7 +81,7 @@ export default function EditGroupScreen({ navigation, route }) {
     const { userToken, isWalleting} = useContext(AuthContext); 
 
     const [isNameGroup, setNameGroup] = useState('');
-    const [isIcon, setIcon] = useState(require('../../assets/question.png'));
+    const [isIcon, setIcon] = useState(null);
     const [isGroupType, setGroupType] = useState('');
     const [isGroupCha, setGroupCha] = useState({name: 'Chọn nhóm'});
 
@@ -121,7 +121,7 @@ export default function EditGroupScreen({ navigation, route }) {
                 <Input 
                     label ={"Tên nhóm"} 
                     value = {isNameGroup}
-                    image = {Number(isIcon)} 
+                    image = {{uri: isIcon}} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}

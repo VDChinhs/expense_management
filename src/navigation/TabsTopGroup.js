@@ -118,7 +118,7 @@ function ChiScreen({ navigation, route }) {
                                     <View style = {styles.containerroot}>
                                         <View style = {styles.rootleft}>
                                             <Image
-                                                source={Number(value.root.image)}
+                                                source = {{uri: value.root.image}}
                                                 style = {styles.imageleft}
                                             />
                                             <View style = {styles.containertext}>
@@ -160,7 +160,7 @@ function ChiScreen({ navigation, route }) {
                                         <View style = {styles.containernode}>
                                             <View style = {styles.nodeleft}>
                                                 <Image
-                                                    source={Number(item.image)}
+                                                    source = {{uri: item.image}}
                                                     style = {styles.imageleft}
                                                 />
                                                 <View style = {styles.containertext}>
@@ -297,7 +297,7 @@ function ThuScreen({ navigation, route }) {
                                     <View style = {styles.containerroot}>
                                         <View style = {styles.rootleft}>
                                             <Image
-                                                source={Number(value.root.image)}
+                                                source = {{uri: value.root.image}}
                                                 style = {styles.imageleft}
                                             />
                                             <View style = {styles.containertext}>
@@ -339,7 +339,7 @@ function ThuScreen({ navigation, route }) {
                                         <View style = {styles.containernode}>
                                             <View style = {styles.nodeleft}>
                                                 <Image
-                                                    source={Number(item.image)}
+                                                    source={{uri: item.image}}
                                                     style = {styles.imageleft}
                                                 />
                                                 <View style = {styles.containertext}>
@@ -391,14 +391,14 @@ export default function TabsTopGroup({navigation, route}) {
         navigation.setOptions({
             headerRight: () => 
                 <HeaderRight 
-                    image1={isWalleting.image}
+                    image1={{uri: isWalleting.image}}
                     onPress1={() => {
                         navigation.navigate({
                             name:'MyWallet',
                             params: {back: 'ChooseGroup', wallet: isWalleting, type:'choose' }
                         })
                     }}
-                    image2={require('../assets/search.png')}
+                    image2={Number(require('../assets/search.png'))}
                 />  
         });
     },[route]);

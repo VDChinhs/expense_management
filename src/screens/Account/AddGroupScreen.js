@@ -102,7 +102,7 @@ export default function AddGroupScreen({ navigation, route }) {
                 <Input 
                     label ={"Tên nhóm"} 
                     value = {isNameGroup}
-                    image = {Number(isIcon)} 
+                    image = {(typeof isIcon) == 'number' ? Number(isIcon) : {uri: isIcon}} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}
@@ -142,7 +142,7 @@ export default function AddGroupScreen({ navigation, route }) {
                         if(await addGroup(
                             userToken, 
                             isNameGroup, 
-                            isIcon.image, 
+                            isIcon, 
                             isGroupType, 
                             isGroupCha._id,
                             isWalleting._id
