@@ -57,7 +57,7 @@ function getWeekMonth(time, mode){
 }
 
 function getRangeDate(start, end) {
-    return (((end - start) / (1000*60*60*24)) + 1).toFixed()
+    return (((end - start) / (1000*60*60*24))).toFixed() - 1
 }
 
 function getFullDate(time) {
@@ -71,4 +71,8 @@ function convertFirstDay(time) {
     return time.toISOString().split('T')[0] + 'T00:00:00.000Z'
 }
 
-export {thisweek ,thismonth, thisquy, thisyear, getDate, getDay, getWeekMonth, getRangeDate, getFullDate, convertFirstDay}
+function convertEndDay(time) {
+    return time.toISOString().split('T')[0] + 'T23:59:00.000Z'
+}
+
+export {thisweek ,thismonth, thisquy, thisyear, getDate, getDay, getWeekMonth, getRangeDate, getFullDate, convertFirstDay, convertEndDay}

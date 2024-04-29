@@ -28,7 +28,7 @@ function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
 export default function AddWalletScreen({ navigation, route }) {
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
-    const [isMoney, setMoney] = useState(null);
+    const [isMoney, setMoney] = useState(0);
     const {userToken} = useContext(AuthContext);
  
     useEffect(() => {
@@ -36,6 +36,12 @@ export default function AddWalletScreen({ navigation, route }) {
             setIcon(route.params?.icon)
         }
     });
+
+    async function HandleAddWallet(userToken, isNameGroup, isMoney, isIcon) {
+        if(await addWallet(userToken, isNameGroup, isMoney, isIcon)){
+            navigation.goBack()
+        }
+    }
 
     return(
         <View style = {styles.container}>
@@ -47,7 +53,7 @@ export default function AddWalletScreen({ navigation, route }) {
                     fontsize = {25} 
                     autoFocus = {true}
                     onChangeText = {(text) => setNameGroup(text)}
-                    onPressImage={() => 
+                    onPressImage = {() => 
                       navigation.navigate({
                         name: 'ChooseIcon',
                         params: {back: 'AddWalletScreen'}
@@ -60,19 +66,15 @@ export default function AddWalletScreen({ navigation, route }) {
                     fontsize = {30} 
                     keyboardType = "number-pad"
                     onChangeText = {(money) => {
-                        // setMoney(parseFloat(money.replace(/,/g, '')))
                         setMoney(money)
                     }}
-                    value = {isMoney && isMoney.toLocaleString()}
+                    value = {Number(isMoney).toLocaleString()}
                 />
             </View>
             <Button
-                style={{top:400}}
-                title={"Lưu"}
-                onPress={async () => {
-                    if(await addWallet(userToken, isNameGroup, isMoney, isIcon)){
-                        navigation.goBack()
-                    }
+                title = {"Lưu"}
+                onPress = {() => {
+                    HandleAddWallet(userToken, isNameGroup, isMoney, isIcon)
                 }}
             />
         </View>
@@ -82,6 +84,8 @@ export default function AddWalletScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems:'center',
+        justifyContent:'space-between',
+        paddingBottom: 50,
         height:'100%',
     },
     inputs:{

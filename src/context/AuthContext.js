@@ -1,6 +1,6 @@
 import { createContext, useState,Asyn } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { handleLogin } from "../process/LoginSign";
+import { doLogin } from "../process/LoginSign";
 import { myWallet } from "../process/WalletController";
 
 export const AuthContext = createContext();
@@ -21,7 +21,7 @@ export const AuthProvider = ({ children }) =>{
 
     const login = async (username, password) => {
         // storeData('akfuhasjfdgw');
-        data = await handleLogin(username, password)
+        data = await doLogin(username, password)
         if (data) {
             setData(data)
             storeData(data.token);

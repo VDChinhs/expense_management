@@ -35,7 +35,6 @@ export default function EditWalletScreen({ navigation, route }) {
 
     const [isWallet, setWallet] = useState(null);
 
- 
     useEffect(() => {
         if (route.params?.icon) {
             setIcon(route.params?.icon)
@@ -51,15 +50,25 @@ export default function EditWalletScreen({ navigation, route }) {
         navigation.setOptions({
             headerRight: () => 
                 <HeaderRight 
-                    image2={require('../../assets/trash.png')}
-                    onPress2={async () => {
-                        if(await deleWallet(userToken, isWallet._id)){
-                            navigation.goBack()
-                        }
+                    image2 = {require('../../assets/trash.png')}
+                    onPress2 = {() => {
+                        handleDeleWallet(userToken, route.params.wallet._id)
                     }}
                 />  
         });
     },[route]);
+
+    async function handleDeleWallet(userToken, walletid){
+        if(await deleWallet(userToken, walletid)){
+            navigation.goBack()
+        }
+    }
+
+    async function handleChangeWallet(userToken, isWallet, isName, isIcon){
+        if(await changeWallet(userToken, isWallet, isName, isIcon)){
+            navigation.goBack()
+        }
+    }
 
     return(
         <View style = {styles.container}>
@@ -69,13 +78,13 @@ export default function EditWalletScreen({ navigation, route }) {
                     image = {{uri: isIcon}} 
                     sizeimg = {35} 
                     fontsize = {25} 
-                    autoFocus = {true}
                     onChangeText = {(text) => setName(text)}
-                    onPressImage={() => 
-                      navigation.navigate({
-                        name: 'ChooseIcon',
-                        params: {back: 'EditWalletScreen'}
-                      })}
+                    onPressImage = {() => 
+                        navigation.navigate({
+                            name: 'ChooseIcon',
+                            params: {back: 'EditWalletScreen'}
+                        })
+                    }
                 />
                 <Input 
                     editable = {false}
@@ -83,20 +92,16 @@ export default function EditWalletScreen({ navigation, route }) {
                     sizeimg = {30} 
                     fontsize = {30} 
                     keyboardType = "number-pad"
+                    value = {Number(isMoney).toLocaleString()}
                     onChangeText = {(money) => {
-                        // setMoney(parseFloat(money.replace(/,/g, '')))
                         setMoney(money)
                     }}
-                    value = {isMoney && isMoney.toLocaleString()}
                 />
             </View>
             <Button
-                style={{top:400}}
-                title={"Sửa"}
-                onPress={async () => {
-                    if(await changeWallet(userToken, isWallet._id, isName, isIcon)){
-                        navigation.goBack()
-                    }
+                title = {"Sửa"}
+                onPress = {() => {
+                    handleChangeWallet(userToken, isWallet._id, isName, isIcon)
                 }}
             />
         </View>
@@ -106,6 +111,8 @@ export default function EditWalletScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems:'center',
+        justifyContent:'space-between',
+        paddingBottom:50,
         height:'100%',
     },
     inputs:{

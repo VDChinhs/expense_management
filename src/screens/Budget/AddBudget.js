@@ -2,7 +2,7 @@ import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Modal } fro
 import Button from "../../components/Button";
 import { useState, useEffect, useContext } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { thisweek, thismonth, thisquy, thisyear } from "../../process/Date";
+import { thisweek, thismonth, thisquy, thisyear, convertFirstDay, getRangeDate } from "../../process/Date";
 import { addBudget } from "../../process/BudgetController";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -51,7 +51,6 @@ function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
 }
 
 const convertDateModal = (start, end) => {
-
     var datestart = start.getDate();
     var monthstart = start.getMonth() + 1;
     var yearstart = start.getFullYear();
@@ -60,7 +59,7 @@ const convertDateModal = (start, end) => {
     var monthend = end.getMonth() + 1;
     var yearend = end.getFullYear();
 
-    if (dateend - datestart == 6) {
+    if (getRangeDate(start,end) == 6) {
         return "Tuần này (" + datestart + '/' + monthstart + ' - ' + dateend + '/' + monthend + ')'
     } else if (monthend - monthstart == 0 && dateend - datestart > 27) {
         return "Tháng này (" + datestart + '/' + monthstart + ' - ' + dateend + '/' + monthend + ')'
@@ -136,6 +135,12 @@ export default function AddBudget({ navigation, route }) {
         }
     }, [route]);
 
+    async function handleAddBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
+        if(await addBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId)){
+            navigation.goBack()
+        }
+    }
+
     return (
         <View style = {styles.container}>
             <View style = {styles.inputs}>
@@ -148,7 +153,6 @@ export default function AddBudget({ navigation, route }) {
                     autoFocus = {true}
                     keyboardType = "number-pad"
                     onChangeText = {(money) => {
-                        // setMoney(parseFloat(money.replace(/,/g, '')))
                         if (!money.startsWith('0')){
                             setMoney(money)
                         }
@@ -187,10 +191,8 @@ export default function AddBudget({ navigation, route }) {
                 />
             </View>
 
-            <Button title={"Lưu"} onPress={ async () => {
-                    if(await addBudget(userToken, isMoney, isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)){
-                        navigation.goBack()
-                    }
+            <Button title={"Lưu"} onPress={() => {
+                    handleAddBudget(userToken, isMoney, isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)
                 }}
             />
 
@@ -369,7 +371,9 @@ export default function AddBudget({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
-        gap:300
+        justifyContent:'space-between',
+        paddingBottom:50,
+        height:'100%',
     },
     containertitle:{
         flexDirection:'row',

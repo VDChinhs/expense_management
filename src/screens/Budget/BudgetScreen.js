@@ -129,7 +129,7 @@ export default function BudgetScreen({ navigation, route }) {
         <View>
             {isLoading ?
                 <View style = {{height: 750, justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'balck'} size={'large'}/>
+                    <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <View>
@@ -137,26 +137,26 @@ export default function BudgetScreen({ navigation, route }) {
                         <View>
                             <View style = {{backgroundColor: 'white'}}>
                                 <FlatList
-                                    ref={ref}
+                                    ref = {ref}
                                     initialScrollIndex = {index}
-                                    data={isValues}
-                                    keyExtractor={(item, index) => index.toString()}
-                                    showsHorizontalScrollIndicator={false}
+                                    data = {isValues}
+                                    keyExtractor = {(item, index) => index.toString()}
+                                    showsHorizontalScrollIndicator = {false}
                                     horizontal
-                                    renderItem={({ item, index: fIndex }) => {
+                                    renderItem = {({ item, index: fIndex }) => {
                                         return (
-                                            <TouchableOpacity onPress={() => {
+                                            <TouchableOpacity onPress = {() => {
                                                 setIndex(fIndex)
                                             }}>
                                                 <View
-                                                    style={{
+                                                    style = {{
                                                         padding: 10,
                                                         width: Dimensions.get('screen').width / 3,
                                                         alignItems:'center',
                                                         borderBottomColor: 'black',
                                                         borderBottomWidth: fIndex === index ? 2 : 0,
                                                     }}>
-                                                    <Text style={{
+                                                    <Text style = {{
                                                             fontWeight: 'bold',
                                                             fontSize: 15,
                                                             opacity: fIndex === index ? 1 : 0.5,
@@ -171,7 +171,7 @@ export default function BudgetScreen({ navigation, route }) {
                                 />
                             </View>
                             <ScrollView
-                                refreshControl={
+                                refreshControl = {
                                     <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                                 }
                             >
@@ -179,9 +179,9 @@ export default function BudgetScreen({ navigation, route }) {
                                     <View style = {styles.containergraphic}>
                                         <View>
                                             <HaldCircle
-                                                textColortitle={'black'}
-                                                color="green"
-                                                percentage={
+                                                textColortitle = {'black'}
+                                                color = "green"
+                                                percentage = {
                                                     isValues[index].data.reduce((total, item) => total + item.money, 0) -
                                                     isValues[index].data.reduce((total, item) => total + item.moneyloss, 0) < 0 ? 
                                                     isValues[index].data.reduce((total, item) => total + item.money, 0) :
@@ -191,28 +191,28 @@ export default function BudgetScreen({ navigation, route }) {
                                                     isValues[index].data.reduce((total, item) => total + item.money, 0) -
                                                     isValues[index].data.reduce((total, item) => total + item.moneyloss, 0)
                                                 }
-                                                max={isValues[index].data.reduce((total, item) => total + item.money, 0)}
-                                                radius={160}
+                                                max = {isValues[index].data.reduce((total, item) => total + item.money, 0)}
+                                                radius = {160}
                                             />
                                         </View>
                                         <View style = {styles.containerundergraphic}>
-                                            <View style = {{alignItems:'center'}}>
+                                            <View style = {{alignItems:'center', width: 150}}>
                                                 <Text 
                                                     style = {[styles.textbold,{fontSize: 19}]}
                                                 >
-                                                    {isValues[index].data.reduce((total, item) => total + item.money, 0).toLocaleString()}
+                                                    {Number(isValues[index].data.reduce((total, item) => total + item.money, 0)).toLocaleString()}
                                                 </Text>
                                                 <Text>Tổng ngân sách</Text>
                                             </View>
-                                            <View style = {{alignItems:'center'}}>
+                                            <View style = {{alignItems:'center', width: 150}}>
                                                 <Text 
                                                     style = {[styles.textbold,{fontSize: 19}]}
                                                 >
-                                                    {isValues[index].data.reduce((total, item) => total + item.moneyloss, 0).toLocaleString()}
+                                                    {Number(isValues[index].data.reduce((total, item) => total + item.moneyloss, 0)).toLocaleString()}
                                                 </Text>
                                                 <Text>Tổng đã chi</Text>
                                             </View>
-                                            <View style = {{alignItems:'center'}}>
+                                            <View style = {{alignItems:'center', width: 150}}>
                                                 <Text 
                                                     style = {[styles.textbold,{fontSize: 19}]}
                                                 >
@@ -222,9 +222,9 @@ export default function BudgetScreen({ navigation, route }) {
                                             </View>
                                         </View>
                                         <Button
-                                            title={'Tạo ngân sách'}
-                                            style={{width: 150, height: 50}}
-                                            onPress={() => navigation.navigate("AddBudget")}
+                                            title = {'Tạo ngân sách'}
+                                            style = {{width: 150, height: 50}}
+                                            onPress = {() => navigation.navigate("AddBudget")}
                                         />
                                     </View>
                                     <View style = {{gap: 20, marginTop: 20}}>
@@ -232,12 +232,13 @@ export default function BudgetScreen({ navigation, route }) {
                                             <View style = {styles.containerbudget} key = {fIndex}>
                                                 <InfoTitle
 
-                                                    titlel={value.groupId.name}
-                                                    styleimageleft={{width: 30, height: 30}}
-                                                    imageleft={{uri: value.groupId.image}}
-                                                    titlerightl={value.money}
-                                                    titlerights={value.money - value.moneyloss}
-                                                    onPress={() => {
+                                                    titlel = {value.groupId.name}
+                                                    styleimageleft = {{width: 30, height: 30}}
+                                                    imageleft = {{uri: value.groupId.image}}
+                                                    imageleftsmall = {{uri: value.walletId.image}}
+                                                    titlerightl = {value.money}
+                                                    titlerights = {value.money - value.moneyloss}
+                                                    onPress = {() => {
                                                         navigation.navigate({
                                                             name:'EditBudgetScreen',
                                                             params: {budget: value }
@@ -246,9 +247,9 @@ export default function BudgetScreen({ navigation, route }) {
                                                 />
                                                 <View style = {{alignItems:'flex-end', padding: 10}}>
                                                     <Progress.Bar 
-                                                        progress={value.moneyloss / value.money} 
-                                                        color= {value.moneyloss - value.money > 1 ? "red" : "green"} 
-                                                        width={260}
+                                                        progress = {value.moneyloss / value.money} 
+                                                        color = {value.moneyloss - value.money > 1 ? "red" : "green"} 
+                                                        width = {260}
                                                     />
                                                 </View>
                                             </View>
@@ -260,12 +261,12 @@ export default function BudgetScreen({ navigation, route }) {
                         :
                         <ScrollView
                             refreshControl={
-                                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                                <RefreshControl refreshing = {refreshing} onRefresh={onRefresh} />
                             }
                         >
                             <View style = {styles.container}>
                                 <Image
-                                    source={Number(require('../../assets/dollar.png'))}
+                                    source = {Number(require('../../assets/dollar.png'))}
                                     style = {styles.image}
                                 />
                                 <View style = {styles.textinfo}>
@@ -273,7 +274,7 @@ export default function BudgetScreen({ navigation, route }) {
                                     <Text style = {{textAlign: 'center'}}>Bắt đầu tiết kiệm bằng cách tạo ngân sách và chúng tôi sẽ giúp bạn kiểm soát ngân sách</Text>
                                 </View>
                                 <Button 
-                                    title={"Tạo ngân sách"}
+                                    title = {"Tạo ngân sách"}
                                     onPress={() => navigation.navigate("AddBudget")}
                                 />
                             </View>
@@ -303,7 +304,6 @@ const styles = StyleSheet.create({
         justifyContent:'space-around', 
         marginTop: -140, 
         paddingBottom: 20,
-        paddingHorizontal: 10
     },
     containerbudget:{
         backgroundColor:'white',

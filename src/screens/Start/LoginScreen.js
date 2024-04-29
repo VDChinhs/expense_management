@@ -3,7 +3,6 @@ import Button from "../../components/Button";
 import InputText from "../../components/InputText";
 import Logo from "../../components/Logo";
 import { useState,useContext } from "react";
-import { handleLogin } from "../../process/LoginSign";
 import { AuthContext } from "../../context/AuthContext";
 
 
@@ -12,34 +11,38 @@ export default function LoginScreen({navigation}) {
     const [password, setPassword] = useState('');
     const {login} = useContext(AuthContext);
 
+    async function handleLogin(username, password) {
+        await login(username.trim(), password.trim())
+    }
+
     return(
         <View style = {styles.container}>
             <View style = {styles.container}>
                 <Logo 
                     text = {"MONEY SAVER"} 
-                    image={require('../../assets/dollar.png')}
+                    image = {require('../../assets/dollar.png')}
                 />
                 <InputText 
-                    label={"Email"}
-                    onChangeText={(text) => setUsername(text)}
+                    label = {"Email"}
+                    onChangeText = {(text) => setUsername(text)}
                 />
                 <InputText 
-                    label={"Mật khẩu"}
-                    secureTextEntry={true}
-                    onChangeText={(text) => setPassword(text)}
+                    label = {"Mật khẩu"}
+                    secureTextEntry = {true}
+                    onChangeText = {(text) => setPassword(text)}
                 />
                 <Button
                     style = {styles.margin} 
-                    title={"Đăng nhập"}
-                    onPress={async() => {await login(username.trim(), password.trim())}}
-
+                    title = {"Đăng nhập"}
+                    onPress = {() => 
+                        handleLogin(username, password)
+                    }
                 />
-                {/* <Text style = {styles.word} >Quên mật khẩu?</Text> */}
             </View>
             <Button
-                style={styles.margin}
-                title={"Tạo tài khoản"} 
-                transparent={true}
+                style = {styles.margin}
+                title = {"Tạo tài khoản"} 
+                transparent = {true}
                 onPress={() => navigation.navigate('SignScreen')}
             />
         </View>
@@ -56,9 +59,6 @@ const styles = StyleSheet.create({
     word:{
         fontWeight:'bold',
         fontSize: 15,
-    },
-    fonter:{
-
     },
     margin:{
         marginBottom:20

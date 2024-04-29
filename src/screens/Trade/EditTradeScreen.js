@@ -7,65 +7,66 @@ import { changeTrade, deleTrade } from "../../process/TradeController";
 import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
-  return (
-    <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
-      <Image
-        source={image}
-        style = {{
-          width: sizeimg,
-          height: sizeimg,
-        }}
-      />
-      <TextInput
-        style={[styles.input, {fontSize: fontsize}]}
-        placeholder={label}
-        {...prop}
-        
-      />
-    </View>
-  );
+    return (
+        <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
+        <Image
+            source={image}
+            style = {{
+            width: sizeimg,
+            height: sizeimg,
+            }}
+        />
+        <TextInput
+            style={[styles.input, {fontSize: fontsize}]}
+            placeholder={label}
+            {...prop}
+            
+        />
+        </View>
+    );
 }
 
 function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
-  return (
-      <TouchableOpacity 
-        style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
-        onPress={onPress}>
-          <Image
-            source={image}
-            style = {{
-              width: sizeimg,
-              height: sizeimg,
-            }}
-          />
-          <Text style = {{
-              fontSize: fontsize,
-              fontWeight: 'bold',
-              opacity: title == 'Chọn nhóm' ? 0.4 : 1
-            }}
-          >
-            {title}
-          </Text>
-      </TouchableOpacity>
-  );
+    return (
+        <TouchableOpacity 
+            style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
+            onPress={onPress}
+        >
+            <Image
+                source={image}
+                style = {{
+                width: sizeimg,
+                height: sizeimg,
+                }}
+            />
+            <Text style = {{
+                fontSize: fontsize,
+                fontWeight: 'bold',
+                opacity: title == 'Chọn nhóm' ? 0.4 : 1
+                }}
+            >
+                {title}
+            </Text>
+        </TouchableOpacity>
+    );
 }
 
 const convertDate = (chooseDate) => {
-  var currentDate = new Date()
-  if (chooseDate.getDate() - currentDate.getDate() == -1) {
-    return "Hôm qua"
-  } else if (chooseDate.getDate() - currentDate.getDate() == 1) {
-    return "Ngày mai"
-  } else if (chooseDate.getDate() - currentDate.getDate() == 0) {
-    return "Hôm nay"
-  } else {
-    var day = chooseDate.getDay() + 1;
-    var date = chooseDate.getDate();
-    var month = chooseDate.getMonth() + 1;
-    var year = chooseDate.getFullYear();
-    var time = (day == 1 ? 'Chủ nhật' : 'Thứ ' + day) + ', ' + date + '/' + month + '/' + year
-    return time
-  }
+    var currentDate = new Date()
+    if (chooseDate.getDate() - currentDate.getDate() == -1) {
+        return "Hôm qua"
+    } else if (chooseDate.getDate() - currentDate.getDate() == 1) {
+        return "Ngày mai"
+    } else if (chooseDate.getDate() - currentDate.getDate() == 0) {
+        return "Hôm nay"
+    } else {
+        var day = chooseDate.getDay() + 1;
+        var date = chooseDate.getDate();
+        var month = chooseDate.getMonth() + 1;
+        var year = chooseDate.getFullYear();
+        var time = (day == 1 ? 'Chủ nhật' : 'Thứ ' + day) + ', ' + date + '/' + month + '/' + year
+        return time
+    }
 } 
 
 export default function EditTradeScreen({ navigation, route }) {
@@ -105,15 +106,25 @@ export default function EditTradeScreen({ navigation, route }) {
         navigation.setOptions({
             headerRight: () => 
                 <HeaderRight 
-                    onPress2={async () => {
-                        if(await deleTrade(userToken, isTrade._id)){
-                            navigation.goBack()
-                        }
-                    }}
                     image2={require('../../assets/trash.png')}
+                    onPress2={() => {
+                        handleDeleTrade(userToken, route.params?.trade._id)
+                    }}
                 />  
         });
     },[route]);  
+
+    async function handleDeleTrade(userToken, tradeId) {
+        if(await deleTrade(userToken, tradeId)){
+            navigation.goBack()
+        }
+    }
+
+    async function handleChangeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId) {
+        if(await changeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId)){
+            navigation.goBack()
+        }
+    }
 
     return (
         <View style = {styles.container}>
@@ -161,7 +172,7 @@ export default function EditTradeScreen({ navigation, route }) {
 
                 <TitleInput 
                     image = {{uri: isWallet.image}} 
-                    title ={isWallet.name}
+                    title = {isWallet.name}
                     sizeimg = {20} 
                     fontsize = {15}
                     onPress = {() => navigation.navigate({
@@ -172,18 +183,17 @@ export default function EditTradeScreen({ navigation, route }) {
 
             </View>
 
-            <Button title={"Sửa"} onPress={async () => {
-                    if(await changeTrade(userToken, 
+            <Button title={"Sửa"} onPress={() => 
+                    handleChangeTrade(
+                        userToken, 
                         isTrade._id, 
                         isMoney, 
                         isGroup._id, 
                         isNote, 
                         isDate, 
-                        isWallet._id)
-                    ){
-                        navigation.goBack()
-                    }
-                }}
+                        isWallet._id
+                    )
+                }
             />
 
             {isshowpickdate && (
@@ -207,7 +217,9 @@ export default function EditTradeScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
-        gap:300
+        justifyContent:'space-between',
+        paddingBottom:50,
+        height:'100%',
     },
     containertitle:{
       flexDirection:'row',

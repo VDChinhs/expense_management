@@ -95,7 +95,7 @@ export default function HomeScreen({ navigation }) {
     <View>
         {isLoading ?
             <View style = {{height: 750, justifyContent:'center', alignContent:'center'}}>
-                <ActivityIndicator color={'balck'} size={'large'}/>
+                <ActivityIndicator color={'black'} size={'large'}/>
             </View>
             :
             <ScrollView style = {{
@@ -267,7 +267,7 @@ export default function HomeScreen({ navigation }) {
                         <View style = {styles.border}>
                             <View style = {{alignItems:'center'}}>
                                 {isValuesTrade.length == 0 ? 
-                                    <View style = {{padding: 50, alignItems: 'center'}}>
+                                    <View style = {{padding: 0, alignItems: 'center'}}>
                                         <Text style = {styles.text}>Không có dữ liệu</Text>
                                     </View>
                                 :
@@ -337,6 +337,7 @@ const styles = StyleSheet.create({
     },
     border:{
       borderRadius: 15,
+      paddingBottom: 10,
       backgroundColor:'white'
     }
 })

@@ -6,65 +6,66 @@ import { addTrade } from "../../process/TradeController";
 import { AuthContext } from "../../context/AuthContext";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
-  return (
-    <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
-      <Image
-        source={image}
-        style = {{
-          width: sizeimg,
-          height: sizeimg,
-        }}
-      />
-      <TextInput
-        style={[styles.input, {fontSize: fontsize}]}
-        placeholder={label}
-        {...prop}
-        
-      />
-    </View>
-  );
+    return (
+        <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
+        <Image
+            source={image}
+            style = {{
+            width: sizeimg,
+            height: sizeimg,
+            }}
+        />
+        <TextInput
+            style={[styles.input, {fontSize: fontsize}]}
+            placeholder={label}
+            {...prop}
+            
+        />
+        </View>
+    );
 }
 
 function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
-  return (
-      <TouchableOpacity 
-        style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
-        onPress={onPress}>
-          <Image
-            source={image}
-            style = {{
-              width: sizeimg,
-              height: sizeimg,
-            }}
-          />
-          <Text style = {{
-              fontSize: fontsize,
-              fontWeight: 'bold',
-              opacity: title == 'Chọn nhóm' ? 0.4 : 1
-            }}
-          >
-            {title}
-          </Text>
-      </TouchableOpacity>
-  );
+    return (
+        <TouchableOpacity 
+            style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
+            onPress={onPress}
+        >
+            <Image
+                source={image}
+                style = {{
+                width: sizeimg,
+                height: sizeimg,
+                }}
+            />
+            <Text style = {{
+                fontSize: fontsize,
+                fontWeight: 'bold',
+                opacity: title == 'Chọn nhóm' ? 0.4 : 1
+                }}
+            >
+                {title}
+            </Text>
+        </TouchableOpacity>
+    );
 }
 
 const convertDate = (chooseDate) => {
-  var currentDate = new Date()
-  if (chooseDate.getDate() - currentDate.getDate() == -1) {
-    return "Hôm qua"
-  } else if (chooseDate.getDate() - currentDate.getDate() == 1) {
-    return "Ngày mai"
-  } else if (chooseDate.getDate() - currentDate.getDate() == 0) {
-    return "Hôm nay"
-  } else {
-    var day = chooseDate.getDay() + 1;
-    var date = chooseDate.getDate();
-    var month = chooseDate.getMonth() + 1;
-    var year = chooseDate.getFullYear();
-    var time = (day == 1 ? 'Chủ nhật' : 'Thứ ' + day) + ', ' + date + '/' + month + '/' + year
-    return time
-  }
+    var currentDate = new Date()
+    if (chooseDate.getDate() - currentDate.getDate() == -1) {
+        return "Hôm qua"
+    } else if (chooseDate.getDate() - currentDate.getDate() == 1) {
+        return "Ngày mai"
+    } else if (chooseDate.getDate() - currentDate.getDate() == 0) {
+        return "Hôm nay"
+    } else {
+        var day = chooseDate.getDay() + 1;
+        var date = chooseDate.getDate();
+        var month = chooseDate.getMonth() + 1;
+        var year = chooseDate.getFullYear();
+        var time = (day == 1 ? 'Chủ nhật' : 'Thứ ' + day) + ', ' + date + '/' + month + '/' + year
+        return time
+    }
 } 
 
 export default function AddTradeScreen({ navigation, route }) {
@@ -92,6 +93,12 @@ export default function AddTradeScreen({ navigation, route }) {
         }
     },[route]);
 
+    async function handleAddTrade(userToken, isMoney, groupId, isNote, isDate, walletId) {
+        if(await addTrade(userToken, isMoney, groupId, isNote, isDate, walletId)){
+            navigation.goBack()
+        }
+    }
+
     return (
         <View style = {styles.container}>
             <View style = {styles.inputs}>
@@ -103,7 +110,6 @@ export default function AddTradeScreen({ navigation, route }) {
                     autoFocus = {true}
                     keyboardType = "number-pad"
                     onChangeText = {(money) => {
-                        // setMoney(parseFloat(money.replace(/,/g, '')))
                         if (!money.startsWith('0')){
                             setMoney(money)
                         }
@@ -151,11 +157,11 @@ export default function AddTradeScreen({ navigation, route }) {
 
         </View>
         
-            <Button title={"Lưu"} onPress={async () => {
-                    if(await addTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)){
-                        navigation.goBack()
-                    }
-                }}
+            <Button 
+                title = {"Lưu"} 
+                onPress = {() => 
+                    handleAddTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)
+                }                
             />
 
         {isshowpickdate && (
@@ -163,8 +169,8 @@ export default function AddTradeScreen({ navigation, route }) {
                 testID = "dateTimePicker"
                 value = {isDate}
                 mode = {'date'}
-                is24Hour ={true}
-                timeZoneName="Asia/Bangkok"
+                is24Hour = {true}
+                timeZoneName = "Asia/Bangkok"
                 onChange = {(event, selectedDate) => {
                     const chooseDate = selectedDate;
                     setShowPickDate(false);
@@ -179,7 +185,9 @@ export default function AddTradeScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
-        gap:300
+        justifyContent:'space-between',
+        paddingBottom:50,
+        height:'100%',
     },
     containertitle:{
       flexDirection:'row',

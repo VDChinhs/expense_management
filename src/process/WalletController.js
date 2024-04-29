@@ -4,11 +4,17 @@ import { IP } from "../../Constant";
 
 //Thêm ví
 const addWallet = async (token, name, money, image) => {
-    if (token == "" ||name == "" || money == null || image == 24 ){
+    if (token == "" || name == "" || money == null ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
         ]);
         return false
+    }
+    if (image == require('../assets/question.png')) {
+        Alert.alert('Cảnh báo', 'Vui lòng chọn Icon', [
+            {text: 'OK'}
+        ]);
+        return false  
     }
     const data = {
         name: name,
@@ -44,7 +50,7 @@ const addWallet = async (token, name, money, image) => {
 
 //Sửa ví
 const changeWallet = async (token, id, name, image) => {
-    if (token == "" || id == "" || name == "" || image == 24 ){
+    if (token == "" || id == "" || name == ""){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
         ]);

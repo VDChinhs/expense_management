@@ -96,18 +96,24 @@ export default function AddGroupScreen({ navigation, route }) {
         }
     },[route]);
 
+    async function handleAddGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId) {
+        if(await addGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId)){
+            navigation.goBack()
+        }
+    }
+
     return(
         <View style = {styles.container}>
             <View style = {styles.inputs}>
                 <Input 
-                    label ={"Tên nhóm"} 
+                    label = {"Tên nhóm"} 
                     value = {isNameGroup}
                     image = {(typeof isIcon) == 'number' ? Number(isIcon) : {uri: isIcon}} 
                     sizeimg = {35} 
                     fontsize = {25} 
                     autoFocus = {true}
                     onChangeText = {(text) => setNameGroup(text)}
-                    onPressImage={() => 
+                    onPressImage = {() => 
                       navigation.navigate({
                         name: 'ChooseIcon',
                         params: {back: 'AddGroupScreen'}
@@ -115,18 +121,18 @@ export default function AddGroupScreen({ navigation, route }) {
                 />
                 <TitleInput 
                     imagel = {require('../../assets/plus-minus.png')} 
-                    titlel ={isGroupType}
+                    titlel = {isGroupType}
                     sizeimg = {25} 
                     fontsize = {20}
                 />
                 <TitleInput 
                     imagel = {require('../../assets/family-tree.png')} 
                     imager = {require('../../assets/cross.png')} 
-                    titles ={'Nhóm cha'}
-                    titlel={isGroupCha.name}
+                    titles = {'Nhóm cha'}
+                    titlel = {isGroupCha.name}
                     sizeimg = {25} 
                     fontsize = {20}
-                    onPress1={() => navigation.navigate({
+                    onPress1 = {() => navigation.navigate({
                         name:'ChooseGroupCha',
                         params: {back: 'AddGroupScreen' ,group: isGroupCha, khoan: isGroupType, type:'choose'}
                     })}
@@ -136,22 +142,18 @@ export default function AddGroupScreen({ navigation, route }) {
             </View>
 
             <Button
-                style={{top:400}}
                 title={"Lưu"}
-                onPress={async () => {
-                        if(await addGroup(
-                            userToken, 
-                            isNameGroup, 
-                            isIcon, 
-                            isGroupType, 
-                            isGroupCha._id,
-                            isWalleting._id
-                        )){
-                            navigation.goBack()
-                    }}
+                onPress={() => 
+                    handleAddGroup(
+                        userToken, 
+                        isNameGroup, 
+                        isIcon, 
+                        isGroupType, 
+                        isGroupCha._id,
+                        isWalleting._id
+                    )
                 }
             />
-
         </View>
     )
 }
@@ -159,6 +161,8 @@ export default function AddGroupScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems:'center',
+        justifyContent:'space-between',
+        paddingBottom: 50,
         height:'100%',
     },
     inputs:{

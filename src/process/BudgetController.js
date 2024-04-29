@@ -1,6 +1,6 @@
 import { Alert } from "react-native";
 import { IP } from "../../Constant";
-import { convertFirstDay } from "./Date";
+import { convertFirstDay, convertEndDay } from "./Date";
 
 //Thêm ngân sách
 const addBudget = async (token, money, groupId, startDate, endDate, walletId) => {
@@ -20,7 +20,7 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
         money: money,
         groupId: groupId,
         startDate: convertFirstDay(startDate),
-        endDate: convertFirstDay(endDate),
+        endDate: convertEndDay(endDate),
         walletId: walletId
     };
 
@@ -70,7 +70,7 @@ const changeBudget = async (token, id, money, groupId, startDate, endDate, walle
         money: money,
         groupId: groupId,
         startDate: convertFirstDay(startDate),
-        endDate: convertFirstDay(endDate),
+        endDate: convertEndDay(endDate),
         walletId: walletId
     };
 

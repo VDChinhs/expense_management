@@ -3,11 +3,17 @@ import { IP } from "../../Constant";
 
 // Thêm nhóm
 const addGroup = async (token, name, image, type, parent, walletId) => {
-    if (token == "" || name == "" || type == null || image == "" || walletId == "" ){
+    if (token == "" || name == "" || type == null || walletId == "" ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
         ]);
         return false
+    }
+    if (image == require('../assets/question.png')) {
+        Alert.alert('Cảnh báo', 'Vui lòng chọn Icon', [
+            {text: 'OK'}
+        ]);
+        return false 
     }
     let data
     if (parent == "Chọn nhóm") {

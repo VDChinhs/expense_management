@@ -16,8 +16,8 @@ export default function MyWallet({ navigation, route}) {
     const [refreshing, setRefreshing] = useState(false);
 
     async function getDataMyWallet() {
-        var data = await myWallet(userToken)
-        setValues(data)
+        var _dataMyWallet = await myWallet(userToken)
+        setValues(_dataMyWallet)
         setLoading(false)
     }
 
@@ -46,13 +46,13 @@ export default function MyWallet({ navigation, route}) {
         <View>
             {isLoading ? 
                 <View style = {{height: 600, justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'balck'} size={'large'}/>
+                    <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <View>
                     <ScrollView
                         refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    <RefreshControl refreshing = {refreshing} onRefresh={onRefresh} />
                 }
                     >
                         <View style={{height: Dimensions.get('window').height}}>
@@ -62,13 +62,13 @@ export default function MyWallet({ navigation, route}) {
                                             <InfoTitle 
                                                 titlel = {'Tổng cộng'}
                                                 titles = {values.reduce((acc, item) => acc + item.money, 0)} 
-                                                imageleft = {require('../../assets/user.png')}
+                                                imageleft = {require('../../assets/world.png')}
                                                 imageright = {
                                                     isWallet == 'Tổng cộng' ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
                                                 }
                                                 style = {{ backgroundColor: 'white', height: 60}}
                                                 onPress = {() => {
-                                                    isChoose && navigation.navigate(isBack, {namewallet: 'Tổng cộng', imagewallet: require('../../assets/user.png')});
+                                                    isChoose && navigation.navigate(isBack, {namewallet: 'Tổng cộng', imagewallet: require('../../assets/world.png')});
                                                 }}
                                             />
                                     </View>
@@ -76,18 +76,18 @@ export default function MyWallet({ navigation, route}) {
                                 <Text style = {styles.text}>Các ví</Text>
                                 {values.map((value, fIndex) => (
                                     <InfoTitle 
-                                        key={fIndex}
-                                        titlel={value.name} 
-                                        titles={value.money} 
-                                        imageleft={{uri: value.image}}
-                                        styleimageleft={{width: 35, height: 35}}
+                                        key = {fIndex}
+                                        titlel = {value.name} 
+                                        titles = {value.money} 
+                                        imageleft = {{uri: value.image}}
+                                        styleimageleft = {{width: 35, height: 35}}
                                         imageright = {
                                             isWallet._id == value._id ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
                                         }
                                         style = {{ backgroundColor: 'white', height: 60}}
                                         onPress={() => {
                                             if (isChoose){
-                                                navigation.navigate(isBack, {namewallet: value.name, imagewallet: value.image, wallet: value});
+                                                navigation.navigate(isBack, {wallet: value});
                                             }
                                             else{
                                                 navigation.navigate({
@@ -104,20 +104,19 @@ export default function MyWallet({ navigation, route}) {
                     </ScrollView>
                         <View style = {styles.button}>
                             <TouchableOpacity 
-                                onPress={() =>
+                                onPress = {() =>
                                     navigation.navigate('AddWalletScreen')
                                 }
                             >
                                 <Image
-                                    source={require('../../assets/plus-small.png')}
+                                    source = {require('../../assets/plus-small.png')}
                                     resizeMode="contain"
                                     style = {{
                                         width:40,
                                         height:40,
                                         tintColor: 'black',
-                                        
                                     }}
-                                    /> 
+                                /> 
                             </TouchableOpacity>
                         </View>
                 </View>

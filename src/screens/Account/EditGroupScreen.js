@@ -107,26 +107,35 @@ export default function EditGroupScreen({ navigation, route }) {
                 <HeaderRight 
                     image2={require('../../assets/trash.png')}
                     onPress2={async () => {
-                        if(await deleGroup(userToken, route.params.group._id)){
-                            navigation.goBack()
-                        }
+                        handleDeleGroup(userToken, route.params.group._id)
                     }}
                 />  
         });
     },[route]);
 
+    async function handleDeleGroup(userToken, groupid) {
+        if(await deleGroup(userToken, groupid)){
+            navigation.goBack()
+        }  
+    }
+
+    async function handleChangeGroup(userToken, isGroup, isNameGroup, isIcon, isGroupCha, isWalleting) {
+        if(await changeGroup(userToken, isGroup, isNameGroup,  isIcon,   isGroupCha, isWalleting)){
+            navigation.goBack()
+        }
+    }
+
     return(
         <View style = {styles.container}>
             <View style = {styles.inputs}>
                 <Input 
-                    label ={"Tên nhóm"} 
+                    label = {"Tên nhóm"} 
                     value = {isNameGroup}
                     image = {{uri: isIcon}} 
                     sizeimg = {35} 
                     fontsize = {25} 
-                    autoFocus = {true}
                     onChangeText = {(text) => setNameGroup(text)}
-                    onPressImage={() => 
+                    onPressImage = {() => 
                       navigation.navigate({
                         name: 'ChooseIcon',
                         params: {back: 'EditGroupScreen'}
@@ -134,18 +143,18 @@ export default function EditGroupScreen({ navigation, route }) {
                 />
                 <TitleInput 
                     imagel = {require('../../assets/plus-minus.png')} 
-                    titlel ={isGroupType}
+                    titlel = {isGroupType}
                     sizeimg = {25} 
                     fontsize = {20}
                 />
                 <TitleInput 
                     imagel = {require('../../assets/family-tree.png')} 
                     imager = {require('../../assets/cross.png')} 
-                    titles ={'Nhóm cha'}
-                    titlel={isGroupCha.name}
+                    titles = {'Nhóm cha'}
+                    titlel = {isGroupCha.name}
                     sizeimg = {25} 
                     fontsize = {20}
-                    onPress1={() => navigation.navigate({
+                    onPress1 = {() => navigation.navigate({
                         name:'ChooseGroupCha',
                         params: {back: 'EditGroupScreen', group: isGroupCha, khoan: isGroupType, type:'choose'}
                     })}
@@ -154,22 +163,18 @@ export default function EditGroupScreen({ navigation, route }) {
             </View>
 
             <Button
-                style={{top:400}}
                 title={"Sửa"}
-                onPress={async () => {
-                        if(await changeGroup(
-                            userToken, 
-                            isGroup._id,
-                            isNameGroup, 
-                            isIcon,  
-                            isGroupCha._id,
-                            isWalleting._id
-                        )){
-                            navigation.goBack()
-                    }}
+                onPress={() => 
+                    handleChangeGroup(
+                        userToken, 
+                        isGroup._id,
+                        isNameGroup, 
+                        isIcon,  
+                        isGroupCha._id,
+                        isWalleting._id
+                    )
                 }
             />
-
         </View>
     )
 }
@@ -177,6 +182,8 @@ export default function EditGroupScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems:'center',
+        justifyContent:'space-between',
+        paddingBottom:50,
         height:'100%',
     },
     inputs:{

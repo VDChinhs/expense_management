@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { IP } from "../../Constant";
 
 // Đăng ký
-const handleSign = async (name, username, password) => {
+const doSign = async (name, username, password) => {
     if (name == "" || username == "" || password == "" ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
@@ -41,7 +41,7 @@ const handleSign = async (name, username, password) => {
 }
 
 //Đăng nhập
-const handleLogin = async (username,password) => {
+const doLogin = async (username,password) => {
     if (username == "" || password == "" ){
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
             {text: 'OK'}
@@ -78,4 +78,4 @@ const handleLogin = async (username,password) => {
     }
 }
 
-export {handleSign, handleLogin};
+export {doSign, doLogin};

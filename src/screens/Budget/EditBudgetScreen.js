@@ -3,7 +3,7 @@ import Button from "../../components/Button";
 import { useState, useEffect, useContext } from "react";
 import HeaderRight from "../../components/HeaderRight";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { thisweek, thismonth, thisquy, thisyear } from "../../process/Date";
+import { thisweek, thismonth, thisquy, thisyear, getRangeDate, convertFirstDay } from "../../process/Date";
 import { changeBudget, deleBudget } from "../../process/BudgetController";
 import { AuthContext } from "../../context/AuthContext";
 
@@ -61,7 +61,7 @@ const convertDateModal = (start, end) => {
     var monthend = end.getMonth() + 1;
     var yearend = end.getFullYear();
 
-    if (dateend - datestart == 6) {
+    if (getRangeDate(start, end) == 6) {
         return "Tuần này (" + datestart + '/' + monthstart + ' - ' + dateend + '/' + monthend + ')'
     } else if (monthend - monthstart == 0 && dateend - datestart > 27) {
         return "Tháng này (" + datestart + '/' + monthstart + ' - ' + dateend + '/' + monthend + ')'
@@ -140,26 +140,36 @@ export default function EditBudgetScreen({ navigation, route }) {
         if (route.params?.budget) {
             setMoney(route.params.budget.money)
             setRangeDateStart(new Date(route.params.budget.start))
-            setRangeDateEnd(new Date(route.params.budget.end))
+            setRangeDateEnd(new Date(convertFirstDay(new Date(route.params.budget.end))))
             setGroup(route.params.budget.groupId)
             setWalleting(route.params.budget.walletId)
             setWallet(route.params.budget.walletId)
-
+            
             setBudget(route.params.budget)
             
         }
         navigation.setOptions({
             headerRight: () => 
-                <HeaderRight 
-                    onPress2={async () => {
-                        if(await deleBudget(userToken, route.params.budget._id)){
-                            navigation.goBack()
-                        }
-                    }}
+            <HeaderRight 
                     image2={require('../../assets/trash.png')}
+                    onPress2={() => 
+                        handleDeleBudget(userToken, route.params.budget._id)
+                    }
                 />  
         });
     },[route]);
+    async function handleDeleBudget(userToken, budgetId) {
+        if(await deleBudget(userToken, budgetId)){
+            navigation.goBack()
+        }
+    }
+
+    async function handleChangeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
+        if(await changeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId)
+        ){
+            navigation.goBack()
+        }
+    }
 
     return (
         <View style = {styles.container}>
@@ -170,10 +180,8 @@ export default function EditBudgetScreen({ navigation, route }) {
                     image = {require('../../assets/coins.png')} 
                     sizeimg = {30} 
                     fontsize = {30} 
-                    autoFocus = {true}
                     keyboardType = "number-pad"
                     onChangeText = {(money) => {
-                        // setMoney(parseFloat(money.replace(/,/g, '')))
                         if (!money.startsWith('0')){
                             setMoney(money)
                         }
@@ -211,19 +219,17 @@ export default function EditBudgetScreen({ navigation, route }) {
                 />
             </View>
 
-            <Button title={"Sửa"} onPress={ async () => {
-                    if(await changeBudget(
+            <Button title={"Sửa"} onPress={() => 
+                    handleChangeBudget(
                         userToken, 
                         isBudget._id, 
                         isMoney, 
                         isGroup._id, 
                         isRangeDateStart, 
                         isRangeDateEnd, 
-                        isWallet._id)
-                    ){
-                        navigation.goBack()
-                    }
-                }}
+                        isWallet._id
+                    )
+                }
             />
 
             {isshowpickdatestart && (
@@ -401,7 +407,9 @@ export default function EditBudgetScreen({ navigation, route }) {
 const styles = StyleSheet.create({
     container:{
         alignItems: 'center',
-        gap:300
+        justifyContent:'space-between',
+        paddingBottom:50,
+        height:'100%',
     },
     containertitle:{
         flexDirection:'row',
