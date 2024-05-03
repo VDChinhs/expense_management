@@ -1,67 +1,29 @@
 import { Text, View, StyleSheet, TouchableOpacity, ScrollView, Image, ActivityIndicator, RefreshControl } from 'react-native';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { useState, useEffect, useContext, useCallback } from 'react';
-import { AuthContext } from "../context/AuthContext";
+import { useState, useEffect, useCallback } from 'react';
 import HeaderRight from "../components/HeaderRight";
-import { myGroup } from "../process/GroupController";
+
+import { useSelector, useDispatch } from 'react-redux';
 
 function ChiScreen({ navigation, route }) {
-    // const data = [
-    //     {
-    //         root: {name: 'Family', image: require('../assets/anuong.png')},
-    //         node: [
-    //             {name:'Ăn uống', image: require('../assets/anuong.png')},
-    //             {name:'Tiền mạng', image: require('../assets/tienmang.png')},
-    //             {name:'Sức khỏe', image: require('../assets/suckhoe.png')},
-    //         ],
-    //     },
-    //     {
-    //         root: {name: 'Entertaiment', image: require('../assets/thoitrang.png')},
-    //         node: [
-    //             {name:'Thời trang', image: require('../assets/thoitrang.png')},
-    //             {name:'Di chuyển', image: require('../assets/dichuyen.png')},
-    //             {name:'Thú cưng', image: require('../assets/thucung.png')},
-    //             {name:'Giáo dục', image: require('../assets/giaoduc.png')},
-    //         ]
-    //     },
-    //     {
-    //         root: {name: 'Game', image: require('../assets/tiennuoc.png')},
-    //         node: [
-    //             {name:'Tiền nước', image: require('../assets/tiennuoc.png')},
-    //             {name:'Tiền điện', image: require('../assets/tiendien.png')},
-    //             {name:'Giải trí', image: require('../assets/giaitri.png')},
-    //             {name:'Quà tặng', image: require('../assets/quatang.png')},
-    //             {name:'Du lịch', image: require('../assets/dulich.png')},
-    //         ]
-    //     },
-    // ]
     const state = route.params;
 
-    const {userToken, isWalleting} = useContext(AuthContext);
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);
     const [isGroup, SetGroup] = useState(undefined);
-
-    const [values, setValues] = useState(values);
-    const [isLoading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    async function getMyParent(type) {
-        var data = await myGroup(userToken, type, isWalleting._id)
-        setValues(data)
-        setLoading(false)
-    }
+    const {_myGroupChi, isLoadingChi} = useSelector(state => state.groupReducer)
+    const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getMyParent(0)
         setTimeout(() => {
             setRefreshing(false);
         }, 1000);
     });
 
     useEffect(() => {
-        getMyParent(0)
         if (state.route.params?.back) {
             SetBack(state.route.params?.back)
         }
@@ -75,9 +37,9 @@ function ChiScreen({ navigation, route }) {
 
     return (
         <View>
-            {isLoading ? 
-                <View style = {{height: 500, justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'balck'} size={'large'}/>
+            {isLoadingChi ? 
+                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
+                    <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <ScrollView
@@ -100,7 +62,7 @@ function ChiScreen({ navigation, route }) {
                                 <Text style = {styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
-                        {values.map((value, fIndex) => (
+                        {_myGroupChi.map((value, fIndex) => (
                             <View key={fIndex} style = {{backgroundColor:'white'}}>
                                 <TouchableOpacity
                                     onPress={() => {
@@ -123,7 +85,7 @@ function ChiScreen({ navigation, route }) {
                                             />
                                             <View style = {styles.containertext}>
                                                 <Text style = {styles.textl}>{value.root.name}</Text>
-                                                <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                                <Text style = {styles.texts}>{_isWalleting.name}</Text>
                                             </View>
                                         </View>
                                         {
@@ -165,7 +127,7 @@ function ChiScreen({ navigation, route }) {
                                                 />
                                                 <View style = {styles.containertext}>
                                                     <Text style = {styles.textl}>{item.name}</Text>
-                                                    <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                                    <Text style = {styles.texts}>{_isWalleting.name}</Text>
                                                 </View>
                                             </View>
                                             {
@@ -217,31 +179,24 @@ function ThuScreen({ navigation, route }) {
     // ]
     const state = route.params;
 
-    const {userToken, isWalleting} = useContext(AuthContext);
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);
     const [isGroup, SetGroup] = useState(undefined);
 
-    const[values, setValues] = useState(values);
-    const [isLoading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    async function getMyParent(type) {
-        var data = await myGroup(userToken, type, isWalleting._id)
-        setValues(data)
-        setLoading(false)
-    }    
+    const dispatch = useDispatch()
+    const {_myGroupThu, isLoadingThu} = useSelector(state => state.groupReducer)
+    const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getMyParent(1)
         setTimeout(() => {
             setRefreshing(false);
         }, 1000);
     });
 
     useEffect(() => {
-        getMyParent(1)
         if (state.route.params?.back) {
             SetBack(state.route.params?.back)
         }
@@ -255,9 +210,9 @@ function ThuScreen({ navigation, route }) {
 
     return (
         <View>
-            {isLoading ? 
-                <View style = {{height: 500, justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'balck'} size={'large'}/>
+            {isLoadingThu ? 
+                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
+                    <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <ScrollView
@@ -279,7 +234,7 @@ function ThuScreen({ navigation, route }) {
                                 <Text style = {styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
-                        {values.map((value, fIndex) => (
+                        {_myGroupThu.map((value, fIndex) => (
                             <View key={fIndex} style = {{backgroundColor:'white'}}>
                                 <TouchableOpacity
                                     onPress={() => {
@@ -302,7 +257,7 @@ function ThuScreen({ navigation, route }) {
                                             />
                                             <View style = {styles.containertext}>
                                                 <Text style = {styles.textl}>{value.root.name}</Text>
-                                                <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                                <Text style = {styles.texts}>{_isWalleting.name}</Text>
                                             </View>
                                         </View>
                                         {
@@ -344,7 +299,7 @@ function ThuScreen({ navigation, route }) {
                                                 />
                                                 <View style = {styles.containertext}>
                                                     <Text style = {styles.textl}>{item.name}</Text>
-                                                    <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                                    <Text style = {styles.texts}>{_isWalleting.name}</Text>
                                                 </View>
                                             </View>
                                             {
@@ -379,23 +334,17 @@ const Tab = createMaterialTopTabNavigator();
 
 export default function TabsTopGroup({navigation, route}) {
 
-    const {isWalleting ,setWalleting} = useContext(AuthContext);
-
-    useEffect(() => {   
-        if (route.params?.wallet) {
-            setWalleting(route.params?.wallet)
-        }
-    },[route]);
+    const { _isWalleting } = useSelector(state => state.walletReducer)
 
     useEffect(() => {
         navigation.setOptions({
             headerRight: () => 
                 <HeaderRight 
-                    image1={{uri: isWalleting.image}}
+                    image1={{uri: _isWalleting.image}}
                     onPress1={() => {
                         navigation.navigate({
                             name:'MyWallet',
-                            params: {back: 'ChooseGroup', wallet: isWalleting, type:'choose' }
+                            params: {back: 'ChooseGroup', wallet: _isWalleting, type:'choose' }
                         })
                     }}
                     image2={Number(require('../assets/search.png'))}

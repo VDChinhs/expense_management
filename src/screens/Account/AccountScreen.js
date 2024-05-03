@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 export default function AccountScreen({ navigation }) {
-  const {logout, isData} = useContext(AuthContext);
+  const {isData} = useContext(AuthContext);
 
     return (
         <View>

@@ -3,6 +3,10 @@ import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
 import { addGroup } from "../../process/GroupController";
 import { AuthContext } from "../../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
+
+import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -77,8 +81,10 @@ function TitleInput ({ imagel, imager, sizeimg, titlel, titles, onPress1, onPres
 }
 
 export default function AddGroupScreen({ navigation, route }) {
-    const { userToken, isWalleting } = useContext(AuthContext); 
-    
+    const { userToken } = useContext(AuthContext);
+    const { _isWalleting } = useSelector(state => state.walletReducer)
+    const dispatch = useDispatch()
+
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isGroupType, setGroupType] = useState('');
@@ -99,6 +105,10 @@ export default function AddGroupScreen({ navigation, route }) {
     async function handleAddGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId) {
         if(await addGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId)){
             navigation.goBack()
+            dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
+            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
         }
     }
 
@@ -132,10 +142,12 @@ export default function AddGroupScreen({ navigation, route }) {
                     titlel = {isGroupCha.name}
                     sizeimg = {25} 
                     fontsize = {20}
-                    onPress1 = {() => navigation.navigate({
-                        name:'ChooseGroupCha',
-                        params: {back: 'AddGroupScreen' ,group: isGroupCha, khoan: isGroupType, type:'choose'}
-                    })}
+                    onPress1 = {() => {
+                        navigation.navigate({
+                            name:'ChooseGroupCha',
+                            params: {back: 'AddGroupScreen' ,group: isGroupCha, khoan: isGroupType == 'Khoản chi' ? 0:1, type:'choose'}
+                        })
+                    }}
                     onPress2 = {() => setGroupCha({name: 'Chọn nhóm'})}
 
                 />
@@ -150,7 +162,7 @@ export default function AddGroupScreen({ navigation, route }) {
                         isIcon, 
                         isGroupType, 
                         isGroupCha._id,
-                        isWalleting._id
+                        _isWalleting._id
                     )
                 }
             />

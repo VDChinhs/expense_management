@@ -3,272 +3,22 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions, 
 import InfoTitle from "../../components/InfoTitle";
 import { ScrollView } from "react-native-gesture-handler";
 import { PieChart } from "react-native-chart-kit";
-import { tradeReportDetail } from "../../process/TradeController";
 import { AuthContext } from "../../context/AuthContext";
 
-const data = [
-    {
-        title:"mm/yyyy",
-        data:[],
-        datachar:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[],
-        datachar:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[],
-        datachar:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[],
-        datachar:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[],
-        datachar:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[],
-        datachar:[]
-    },
-]
-
-// const data = [
-//     {
-//         title: "12/2023",
-//         data:[
-//             {
-//                 money: 354757,
-//                 groupId:{
-//                     name: 'Du lịch',
-//                     image: require('../../assets/dulich.png')
-//                 }
-//             },
-//             {
-//                 money: -65846,
-//                 groupId:{
-//                     name: 'Ăn uống',
-//                     image: require('../../assets/anuong.png')
-//                 }
-//             }, 
-//             {
-//                 money: 23354,
-//                 groupId:{
-//                     name: 'Tiền mạng',
-//                     image: require('../../assets/tienmang.png')
-//                 }
-//             },
-//             {
-//                 money:-780546,
-//                 groupId:{
-//                     name: 'Quà tặng',
-//                     image: require('../../assets/quatang.png')
-//                 }
-//             },
-//             {
-//                 money:5472,
-//                 groupId:{
-//                     name: 'Sức khỏe',
-//                     image: require('../../assets/suckhoe.png')
-//                 }
-//             },
-//             {
-//                 money:479,
-//                 groupId:{
-//                     name: 'Thời trang',
-//                     image: require('../../assets/thoitrang.png')
-//                 }
-//             },
-//             {
-//                 money:-780546,
-//                 groupId:{
-//                     name: 'Quà tặng',
-//                     image: require('../../assets/quatang.png')
-//                 }
-//             },
-//             {
-//                 money:5472,
-//                 groupId:{
-//                     name: 'Sức khỏe',
-//                     image: require('../../assets/suckhoe.png')
-//                 }
-//             },
-//             {
-//                 money:479,
-//                 groupId:{
-//                     name: 'Thời trang',
-//                     image: require('../../assets/thoitrang.png')
-//                 }
-//             },
-//             {
-//                 money:5472,
-//                 groupId:{
-//                     name: 'Sức khỏe',
-//                     image: require('../../assets/suckhoe.png')
-//                 }
-//             },
-//             {
-//                 money:479,
-//                 groupId:{
-//                     name: 'Thời trang',
-//                     image: require('../../assets/thoitrang.png')
-//                 }
-//             },
-
-//         ],
-//         datachar: [
-//             {
-//               name: "Du lịch",
-//               population: 21500000,
-//               color: "rgba(131, 167, 234, 1)",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             },
-//             {
-//               name: "Ăn uống",
-//               population: 2800000,
-//               color: "#F00",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             },
-//             {
-//               name: "Khác",
-//               population: 527612,
-//               color: "green",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             },
-//             {
-//               name: "Quà tặng",
-//               population: 11920000,
-//               color: "rgb(0, 0, 255)",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             }
-//         ]
-//     },
-//     {
-//         title:"01/2024",
-//         data:[]
-//     },
-//     {
-//         title:"02/2024",
-//         data:[]
-//     },
-//     {
-//         title:"03/2024",
-//         data:[]
-//     },
-//     {
-//         title:"Tháng trước",
-//         data:[]
-//     },
-//     {
-//         title:"Tháng này",
-//         data:[
-//             {
-//                 money: 354757,
-//                 groupId:{
-//                     name: 'Du lịch',
-//                     image: require('../../assets/dulich.png')
-//                 }
-//             },
-//             {
-//                 money: -65846,
-//                 groupId:{
-//                     name: 'Ăn uống',
-//                     image: require('../../assets/anuong.png')
-//                 }
-//             }, 
-//             {
-//                 money: 23354,
-//                 groupId:{
-//                     name: 'Tiền mạng',
-//                     image: require('../../assets/tienmang.png')
-//                 }
-//             },
-//             {
-//                 money:-780546,
-//                 groupId:{
-//                     name: 'Quà tặng',
-//                     image: require('../../assets/quatang.png')
-//                 }
-//             },
-//             {
-//                 money:5472,
-//                 groupId:{
-//                     name: 'Sức khỏe',
-//                     image: require('../../assets/suckhoe.png')
-//                 }
-//             },
-//             {
-//                 money:479,
-//                 groupId:{
-//                     name: 'Thời trang',
-//                     image: require('../../assets/thoitrang.png')
-//                 }
-//             },
-//         ],
-//         datachar: [
-//             {
-//               name: "Du lịch",
-//               population: 21500000,
-//               color: "rgba(131, 167, 234, 1)",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             },
-//             {
-//               name: "Ăn uống",
-//               population: 2800000,
-//               color: "#F00",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             },
-//             {
-//               name: "Khác",
-//               population: 527612,
-//               color: "green",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             },
-//             {
-//               name: "Quà tặng",
-//               population: 11920000,
-//               color: "rgb(0, 0, 255)",
-//               legendFontColor: "#7F7F7F",
-//               legendFontSize: 14
-//             }
-//         ]
-//     }
-// ]
+import { useDispatch, useSelector } from "react-redux";
+import { setIndexTradeMonths } from "../../redux/reducers/tradeReducer";
 
 export default function DetailReportScreen({ navigation, route }) {
+    const {userToken} = useContext(AuthContext);
+    const { isLoading, indexTradeMonths, _tradeReportDetailChi, _tradeReportDetailThu } = useSelector(state => state.tradeReducer)
+    const dispatch = useDispatch()
 
     const ref = useRef(null);
-    const [index, setIndex] = useState(0);
-    const [isValues, setValues] = useState(data);
-    const [isType, setType] = useState(null);
-
-    const {userToken, isWalleting} = useContext(AuthContext);
-    const [isLoading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-
-    async function getData() {
-        let _tradeReportDetail = await tradeReportDetail(userToken, 5, isWalleting._id, route.params?.type)
-        setValues(_tradeReportDetail.data)
-        setLoading(false)
-    }
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getData()
-        setIndex(isValues.length - 1)
+        dispatch(setIndexTradeMonths(_tradeReport.length - 1))
         setTimeout(() => {
             setRefreshing(false);
         }, 1000);
@@ -276,7 +26,7 @@ export default function DetailReportScreen({ navigation, route }) {
 
     useEffect(() => {
         ref.current?.scrollToIndex({
-            index,
+            index: indexTradeMonths,
             animated: true,
             viewPosition : 0.5,
         });
@@ -284,32 +34,33 @@ export default function DetailReportScreen({ navigation, route }) {
             headerTitle: route.params.title,
         });
         
-    },[index, route])
-
-    useEffect(() =>{
-        getData()
-    },[])
+    },[indexTradeMonths])
 
     return(
         <View>
             {isLoading ?
-                <View style = {{height: 750, justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'balck'} size={'large'}/>
+                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
+                    <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <View>
                     <View style = {{alignItems:'center', backgroundColor:'white', paddingTop: 10}}>
                         <FlatList
                             ref={ref}
-                            initialScrollIndex = {index}
-                            data={isValues}
+                            initialScrollIndex = {indexTradeMonths}
+                            getItemLayout = {(data, index) => ({
+                                length: (Dimensions.get('screen').width / 3),
+                                offset: (Dimensions.get('screen').width / 3) * index,
+                                index,
+                            })}
+                            data={(route.params.type == 0 ? _tradeReportDetailChi: _tradeReportDetailThu)}
                             keyExtractor={(item, index) => index}
                             showsHorizontalScrollIndicator={false}
                             horizontal
                             renderItem={({ item, index: fIndex }) => {
                                 return (
                                     <TouchableOpacity onPress={() => {
-                                        setIndex(fIndex)
+                                        dispatch(setIndexTradeMonths(fIndex))
                                     }}>
                                         <View
                                             style={{
@@ -317,12 +68,12 @@ export default function DetailReportScreen({ navigation, route }) {
                                                 width: Dimensions.get('screen').width / 3,
                                                 alignItems:'center',
                                                 borderBottomColor: 'black',
-                                                borderBottomWidth: fIndex === index ? 2 : 0,
+                                                borderBottomWidth: fIndex === indexTradeMonths ? 2 : 0,
                                             }}>
                                             <Text style={{
                                                     fontWeight: 'bold',
                                                     fontSize: 15,
-                                                    opacity: fIndex === index ? 1 : 0.5,
+                                                    opacity: fIndex === indexTradeMonths ? 1 : 0.5,
                                                 }}
                                             >
                                                 {item.title}
@@ -338,7 +89,7 @@ export default function DetailReportScreen({ navigation, route }) {
                             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                         }
                     >
-                        {isValues[index].data.length != 0 ?
+                        {(route.params.type == 0 ? _tradeReportDetailChi: _tradeReportDetailThu)[indexTradeMonths].data.length != 0 ?
                             <View>
                                 <View style = {styles.container}>
                                     <View style = {styles.containerheader}>
@@ -347,7 +98,7 @@ export default function DetailReportScreen({ navigation, route }) {
                                             <Text 
                                                 style = {[styles.text, {fontSize: 20}]}
                                             >
-                                                {isValues[index].data.reduce((total, item) => total + item.money, 0).toLocaleString()}
+                                                {(route.params.type == 0 ? _tradeReportDetailChi: _tradeReportDetailThu)[indexTradeMonths].data.reduce((total, item) => total + item.money, 0).toLocaleString()}
                                             </Text>
                                         </View>
                                         <View>
@@ -355,13 +106,13 @@ export default function DetailReportScreen({ navigation, route }) {
                                             <Text 
                                                 style = {[styles.text, {fontSize: 20}]}
                                             >
-                                                {Number(((isValues[index].data.reduce((total, item) => total + item.money, 0)) / 30).toFixed(0)).toLocaleString()}
+                                                {Number((((route.params.type == 0 ? _tradeReportDetailChi: _tradeReportDetailThu)[indexTradeMonths].data.reduce((total, item) => total + item.money, 0)) / 30).toFixed(0)).toLocaleString()}
                                             </Text>
                                         </View>
                                     </View>
                                     <View style = {styles.containergraphic}>
                                         <PieChart
-                                            data={isValues[index].datachar}
+                                            data={(route.params.type == 0 ? _tradeReportDetailChi: _tradeReportDetailThu)[indexTradeMonths].datachar}
                                             width={Dimensions.get('screen').width}
                                             height={170}
                                             chartConfig={{
@@ -374,7 +125,7 @@ export default function DetailReportScreen({ navigation, route }) {
                                     </View>
                                 </View>
                                 <View style  = {{paddingHorizontal: 10}}>
-                                    {isValues[index].data.map((value, index) =>(
+                                    {(route.params.type == 0 ? _tradeReportDetailChi: _tradeReportDetailThu)[indexTradeMonths].data.map((value, index) =>(
                                         <InfoTitle
                                             key={index}
                                             titlel={value.groupId.name}

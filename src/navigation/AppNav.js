@@ -14,7 +14,6 @@ import AddTradeScreen from "../screens/Trade/AddTradeScreen";
 import AccountManagerScreen from "../screens/Account/AccountManagerScreen";
 import TabsTopGroup from "./TabsTopGroup";
 import MyWallet from "../screens/Account/MyWallet";
-import NoteScreen from '../screens/AddTrace/NoteScreen'
 import AddBudget from "../screens/Budget/AddBudget";
 import AddGroupScreen from "../screens/Account/AddGroupScreen";
 import ChooseGroupCha from "../screens/Account/ChooseGroupCha";
@@ -27,10 +26,13 @@ import EditWalletScreen from "../screens/Account/EditWalletScreen";
 import EditGroupScreen from "../screens/Account/EditGroupScreen";
 import EditBudgetScreen from "../screens/Budget/EditBudgetScreen";
 
+import { useSelector } from "react-redux";
+
 const Stack = createStackNavigator()
 
 export default function AppNav() {
-    const {userToken, isWalleting} = useContext(AuthContext);
+    const {userToken} = useContext(AuthContext);
+    const { _isWalleting } = useSelector(state => state.walletReducer)
 
     return(
         <NavigationContainer>
@@ -64,13 +66,6 @@ export default function AppNav() {
                     
                     <Stack.Group>
                         <Stack.Screen name="AddTrade" component={AddTradeScreen} options={{title:"Thêm giao dịch"}}/>
-                        <Stack.Screen 
-                            name="AddNote" 
-                            component={NoteScreen} 
-                            options={{
-                                title:"Ghi chú",                              
-                            }}
-                        />
                         <Stack.Screen name="EditTradeScreen" component={EditTradeScreen} options={{title:"Sửa giao dịch"}}/>
  
                     </Stack.Group>
@@ -85,7 +80,7 @@ export default function AppNav() {
 
                     <Stack.Group>
                         <Stack.Screen 
-                            name="ChooseGroup" 
+                            name="ChooseGroup"
                             component={TabsTopGroup} 
                             options={{
                                 headerShadowVisible:false,
@@ -107,7 +102,7 @@ export default function AppNav() {
                                     >
                                         <View style = {{alignItems: 'center'}}>
                                             <Text>Số dư</Text>
-                                            <Text style ={{fontWeight:'bold', fontSize: 18}}>{(isWalleting.money).toLocaleString()} đ</Text>
+                                            <Text style ={{fontWeight:'bold', fontSize: 18}}>{(_isWalleting.money).toLocaleString()} đ</Text>
                                         </View>
                                         
                                     </View>

@@ -3,237 +3,52 @@ import { useState, useRef, useEffect, useContext, useCallback } from "react";
 import Button from "../../components/Button";
 import InfoTitle from "../../components/InfoTitle";
 import { getDate, getDay, getWeekMonth } from "../../process/Date";
-import { tradeMonths } from "../../process/TradeController";
 import { AuthContext } from "../../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { setIndexTradeMonths } from "../../redux/reducers/tradeReducer";
 
-const data = [
-    {
-        title:"mm/yyyy",
-        data:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[]
-    },
-    {
-        title:"mm/yyyy",
-        data:[]
-    },
-    {
-        title:"Tháng trước",
-        data:[]
-    },
-    {
-        title:"Tháng này",
-        data:[]
-    },
-    {
-        title:"Tương lai",
-        data:[]
-    },
-]
 
-// const data = [
-//     {
-//         title: "12/2023",
-//         moneyin: 36434625,
-//         moneyout: 12431525,
-//         data:[
-//             {
-//                 date: '2024-4-23',
-//                 detail:[
-//                     {
-//                         money: 354757,
-//                         groupId:{
-//                             name: 'Du lịch',
-//                             image: require('../../assets/dulich.png')
-//                         }
-//                     },
-//                     {
-//                         money: -65846,
-//                         groupId:{
-//                             name: 'Ăn uống',
-//                             image: require('../../assets/anuong.png')
-//                         }
-//                     }, 
-//                     {
-//                         money: 23354,
-//                         groupId:{
-//                             name: 'Tiền mạng',
-//                             image: require('../../assets/tienmang.png')
-//                         }
-//                     },
-//                 ]
-//             },
-//             {
-//                 date:'2024-4-24',
-//                 detail:[
-//                     {
-//                         money:-780546,
-//                         groupId:{
-//                             name: 'Quà tặng',
-//                             image: require('../../assets/quatang.png')
-//                         }
-//                     },
-//                     {
-//                         money:5472,
-//                         groupId:{
-//                             name: 'Sức khỏe',
-//                             image: require('../../assets/suckhoe.png')
-//                         }
-//                     },
-//                     {
-//                         money:479,
-//                         groupId:{
-//                             name: 'Thời trang',
-//                             image: require('../../assets/thoitrang.png')
-//                         }
-//                     },
-//                 ]
-//             },
-//         ]
-//     },
-//     {
-//         title:"01/2024",
-//         data:[]
-//     },
-//     {
-//         title:"02/2024",
-//         data:[]
-//     },
-//     {
-//         title:"03/2024",
-//         data:[]
-//     },
-//     {
-//         title:"Tháng trước",
-//         data:[]
-//     },
-//     {
-//         title:"Tháng này",
-//         moneyin: 79845365,
-//         moneyout: 2135478,
-//         data:[
-//             {
-//                 date: '2024-5-13',
-//                 detail:[
-//                     {
-//                         money: 354757,
-//                         groupId:{
-//                             name: 'Du lịch',
-//                             image: require('../../assets/dulich.png')
-//                         }
-//                     },
-//                     {
-//                         money: -65846,
-//                         groupId:{
-//                                 name: 'Ăn uống',
-//                                 image: require('../../assets/anuong.png')
-//                         }
-//                     }, 
-//                     {
-//                         money: 23354,
-//                         groupId:{
-//                             name: 'Tiền mạng',
-//                             image: require('../../assets/tienmang.png')
-//                         }
-//                     },
-//                 ]
-//             },
-//             {
-//                 date:'2023-5-12',
-//                 detail:[
-//                     {
-//                         money:-780546,
-//                         groupId:{
-//                             name: 'Quà tặng',
-//                             image: require('../../assets/quatang.png')
-//                         }
-//                     },
-//                     {
-//                         money:5472,
-//                         groupId:{
-//                             name: 'Sức khỏe',
-//                             image: require('../../assets/suckhoe.png')
-//                         }
-//                     },
-//                     {
-//                         money:479,
-//                         groupId:{
-//                             name: 'Thời trang',
-//                             image: require('../../assets/thoitrang.png')
-//                         }
-//                     },
-//                 ]
-//             },
-//         ]
-//     },
-//     {
-//         title:"Tương lai",
-//         data:[]
-//     }
-// ]
+export default function TradeScreen({ navigation }) {
+    const {userToken} = useContext(AuthContext);
+    const { _isWalleting } = useSelector(state => state.walletReducer)
+    const { _tradeMonths, isLoading, indexTradeMonths } = useSelector(state => state.tradeReducer)
+    const dispatch = useDispatch()
 
-export default function TradeScreen({ navigation, route }) {
     const ref = useRef(null);
-    const [index, setIndex] = useState(0);
-    const [isWallet, setWallet] = useState('Tổng cộng');
-    const [isImageWallet, setImageWallet] = useState(require('../../assets/coins.png'));
-    const [isValues, setValues] = useState(data);
-
-    const {userToken, isWalleting, setWalleting} = useContext(AuthContext);
-    const [isLoading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
-
-    async function getData() {
-        let _tradeMonths = await tradeMonths(userToken, 5, isWalleting._id)
-        setValues(_tradeMonths.data)
-        setLoading(false)
-        setIndex(isValues.length - 2)
-    }
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getData()
-        setIndex(isValues.length - 2)
+        dispatch(setIndexTradeMonths(_tradeMonths.length - 2))
         setTimeout(() => {
             setRefreshing(false);
         }, 1000);
     });
 
-    useEffect(() =>{
+    useEffect(() => {
         ref.current?.scrollToIndex({
-            index,
+            index: indexTradeMonths,
             animated: true,
             viewPosition : 0.5,
         })
-        if (route.params?.wallet) {
-            setWalleting(route.params?.wallet)
-        }
-    },[index, route])
-
-    useEffect(() =>{
-        getData()
-    },[])
+    },[indexTradeMonths])
 
     return (
         <View>
             {isLoading ?
-                <View style = {{height: 750, justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'balck'} size={'large'}/>
+                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
+                    <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <View>
                     <View style = {{alignItems:'center', backgroundColor:'white', gap: 10}}>
                         <TouchableOpacity
-                            onPress = {() => navigation.navigate({
-                                name:'MyWallet',
-                                params: {back: 'Trade', wallet: isWalleting, type:'choose' }
-                            })}
+                            onPress = {() => 
+                                navigation.navigate({
+                                    name:'MyWallet',
+                                    params: {back: 'Trade', wallet: _isWalleting, type:'choose' }
+                                })
+                            }
                         >  
                             <View style = {{
                                     gap: 10,
@@ -247,10 +62,10 @@ export default function TradeScreen({ navigation, route }) {
                                 }}
                             >
                                 <Image
-                                    source={{uri: isWalleting.image}}
+                                    source={{uri: _isWalleting.image}}
                                     style = {styles.images}
                                 />
-                                <Text style = {{fontWeight:'bold'}}>{isWalleting.name}</Text>
+                                <Text style = {{fontWeight:'bold'}}>{_isWalleting.name}</Text>
                                 <Image
                                     source={Number(require('../../assets/angle-small-right.png'))}
                                     style = {[styles.images, {transform:[{rotate:'90deg'}]}]}
@@ -258,29 +73,34 @@ export default function TradeScreen({ navigation, route }) {
                             </View>
                         </TouchableOpacity>
                         <FlatList
-                            ref={ref}
-                            initialScrollIndex = {index}
-                            data={isValues}
+                            ref = {ref}
+                            initialScrollIndex = {indexTradeMonths}
+                            getItemLayout = {(data, index) => ({
+                                length: (Dimensions.get('screen').width / 3),
+                                offset: (Dimensions.get('screen').width / 3) * index,
+                                index
+                            })}
+                            data={_tradeMonths}
                             keyExtractor={(item, index) => index}
                             showsHorizontalScrollIndicator={false}
                             horizontal
                             renderItem={({ item, index: fIndex }) => {
                                 return (
                                     <TouchableOpacity onPress={() => {
-                                        setIndex(fIndex)
+                                        dispatch(setIndexTradeMonths(fIndex))
                                     }}>
                                         <View
                                             style={{
-                                                padding: 5,
+                                                paddingVertical: 5,
                                                 width: Dimensions.get('screen').width / 3,
                                                 alignItems:'center',
                                                 borderBottomColor: 'black',
-                                                borderBottomWidth: fIndex === index ? 2 : 0,
+                                                borderBottomWidth: fIndex === indexTradeMonths ? 2 : 0,
                                             }}>
                                             <Text style={{
                                                     fontWeight: 'bold',
                                                     fontSize: 15,
-                                                    opacity: fIndex === index ? 1 : 0.5,
+                                                    opacity: fIndex === indexTradeMonths ? 1 : 0.5,
                                                 }}
                                             >
                                                 {item.title}
@@ -296,37 +116,42 @@ export default function TradeScreen({ navigation, route }) {
                             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                         }
                     >
-                        {isValues[index].data.length != 0 ? 
+                        {_tradeMonths[indexTradeMonths].data.length != 0 ? 
                             <View style = {{gap: 25, marginBottom: 250}}>
                                 <View style = {[styles.containercalcu, styles.borderbottom, styles.bordertop]}>
                                     <View style = {{gap:5, marginTop: 20}}>
                                         <View style = {styles.containertextcalcu}>
                                             <Text style = {styles.textcalcu}>Tiền vào</Text>
                                             <Text style = {[styles.textcalcu, {color: 'green'}]}>
-                                                {isValues[index].moneyin.toLocaleString()}
+                                                {_tradeMonths[indexTradeMonths].moneyin.toLocaleString()}
                                             </Text>
                                         </View>
 
                                         <View style = {styles.containertextcalcu}>
                                             <Text style = {styles.textcalcu}>Tiền ra</Text>
                                             <Text style = {[styles.textcalcu, {color: 'red'}]}>
-                                                {isValues[index].moneyout.toLocaleString()}
+                                                {_tradeMonths[indexTradeMonths].moneyout.toLocaleString()}
                                             </Text>
                                         </View>
                                         
                                         <View style = {{flexDirection:'row', justifyContent:'flex-end'}}>
                                             <Text style = {styles.textcalcu}>
-                                                {(isValues[index].moneyin - isValues[index].moneyout).toLocaleString()}
+                                                {(_tradeMonths[indexTradeMonths].moneyin - _tradeMonths[indexTradeMonths].moneyout).toLocaleString()}
                                             </Text>
                                         </View>
                                     </View>
                                     <Button
                                         title={'Xem báo cáo trong giai đoạn này'}
                                         style={{width: 270, height: 40}}
-                                        onPress={() => navigation.navigate('ReportScreen')}
+                                        onPress={() => {
+                                            if (indexTradeMonths == _tradeMonths.length - 1){
+                                                dispatch(setIndexTradeMonths(_tradeMonths.length - 2))
+                                            }
+                                            navigation.navigate('ReportScreen')
+                                        }}
                                     />
                                 </View>
-                                {isValues[index].data.map((value, indexvalue) => (
+                                {_tradeMonths[indexTradeMonths].data.map((value, indexvalue) => (
                                     <View 
                                         key={indexvalue}
                                         style = {[

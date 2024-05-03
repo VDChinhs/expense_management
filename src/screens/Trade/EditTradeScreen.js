@@ -6,6 +6,10 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { changeTrade, deleTrade } from "../../process/TradeController";
 import { AuthContext } from "../../context/AuthContext";
 
+import { useDispatch, useSelector } from "react-redux";
+import { myAllWallet } from "../../redux/actions/walletAction";
+import { myTradeMonths, myTradeReports, myTradeRecent } from "../../redux/actions/tradeAction";
+
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
         <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
@@ -70,7 +74,9 @@ const convertDate = (chooseDate) => {
 } 
 
 export default function EditTradeScreen({ navigation, route }) {
-    const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
+    const { userToken } = useContext(AuthContext); 
+    const { _isWalleting } = useSelector(state => state.walletReducer)
+
 
     const [isMoney, setMoney] = useState();
     const [isGroup, setGroup] = useState({name: null, image: null});
@@ -82,6 +88,8 @@ export default function EditTradeScreen({ navigation, route }) {
 
     const [isshowpickdate, setShowPickDate] = useState(false);
 
+    const dispatch = useDispatch()
+
     useEffect(() => {   
         if (route.params?.group) {
             setGroup(route.params?.group)
@@ -91,7 +99,6 @@ export default function EditTradeScreen({ navigation, route }) {
         }
         if (route.params?.wallet) {
             setWallet(route.params?.wallet)
-            setWalleting(route.params?.wallet)
             setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
         }
         if (route.params?.trade) {
@@ -117,12 +124,20 @@ export default function EditTradeScreen({ navigation, route }) {
     async function handleDeleTrade(userToken, tradeId) {
         if(await deleTrade(userToken, tradeId)){
             navigation.goBack()
+            dispatch(myAllWallet(userToken))
+            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeRecent(userToken))
         }
     }
 
     async function handleChangeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId) {
         if(await changeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId)){
             navigation.goBack()
+            dispatch(myAllWallet(userToken))
+            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeRecent(userToken))
         }
     }
 
@@ -145,7 +160,7 @@ export default function EditTradeScreen({ navigation, route }) {
                 
                 <TitleInput 
                     title = {isGroup.name} 
-                    image = {{uri: isGroup.image}} 
+                    image = {(typeof isGroup.image) == 'number' ? Number(isGroup.image) : {uri: isGroup.image}} 
                     sizeimg = {30} 
                     fontsize = {20}
                     onPress = {() => navigation.navigate({

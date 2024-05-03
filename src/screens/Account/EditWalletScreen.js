@@ -4,6 +4,8 @@ import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
 import { changeWallet, deleWallet } from "../../process/WalletController";
 import { AuthContext } from "../../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { myAllWallet } from "../../redux/actions/walletAction";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -35,6 +37,8 @@ export default function EditWalletScreen({ navigation, route }) {
 
     const [isWallet, setWallet] = useState(null);
 
+    const dispatch = useDispatch()
+
     useEffect(() => {
         if (route.params?.icon) {
             setIcon(route.params?.icon)
@@ -61,12 +65,14 @@ export default function EditWalletScreen({ navigation, route }) {
     async function handleDeleWallet(userToken, walletid){
         if(await deleWallet(userToken, walletid)){
             navigation.goBack()
+            dispatch(myAllWallet(userToken))
         }
     }
 
     async function handleChangeWallet(userToken, isWallet, isName, isIcon){
         if(await changeWallet(userToken, isWallet, isName, isIcon)){
             navigation.goBack()
+            dispatch(myAllWallet(userToken))
         }
     }
 

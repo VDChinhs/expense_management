@@ -6,107 +6,23 @@ import InfoTitle from "../../components/InfoTitle";
 import * as Progress from 'react-native-progress';
 import { getRangeDate } from "../../process/Date";
 import { AuthContext } from "../../context/AuthContext";
-import { myBudget } from "../../process/BudgetController";
+import { useDispatch, useSelector } from "react-redux";
+import { setIndexBudget } from "../../redux/reducers/budgetReducer";
 
-// const data = [
-//   {
-//     title: 'Tháng này',
-//     dateend: '2024-4-30',
-//     data:[
-//         {
-//             money: 2987332,
-//             moneyloss: 59830,
-//             group:{
-//                 name:'Du lịch',
-//                 image:require('../../assets/dulich.png')
-//             }
-//         },
-//         {
-//             money: 5732543,
-//             moneyloss: 2353235,
-//             group:{
-//                 name:'Ăn uống',
-//                 image:require('../../assets/anuong.png')
-//             }
-//         },
-//         {
-//             money: 7698346,
-//             moneyloss: 4364736,
-//             group:{
-//                 name:'Quà tặng',
-//                 image:require('../../assets/quatang.png')
-//             }
-//         },
-//         {
-//             money: 983252,
-//             moneyloss: 548568,
-//             group:{
-//                 name:'Tiền mạng',
-//                 image:require('../../assets/tienmang.png')
-//             }
-//         },
-//     ]
-//   },
-//   {
-//     title: '12/5 - 16/5',
-//     dateend: '2024-5-16',
-//     data:[
-//         {
-//             money: 12000000,
-//             moneyloss: 5204000,
-//             group:{
-//                 name: 'Du lịch',
-//                 image:require('../../assets/dulich.png')
-//             }
-//         },
-//         {
-//             money: 3000000,
-//             moneyloss: 1200000,
-//             group:{
-//                 name: 'Ăn uống',
-//                 image:require('../../assets/anuong.png')
-//             }
-//         },
-//         {
-//             money: 3420000,
-//             moneyloss: 730000,
-//             group:{
-//                 name: 'Quà tặng',
-//                 image:require('../../assets/quatang.png')
-//             }
-//         },
-//         {
-//             money: 1100000,
-//             moneyloss: 360000,
-//             group:{
-//                 name: 'Tiền mạng',
-//                 image:require('../../assets/tienmang.png')
-//             }
-//         },
-//     ]
-//   },
-// ]
+export default function BudgetScreen({ navigation}) {
+    const { userToken } = useContext(AuthContext); 
+    const {_myBudget, isLoading, index} = useSelector(state => state.budgetReducer)
 
-export default function BudgetScreen({ navigation, route }) {
+    const dispatch = useDispatch()
+
     const ref = useRef(null);
-    const [index, setIndex] = useState(0);
-    const [isValues, setValues] = useState([]);
     const [isCurrentDate , setCurrentDate] = useState(new Date())
 
-    const {userToken} = useContext(AuthContext);
-    const [isLoading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
-
-    async function getData() {
-        let _myBudget = await myBudget(userToken)
-        setValues(_myBudget.data)
-        setLoading(false)
-    }
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getData()
-        setIndex(0)
+        dispatch(setIndexBudget(0))
         setTimeout(() => {
             setRefreshing(false);
         }, 1000);
@@ -116,37 +32,37 @@ export default function BudgetScreen({ navigation, route }) {
         ref.current?.scrollToIndex({
             index,
             animated: true,
-            viewPosition : 0.5,
+            viewPosition : 0,
         });
-    },[index, route, navigation])
-
-    useEffect(() => {
-        getData()
-    },[])
-    
+    },[index])   
 
     return (
         <View>
             {isLoading ?
-                <View style = {{height: 750, justifyContent:'center', alignContent:'center'}}>
+                <View style = {{height:'100%', justifyContent:'center', alignContent:'center'}}>
                     <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <View>
-                    {isValues.length != 0 ?
+                    {_myBudget.length != 0 ?
                         <View>
                             <View style = {{backgroundColor: 'white'}}>
                                 <FlatList
                                     ref = {ref}
                                     initialScrollIndex = {index}
-                                    data = {isValues}
+                                    getItemLayout = {(data, index) => ({
+                                        length: (Dimensions.get('screen').width / 3),
+                                        offset: (Dimensions.get('screen').width / 3) * index,
+                                        index
+                                    })}
+                                    data = {_myBudget}
                                     keyExtractor = {(item, index) => index.toString()}
                                     showsHorizontalScrollIndicator = {false}
                                     horizontal
                                     renderItem = {({ item, index: fIndex }) => {
                                         return (
                                             <TouchableOpacity onPress = {() => {
-                                                setIndex(fIndex)
+                                                dispatch(setIndexBudget(fIndex))
                                             }}>
                                                 <View
                                                     style = {{
@@ -182,16 +98,16 @@ export default function BudgetScreen({ navigation, route }) {
                                                 textColortitle = {'black'}
                                                 color = "green"
                                                 percentage = {
-                                                    isValues[index].data.reduce((total, item) => total + item.money, 0) -
-                                                    isValues[index].data.reduce((total, item) => total + item.moneyloss, 0) < 0 ? 
-                                                    isValues[index].data.reduce((total, item) => total + item.money, 0) :
-                                                    isValues[index].data.reduce((total, item) => total + item.moneyloss, 0)
+                                                    _myBudget[index].data.reduce((total, item) => total + item.money, 0) -
+                                                    _myBudget[index].data.reduce((total, item) => total + item.moneyloss, 0) < 0 ? 
+                                                    _myBudget[index].data.reduce((total, item) => total + item.money, 0) :
+                                                    _myBudget[index].data.reduce((total, item) => total + item.moneyloss, 0)
                                                 }
                                                 text={
-                                                    isValues[index].data.reduce((total, item) => total + item.money, 0) -
-                                                    isValues[index].data.reduce((total, item) => total + item.moneyloss, 0)
+                                                    _myBudget[index].data.reduce((total, item) => total + item.money, 0) -
+                                                    _myBudget[index].data.reduce((total, item) => total + item.moneyloss, 0)
                                                 }
-                                                max = {isValues[index].data.reduce((total, item) => total + item.money, 0)}
+                                                max = {_myBudget[index].data.reduce((total, item) => total + item.money, 0)}
                                                 radius = {160}
                                             />
                                         </View>
@@ -200,7 +116,7 @@ export default function BudgetScreen({ navigation, route }) {
                                                 <Text 
                                                     style = {[styles.textbold,{fontSize: 19}]}
                                                 >
-                                                    {Number(isValues[index].data.reduce((total, item) => total + item.money, 0)).toLocaleString()}
+                                                    {Number(_myBudget[index].data.reduce((total, item) => total + item.money, 0)).toLocaleString()}
                                                 </Text>
                                                 <Text>Tổng ngân sách</Text>
                                             </View>
@@ -208,7 +124,7 @@ export default function BudgetScreen({ navigation, route }) {
                                                 <Text 
                                                     style = {[styles.textbold,{fontSize: 19}]}
                                                 >
-                                                    {Number(isValues[index].data.reduce((total, item) => total + item.moneyloss, 0)).toLocaleString()}
+                                                    {Number(_myBudget[index].data.reduce((total, item) => total + item.moneyloss, 0)).toLocaleString()}
                                                 </Text>
                                                 <Text>Tổng đã chi</Text>
                                             </View>
@@ -216,7 +132,7 @@ export default function BudgetScreen({ navigation, route }) {
                                                 <Text 
                                                     style = {[styles.textbold,{fontSize: 19}]}
                                                 >
-                                                    {getRangeDate(isCurrentDate, new Date(isValues[index].dateend))} ngày
+                                                    {getRangeDate(isCurrentDate, new Date(_myBudget[index].dateend))} ngày
                                                 </Text>
                                                 <Text>Đến cuối kỳ</Text>
                                             </View>
@@ -228,7 +144,7 @@ export default function BudgetScreen({ navigation, route }) {
                                         />
                                     </View>
                                     <View style = {{gap: 20, marginTop: 20}}>
-                                        {isValues[index].data.map((value, fIndex) =>(
+                                        {_myBudget[index].data.map((value, fIndex) => (
                                             <View style = {styles.containerbudget} key = {fIndex}>
                                                 <InfoTitle
 
@@ -275,7 +191,7 @@ export default function BudgetScreen({ navigation, route }) {
                                 </View>
                                 <Button 
                                     title = {"Tạo ngân sách"}
-                                    onPress={() => navigation.navigate("AddBudget")}
+                                    onPress = {() => navigation.navigate("AddBudget")}
                                 />
                             </View>
                         </ScrollView>

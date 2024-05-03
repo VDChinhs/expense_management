@@ -57,7 +57,7 @@ function getWeekMonth(time, mode){
 }
 
 function getRangeDate(start, end) {
-    return (((end - start) / (1000*60*60*24))).toFixed() - 1
+    return Math.floor((new Date(convertFirstDay(end)) - new Date(convertFirstDay(start))) / (1000 * 60 * 60 * 24))
 }
 
 function getFullDate(time) {

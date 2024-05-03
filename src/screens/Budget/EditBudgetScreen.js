@@ -7,6 +7,9 @@ import { thisweek, thismonth, thisquy, thisyear, getRangeDate, convertFirstDay }
 import { changeBudget, deleBudget } from "../../process/BudgetController";
 import { AuthContext } from "../../context/AuthContext";
 
+import { useDispatch } from "react-redux";
+import { myAllBudget} from "../../redux/actions/budgetAction";
+
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
         <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
@@ -80,7 +83,9 @@ const convertDate = (chooseDate) => {
 } 
 
 export default function EditBudgetScreen({ navigation, route }) {
-    const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
+    const { userToken } = useContext(AuthContext);
+
+    const dispatch = useDispatch() 
 
     const [isMoney, setMoney] = useState(null);
     const [isGroup, setGroup] = useState({name: null, image: null});
@@ -134,7 +139,6 @@ export default function EditBudgetScreen({ navigation, route }) {
         }
         if (route.params?.wallet) {
             setWallet(route.params?.wallet)
-            setWalleting(route.params?.wallet)
             setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
         }
         if (route.params?.budget) {
@@ -142,7 +146,6 @@ export default function EditBudgetScreen({ navigation, route }) {
             setRangeDateStart(new Date(route.params.budget.start))
             setRangeDateEnd(new Date(convertFirstDay(new Date(route.params.budget.end))))
             setGroup(route.params.budget.groupId)
-            setWalleting(route.params.budget.walletId)
             setWallet(route.params.budget.walletId)
             
             setBudget(route.params.budget)
@@ -158,16 +161,18 @@ export default function EditBudgetScreen({ navigation, route }) {
                 />  
         });
     },[route]);
+
     async function handleDeleBudget(userToken, budgetId) {
         if(await deleBudget(userToken, budgetId)){
             navigation.goBack()
+            dispatch(myAllBudget(userToken))
         }
     }
 
     async function handleChangeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
-        if(await changeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId)
-        ){
+        if(await changeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId)){
             navigation.goBack()
+            dispatch(myAllBudget(userToken))
         }
     }
 
@@ -190,7 +195,7 @@ export default function EditBudgetScreen({ navigation, route }) {
                 
                 <TitleInput 
                     title = {isGroup.name} 
-                    image = {{uri: isGroup.image}} 
+                    image = {(typeof isGroup.image) == 'number' ? Number(isGroup.image) : {uri: isGroup.image}} 
                     sizeimg = {30} 
                     fontsize = {20}
                     onPress = {() => navigation.navigate({

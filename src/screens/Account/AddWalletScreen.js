@@ -1,8 +1,10 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
 import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
 import { addWallet } from "../../process/WalletController";
 import { AuthContext } from "../../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { myAllWallet } from "../../redux/actions/walletAction";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -30,6 +32,8 @@ export default function AddWalletScreen({ navigation, route }) {
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isMoney, setMoney] = useState(0);
     const {userToken} = useContext(AuthContext);
+
+    const dispatch = useDispatch()
  
     useEffect(() => {
         if (route.params?.icon) {
@@ -40,6 +44,7 @@ export default function AddWalletScreen({ navigation, route }) {
     async function HandleAddWallet(userToken, isNameGroup, isMoney, isIcon) {
         if(await addWallet(userToken, isNameGroup, isMoney, isIcon)){
             navigation.goBack()
+            dispatch(myAllWallet(userToken))
         }
     }
 

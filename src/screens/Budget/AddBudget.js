@@ -6,6 +6,9 @@ import { thisweek, thismonth, thisquy, thisyear, convertFirstDay, getRangeDate }
 import { addBudget } from "../../process/BudgetController";
 import { AuthContext } from "../../context/AuthContext";
 
+import { useDispatch, useSelector } from "react-redux";
+import { myAllBudget } from "../../redux/actions/budgetAction";
+
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
         <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
@@ -78,13 +81,16 @@ const convertDate = (chooseDate) => {
 } 
 
 export default function AddBudget({ navigation, route }) {
-    const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
+    const { userToken } = useContext(AuthContext); 
+    const { _isWalleting } = useSelector(state => state.walletReducer)
+
+    const dispatch = useDispatch()
 
     const [isMoney, setMoney] = useState(null);
     const [isGroup, setGroup] = useState({name: 'Chọn nhóm', image: require('../../assets/question.png')});
     const [isRangeDateStart, setRangeDateStart] = useState(new Date());
     const [isRangeDateEnd, setRangeDateEnd] = useState(new Date());
-    const [isWallet, setWallet] = useState(isWalleting);
+    const [isWallet, setWallet] = useState(_isWalleting);
 
     const [isOptionDateStart, setOptionDateStart] = useState(new Date());
     const [isOptionDateEnd, setOptionDateEnd] = useState(new Date());
@@ -130,7 +136,6 @@ export default function AddBudget({ navigation, route }) {
         }
         if (route.params?.wallet) {
             setWallet(route.params?.wallet)
-            setWalleting(route.params?.wallet)
             setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
         }
     }, [route]);
@@ -138,6 +143,7 @@ export default function AddBudget({ navigation, route }) {
     async function handleAddBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
         if(await addBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId)){
             navigation.goBack()
+            dispatch(myAllBudget(userToken))
         }
     }
 

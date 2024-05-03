@@ -4,6 +4,12 @@ import { useState, useEffect, useContext } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTrade } from "../../process/TradeController";
 import { AuthContext } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
+
+import { useDispatch } from "react-redux";
+import { myAllWallet } from "../../redux/actions/walletAction";
+import { myAllBudget } from "../../redux/actions/budgetAction";
+import { myTradeMonths, myTradeReports, myTradeRecent } from "../../redux/actions/tradeAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -69,15 +75,18 @@ const convertDate = (chooseDate) => {
 } 
 
 export default function AddTradeScreen({ navigation, route }) {
-    const { userToken, isWalleting, setWalleting } = useContext(AuthContext); 
+    const { userToken } = useContext(AuthContext); 
+    const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const [isMoney, setMoney] = useState(null);
     const [isGroup, setGroup] = useState({name: 'Chọn nhóm', image: require('../../assets/question.png')});
     const [isNote, setNote] = useState('');
     const [isDate, setDate] = useState(new Date());
-    const [isWallet, setWallet] = useState(isWalleting);
+    const [isWallet, setWallet] = useState(_isWalleting);
 
     const [isshowpickdate, setShowPickDate] = useState(false);
+
+    const dispatch = useDispatch()
 
     useEffect(() => {   
         if (route.params?.group) {
@@ -88,7 +97,6 @@ export default function AddTradeScreen({ navigation, route }) {
         }
         if (route.params?.wallet) {
             setWallet(route.params?.wallet)
-            setWalleting(route.params?.wallet)
             setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
         }
     },[route]);
@@ -96,6 +104,11 @@ export default function AddTradeScreen({ navigation, route }) {
     async function handleAddTrade(userToken, isMoney, groupId, isNote, isDate, walletId) {
         if(await addTrade(userToken, isMoney, groupId, isNote, isDate, walletId)){
             navigation.goBack()
+            dispatch(myAllWallet(userToken))
+            dispatch(myAllBudget(userToken))
+            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeRecent(userToken))
         }
     }
 

@@ -2,98 +2,39 @@ import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIn
 import InfoTitle from "../../components/InfoTitle";
 import SwitchButton from "../../components/SwitchButton";
 import { BarChart } from "react-native-chart-kit";
-import { useState, useContext, useEffect, useCallback } from "react";
+import { useState, useContext, useCallback } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { tradeRecent, mostTradeMonth, mostTradeWeek } from "../../process/TradeController";
-import { myWallet } from "../../process/WalletController";
 import { getFullDate } from "../../process/Date";
- 
-// const valuesWallet = [
-//   {name: 'Gia đình', money: 12000000, image: require('../../assets/anuong.png')},
-//   {name: 'Công việc', money: 500000, image: require('../../assets/tienmang.png')},
-//   {name: 'Sở thích', money: -121000000, image: require('../../assets/suckhoe.png')},
-// ];
-// const valuesTrade = [
-//   {name: 'Xổ số', money: 12000000, image: require('../../assets/anuong.png'), date: '23/03/2034'},
-//   {name: 'Thưởng', money: 500000, image: require('../../assets/tienmang.png'), date: '27/03/2024'},
-//   {name: 'Du lịch', money: -121000000, image: require('../../assets/dulich.png'), date: '12/02/2024'},
-// ];
-// const dataCharMonth = {
-//   sum: 3256436235,
-//   labels: ["Tháng trước", "Tháng này"],
-//   datasets: [
-//     {
-//       data: [300, 1000]
-//     }
-//   ],
-//   valuesChiTieu: [
-//     {group: {image: require('../../assets/dulich.png'), name: 'Du lịch'}, money: 32500, percent: '42%'},
-//     {group: {name: 'Thời trang', image: require('../../assets/thoitrang.png')}, money: 2350000, percent: '62%'},
-//     {group: {name: 'Thú cưng', image: require('../../assets/thucung.png')}, money: 86300000, percent: '64%'},
-//   ]
-// };
-// const dataCharWeek = {
-//   sum: 89796446,
-//   labels: ["Tuần trước", "Tuần này"],
-//   datasets: [
-//     {
-//       data: [0.5, 3.3]
-//     }
-//   ],
-//   valuesChiTieu: [
-//     {group:{name: 'Quà tặng', image: require('../../assets/quatang.png')}, money: 15100000, percent: '34%'},
-//     {group:{name: 'Tiền điện', image: require('../../assets/tiendien.png')}, money: 63000, percent: '54%'},
-//     {group:{name: 'Tiền mạng', image: require('../../assets/tienmang.png')}, money: 6430000, percent: '14%'},
-//   ]
-// };
 
+import { useDispatch, useSelector } from "react-redux";
+import { setMyWalleting } from "../../redux/reducers/walletReducer";
+import { setTradeCharHome } from "../../redux/reducers/tradeReducer";
+ 
 export default function HomeScreen({ navigation }) {
+    const { _myWallet } = useSelector(state => state.walletReducer)
+    const {
+        _tradeMostMonth, isTradeCharHome, _tradeMostWeek, _tradeRecent,
+        isLoadingMMonth, isLoadingMWeek, isLoadingRecent
+
+    } = useSelector(state => state.tradeReducer)
+    const dispatch = useDispatch()
+
     const [isselecttab, setSelectedTab] = useState(true)
     const [isshowmoney, setShowMoney] = useState(true)
 
-    const [isDataCharMonth, setDataCharMonth] = useState(null)
-    const [isDataCharWeek, setDataCharWeek] = useState(null)
-    const [isDataChar, setDataChar] = useState(null)
-
-    const [isValuesWallet, setvaluesWallet] = useState(null)
-    const [isValuesTrade, setvaluesTrade] = useState(null)
-
-    const {userToken, setWalleting} = useContext(AuthContext);
-    const [isLoading, setLoading] = useState(true);
+    const {userToken} = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState(false);
-
-    async function getData() {
-        let current = new Date()
-        let _myWallet = await myWallet(userToken)
-        let _mostTradeMonth = await mostTradeMonth(userToken, current.getMonth() + 1)
-        let _mostTradeWeek = await mostTradeWeek(userToken)
-        let _tradeRecent = await tradeRecent(userToken)
-
-        setDataCharMonth(_mostTradeMonth.data)
-        setDataCharWeek(_mostTradeWeek.data)
-        
-        setvaluesWallet(_myWallet)
-        setDataChar(_mostTradeMonth.data)
-        setvaluesTrade(_tradeRecent.data)
-        setLoading(false)
-    
-    }
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getData()
         setTimeout(() => {
             setRefreshing(false);
         }, 1000);
     });
-      
-    useEffect(() => {
-        getData()
-    }, [navigation]);
 
   return (
     <View>
-        {isLoading ?
+        {isLoadingMMonth || isLoadingMWeek || isLoadingRecent ?
             <View style = {{height: 750, justifyContent:'center', alignContent:'center'}}>
                 <ActivityIndicator color={'black'} size={'large'}/>
             </View>
@@ -111,7 +52,7 @@ export default function HomeScreen({ navigation }) {
                         <View style = {styles.containersodu}>
                             {isshowmoney ? 
                                 <Text style ={{fontSize:25, fontWeight:'bold'}}>
-                                    {isValuesWallet.reduce((acc, item) => acc + item.money, 0).toLocaleString()} đ
+                                    {_myWallet.reduce((acc, item) => acc + item.money, 0).toLocaleString()} đ
                                 </Text>
                             :
                                 <Text style ={{fontSize:25, fontWeight:'bold'}}>********* đ</Text>
@@ -152,7 +93,7 @@ export default function HomeScreen({ navigation }) {
                             </TouchableOpacity>
                         </View>
                         <View style = {{alignItems:'center'}}>
-                            {isValuesWallet.slice(0,3).map((value, fIndex) => (
+                            {_myWallet.slice(0,3).map((value, fIndex) => (
                                 <InfoTitle 
                                     key={fIndex}
                                     width={'92%'}
@@ -160,8 +101,8 @@ export default function HomeScreen({ navigation }) {
                                     money={value.money} 
                                     imageleft={{uri: value.image}}
                                     onPress={() => {
-                                        setWalleting(value)
-                                        navigation.jumpTo('Trade')
+                                        dispatch(setMyWalleting(value))
+                                        navigation.navigate('Trade')
                                     }}
                                 />
                             ))}
@@ -186,11 +127,11 @@ export default function HomeScreen({ navigation }) {
                                     titlel={'Tuần'}
                                     titler={'Tháng'}
                                     onPressl={() => {
-                                        setDataChar(isDataCharWeek)
+                                        dispatch(setTradeCharHome(_tradeMostWeek))
                                         setSelectedTab(false)
                                     }}
                                     onPressr={() => {
-                                        setDataChar(isDataCharMonth)
+                                        dispatch(setTradeCharHome(_tradeMostMonth))
                                         setSelectedTab(true)
                                     }}
                                     value={isselecttab}
@@ -200,7 +141,7 @@ export default function HomeScreen({ navigation }) {
                             <View>
                                 <View style = {{margin:15}}>
                                 <Text style ={{fontSize:20, fontWeight:'bold'}}>
-                                    {isDataChar.sum.toLocaleString()} đ
+                                    {isTradeCharHome.sum.toLocaleString()} đ
                                 </Text>
                                 {isselecttab ? 
                                     <Text style ={{fontSize:12, fontWeight:'bold'}}>Tổng chi tháng này</Text>
@@ -210,7 +151,7 @@ export default function HomeScreen({ navigation }) {
                                 </View>
                                 <View style = {styles.containergraphic}>
                                     <BarChart
-                                        data={isDataChar}
+                                        data={isTradeCharHome}
                                         width={300}
                                         height={220}
                                         yAxisSuffix=" Tr"
@@ -232,13 +173,13 @@ export default function HomeScreen({ navigation }) {
                                 <Text style = {styles.text}>Chi tiêu nhiều nhất</Text>
                             </View>
                             <View style = {{alignItems:'center'}}>
-                                {isDataChar.valuesChiTieu.length == 0 ? 
+                                {isTradeCharHome.valuesChiTieu.length == 0 ? 
                                     <View style = {{width:'92%', padding: 50, alignItems: 'center'}}>
                                         <Text style = {styles.text}>Không có dữ liệu</Text>
                                     </View>
                                     :
                                     <View>
-                                        {isDataChar.valuesChiTieu.map((value, fIndex) => (
+                                        {isTradeCharHome.valuesChiTieu.map((value, fIndex) => (
                                             <InfoTitle 
                                                 key={fIndex}
                                                 width={'92%'}
@@ -266,13 +207,13 @@ export default function HomeScreen({ navigation }) {
                         </View>
                         <View style = {styles.border}>
                             <View style = {{alignItems:'center'}}>
-                                {isValuesTrade.length == 0 ? 
-                                    <View style = {{padding: 0, alignItems: 'center'}}>
+                                {_tradeRecent.length == 0 ? 
+                                    <View style = {{paddingTop: 40, paddingBottom: 30, alignItems: 'center'}}>
                                         <Text style = {styles.text}>Không có dữ liệu</Text>
                                     </View>
                                 :
                                     <View>
-                                        {isValuesTrade.map((value, fIndex) => (
+                                        {_tradeRecent.map((value, fIndex) => (
                                             <InfoTitle 
                                                 key={fIndex}
                                                 width={'92%'}
@@ -301,43 +242,43 @@ export default function HomeScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container:{
-      flex: 1,
-      justifyContent: 'space-around',
-      alignItems: 'center',
-      gap: 10,
-      marginBottom: 80
+        flex: 1,
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        gap: 10,
+        marginBottom: 80
     },
     containertop:{
-      marginTop: 45,
-      marginBottom: 20,
-      marginHorizontal: '5%',
-      flexDirection:'row',
-      justifyContent:'space-between'
+        marginTop: 45,
+        marginBottom: 20,
+        marginHorizontal: '5%',
+        flexDirection:'row',
+        justifyContent:'space-between'
     },
     containersodu:{
-      flexDirection:'row',
-      alignItems:'center',
-      gap:10
+        flexDirection:'row',
+        alignItems:'center',
+        gap:10
     },
     imageheder:{
-      width:35,
-      height:35
+        width:35,
+        height:35
     },
     containergraphic:{
-      alignItems:'center'
+        alignItems:'center'
     },
     containerheader:{
-      margin: '5%',
-      marginVertical: 12.5,
-      flexDirection:'row',
-      justifyContent:"space-between"
+        margin: '5%',
+        marginVertical: 12.5,
+        flexDirection:'row',
+        justifyContent:"space-between"
     },
     text:{
-      fontWeight: 'bold'
+        fontWeight: 'bold'
     },
     border:{
-      borderRadius: 15,
-      paddingBottom: 10,
-      backgroundColor:'white'
+        borderRadius: 15,
+        paddingBottom: 10,
+        backgroundColor:'white'
     }
 })

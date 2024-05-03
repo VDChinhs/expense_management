@@ -4,6 +4,9 @@ import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
 import { deleGroup, changeGroup } from "../../process/GroupController";
 import { AuthContext } from "../../context/AuthContext";
+import { useDispatch } from "react-redux";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
+import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -78,7 +81,9 @@ function TitleInput ({ imagel, imager, sizeimg, titlel, titles, onPress1, onPres
 }
 
 export default function EditGroupScreen({ navigation, route }) {
-    const { userToken, isWalleting} = useContext(AuthContext); 
+    const { userToken } = useContext(AuthContext); 
+    const { _isWalleting } = useSelector(state => state.walletReducer)
+    const dispatch = useDispatch()
 
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(null);
@@ -116,12 +121,20 @@ export default function EditGroupScreen({ navigation, route }) {
     async function handleDeleGroup(userToken, groupid) {
         if(await deleGroup(userToken, groupid)){
             navigation.goBack()
+            dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
+            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
         }  
     }
 
-    async function handleChangeGroup(userToken, isGroup, isNameGroup, isIcon, isGroupCha, isWalleting) {
-        if(await changeGroup(userToken, isGroup, isNameGroup,  isIcon,   isGroupCha, isWalleting)){
+    async function handleChangeGroup(userToken, isGroup, isNameGroup, isIcon, isGroupCha, walletId) {
+        if(await changeGroup(userToken, isGroup, isNameGroup, isIcon, isGroupCha, walletId)){
             navigation.goBack()
+            dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
+            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
         }
     }
 
@@ -156,7 +169,7 @@ export default function EditGroupScreen({ navigation, route }) {
                     fontsize = {20}
                     onPress1 = {() => navigation.navigate({
                         name:'ChooseGroupCha',
-                        params: {back: 'EditGroupScreen', group: isGroupCha, khoan: isGroupType, type:'choose'}
+                        params: {back: 'EditGroupScreen', group: isGroupCha, khoan: isGroupType == 'Khoản chi' ? 0:1, type:'choose'}
                     })}
                     onPress2 = {() => setGroupCha({name: 'Chọn nhóm'})}
                 />
@@ -171,7 +184,7 @@ export default function EditGroupScreen({ navigation, route }) {
                         isNameGroup, 
                         isIcon,  
                         isGroupCha._id,
-                        isWalleting._id
+                        _isWalleting._id
                     )
                 }
             />

@@ -1,8 +1,12 @@
 import { View, StyleSheet, ScrollView, Text, Image,Dimensions, TouchableOpacity, ActivityIndicator, RefreshControl } from "react-native";
 import InfoTitle from "../../components/InfoTitle";
 import { useState, useEffect, useContext, useCallback } from "react";
-import { myWallet } from "../../process/WalletController";
 import { AuthContext } from "../../context/AuthContext";
+
+import { useDispatch, useSelector } from "react-redux";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
+import { setMyWalleting } from "../../redux/reducers/walletReducer";
+import { myTradeMonths, myTradeReports,myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
 
 export default function MyWallet({ navigation, route}) {
     const {userToken} = useContext(AuthContext);
@@ -10,27 +14,20 @@ export default function MyWallet({ navigation, route}) {
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);
     const [isWallet, SetWallet] = useState({_id:""});
-    const [values, setValues] = useState(null);
     
-    const [isLoading, setLoading] = useState(true);
     const [refreshing, setRefreshing] = useState(false);
 
-    async function getDataMyWallet() {
-        var _dataMyWallet = await myWallet(userToken)
-        setValues(_dataMyWallet)
-        setLoading(false)
-    }
+    const dispatch = useDispatch()
+    const { isLoading, _myWallet } = useSelector(state => state.walletReducer)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
-        getDataMyWallet()
         setTimeout(() => {
             setRefreshing(false);
         }, 1000);
     });
 
     useEffect(() => {
-        getDataMyWallet()
         if (route.params?.back) {
             SetBack(route.params?.back)
         }
@@ -61,7 +58,7 @@ export default function MyWallet({ navigation, route}) {
                                     <View style = {{marginTop: 30}}>
                                             <InfoTitle 
                                                 titlel = {'Tổng cộng'}
-                                                titles = {values.reduce((acc, item) => acc + item.money, 0)} 
+                                                titles = {_myWallet.reduce((acc, item) => acc + item.money, 0)} 
                                                 imageleft = {require('../../assets/world.png')}
                                                 imageright = {
                                                     isWallet == 'Tổng cộng' ? require('../../assets/check-mark.png') : require('../../assets/angle-small-right.png')
@@ -74,7 +71,7 @@ export default function MyWallet({ navigation, route}) {
                                     </View>
                                 }
                                 <Text style = {styles.text}>Các ví</Text>
-                                {values.map((value, fIndex) => (
+                                {_myWallet.map((value, fIndex) => (
                                     <InfoTitle 
                                         key = {fIndex}
                                         titlel = {value.name} 
@@ -88,6 +85,18 @@ export default function MyWallet({ navigation, route}) {
                                         onPress={() => {
                                             if (isChoose){
                                                 navigation.navigate(isBack, {wallet: value});
+
+                                                dispatch(setMyWalleting(value))
+
+                                                dispatch(myAllGroupChi({ userToken: userToken, walletId: value._id }))
+                                                dispatch(myAllGroupThu({ userToken: userToken, walletId: value._id }))
+                                                dispatch(myAllGroupParentChi({ userToken: userToken, walletId: value._id, type: 0 }))
+                                                dispatch(myAllGroupParentThu({ userToken: userToken, walletId: value._id, type: 1 }))
+                                                
+                                                dispatch(myTradeMonths({ userToken: userToken, walletId: value._id }))
+                                                dispatch(myTradeReports({ userToken: userToken, walletId: value._id}))
+                                                dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: value._id}))
+                                                dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: value._id}))
                                             }
                                             else{
                                                 navigation.navigate({

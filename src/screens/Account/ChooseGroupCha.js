@@ -1,34 +1,25 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
 import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
-import { groupParent } from "../../process/GroupController"
+
+import { useSelector } from "react-redux";
 
 export default function ChooseGroupCha({navigation, route}) {
-    
-    const {isWalleting, userToken} = useContext(AuthContext);
-    const [isChoose, SetChoose] = useState(false);
-    const [isGroup, SetGroup] = useState(undefined);
-    const [isLoading, setLoading] = useState(true);
-    const [values, setValues] = useState(null);
+    const {userToken} = useContext(AuthContext);
+    const { _isWalleting } = useSelector(state => state.walletReducer)
+    const { _myGroupParentChi, _myGroupParentThu, isLoadingChi, isLoadingThu } = useSelector(state => state.groupReducer)
 
+    const [isChoose, SetChoose] = useState(false);
+    const [isGroup, SetGroup] = useState({_id:''});
     const [isBack, SetBack] = useState('');
 
-
-    async function getGroupParent(type) {
-        var data = await groupParent(userToken, type, isWalleting._id)
-        setValues(data)
-        setLoading(false)
-    }
-
     useEffect(() => {
-        getGroupParent(route.params?.khoan == 'Khoản chi' ? 0 : 1)
         if (route.params?.type == 'choose') {
             SetChoose(true)
         }
         if (route.params?.group != null) {
             SetGroup(route.params?.group)
         }
-
         if (route.params?.back) {
             SetBack(route.params?.back)
         }
@@ -36,13 +27,13 @@ export default function ChooseGroupCha({navigation, route}) {
 
     return (
         <View>
-            {isLoading ? 
-                <View style = {{height: 500, justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'balck'} size={'large'}/>
+            {isLoadingChi || isLoadingThu ? 
+                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
+                    <ActivityIndicator color={'black'} size={'large'}/>
                 </View>
             :
                 <View style = {styles.container}>
-                    {values.map(value => (
+                    {(route.params?.khoan == 0 ? _myGroupParentChi : _myGroupParentThu).map(value => (
                         <View key={value._id} >
                             <TouchableOpacity
                                 onPress={() => {
@@ -57,7 +48,7 @@ export default function ChooseGroupCha({navigation, route}) {
                                         />
                                         <View style = {styles.containertext}>
                                             <Text style = {styles.textl}>{value.name}</Text>
-                                            <Text style = {styles.texts}>{isWalleting.name}</Text>
+                                            <Text style = {styles.texts}>{_isWalleting.name}</Text>
                                         </View>
                                     </View>
                                     {
