@@ -3,9 +3,9 @@ import { IP } from "../../Constant";
 
 // Đổi mật khẩu
 const changePassWord = async (token, passwordOld, passwordNew) => {
-    if (passwordOld == "" || passwordNew == "" ){
+    if (passwordOld == "" || passwordNew == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -23,15 +23,15 @@ const changePassWord = async (token, passwordOld, passwordNew) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi đổi mật khẩu', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -51,15 +51,15 @@ const deleAcc = async (token) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi xóa tài khoản', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -68,4 +68,4 @@ const deleAcc = async (token) => {
     }
 }
 
-export {changePassWord, deleAcc};
+export { changePassWord, deleAcc };

@@ -4,15 +4,15 @@ import { convertFirstDay } from "./Date";
 
 //Thêm giao dichj
 const addTrade = async (token, money, groupId, note, date, walletId) => {
-    if (token == "" || money == null || groupId == undefined || walletId == undefined ){
+    if (token == "" || money == null || groupId == undefined || walletId == undefined) {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
     if (money <= 0) {
         Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -34,15 +34,15 @@ const addTrade = async (token, money, groupId, note, date, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi thêm giao dịch', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -52,15 +52,15 @@ const addTrade = async (token, money, groupId, note, date, walletId) => {
 }
 
 const changeTrade = async (token, id, money, groupId, note, date, walletId) => {
-    if (token == "" || money == null || groupId == undefined || walletId == undefined ){
+    if (token == "" || money == null || groupId == undefined || walletId == undefined) {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
     if (money <= 0) {
         Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -82,15 +82,15 @@ const changeTrade = async (token, id, money, groupId, note, date, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi sửa giao dịch', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -100,9 +100,9 @@ const changeTrade = async (token, id, money, groupId, note, date, walletId) => {
 }
 
 const deleTrade = async (token, id) => {
-    if (token == ""){
+    if (token == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -119,15 +119,15 @@ const deleTrade = async (token, id) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi xóa giao dịch', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -146,15 +146,15 @@ const tradeRecent = async (token) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy giao dịch gần đấy', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -174,15 +174,15 @@ const mostTradeMonth = async (token, month) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tháng', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -202,15 +202,15 @@ const mostTradeWeek = async (token) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -230,15 +230,15 @@ const tradeMonths = async (token, numbermonth, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -258,15 +258,15 @@ const tradeReports = async (token, numbermonth, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -286,15 +286,15 @@ const tradeReportDetail = async (token, numbermonth, walletId, type) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }

@@ -4,15 +4,15 @@ import { convertFirstDay, convertEndDay } from "./Date";
 
 //Thêm ngân sách
 const addBudget = async (token, money, groupId, startDate, endDate, walletId) => {
-    if (token == "" || money == null || groupId == undefined || walletId == undefined ){
+    if (token == "" || money == null || groupId == undefined || walletId == undefined) {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
     if (money <= 0) {
         Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -34,15 +34,15 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi thêm giao dịch', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -53,15 +53,15 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
 
 //Sửa ngân sách
 const changeBudget = async (token, id, money, groupId, startDate, endDate, walletId) => {
-    if (token == "" || id == "" || money == null || groupId == undefined || walletId == undefined ){
+    if (token == "" || id == "" || money == null || groupId == undefined || walletId == undefined) {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
     if (money <= 0) {
         Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -84,15 +84,15 @@ const changeBudget = async (token, id, money, groupId, startDate, endDate, walle
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi sửa ngân sách', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -103,9 +103,9 @@ const changeBudget = async (token, id, money, groupId, startDate, endDate, walle
 
 //Xóa ngân sách
 const deleBudget = async (token, id) => {
-    if (token == "" || id == '' ){
+    if (token == "" || id == '') {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -123,15 +123,15 @@ const deleBudget = async (token, id) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi xóa ngân sách', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -151,15 +151,15 @@ const myBudget = async (token) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lây ngân sách', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -168,4 +168,4 @@ const myBudget = async (token) => {
     }
 }
 
-export { addBudget,changeBudget, deleBudget, myBudget };
+export { addBudget, changeBudget, deleBudget, myBudget };

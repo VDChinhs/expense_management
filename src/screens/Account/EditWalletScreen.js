@@ -9,27 +9,27 @@ import { myAllWallet } from "../../redux/actions/walletAction";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
-      <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
-        <TouchableOpacity onPress={onPressImage}>
-          <Image
-            source={image}
-            style = {{
-              width: sizeimg,
-              height: sizeimg,
-            }}
-          />
-        </TouchableOpacity>
-        <TextInput
-          style={{fontSize: fontsize, fontWeight:'bold',width:'90%'}}
-          placeholder={label}
-          {...prop}
-        />
-      </View>
+        <View style={[styles.inputcontainer, { gap: 55 - sizeimg }]}>
+            <TouchableOpacity onPress={onPressImage}>
+                <Image
+                    source={image}
+                    style={{
+                        width: sizeimg,
+                        height: sizeimg,
+                    }}
+                />
+            </TouchableOpacity>
+            <TextInput
+                style={{ fontSize: fontsize, fontWeight: 'bold', width: '90%' }}
+                placeholder={label}
+                {...prop}
+            />
+        </View>
     );
 }
 
 export default function EditWalletScreen({ navigation, route }) {
-    const {userToken} = useContext(AuthContext);
+    const { userToken } = useContext(AuthContext);
 
     const [isName, setName] = useState('');
     const [isIcon, setIcon] = useState(null);
@@ -52,61 +52,61 @@ export default function EditWalletScreen({ navigation, route }) {
             setWallet(route.params.wallet)
         }
         navigation.setOptions({
-            headerRight: () => 
-                <HeaderRight 
-                    image2 = {require('../../assets/trash.png')}
-                    onPress2 = {() => {
+            headerRight: () =>
+                <HeaderRight
+                    image2={require('../../assets/trash.png')}
+                    onPress2={() => {
                         handleDeleWallet(userToken, route.params.wallet._id)
                     }}
-                />  
+                />
         });
-    },[route]);
+    }, [route]);
 
-    async function handleDeleWallet(userToken, walletid){
-        if(await deleWallet(userToken, walletid)){
+    async function handleDeleWallet(userToken, walletid) {
+        if (await deleWallet(userToken, walletid)) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
         }
     }
 
-    async function handleChangeWallet(userToken, isWallet, isName, isIcon){
-        if(await changeWallet(userToken, isWallet, isName, isIcon)){
+    async function handleChangeWallet(userToken, isWallet, isName, isIcon) {
+        if (await changeWallet(userToken, isWallet, isName, isIcon)) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
         }
     }
 
-    return(
-        <View style = {styles.container}>
-            <View style = {styles.inputs}>
-                <Input 
-                    value = {isName}
-                    image = {{uri: isIcon}} 
-                    sizeimg = {35} 
-                    fontsize = {25} 
-                    onChangeText = {(text) => setName(text)}
-                    onPressImage = {() => 
+    return (
+        <View style={styles.container}>
+            <View style={styles.inputs}>
+                <Input
+                    value={isName}
+                    image={{ uri: isIcon }}
+                    sizeimg={35}
+                    fontsize={25}
+                    onChangeText={(text) => setName(text)}
+                    onPressImage={() =>
                         navigation.navigate({
                             name: 'ChooseIcon',
-                            params: {back: 'EditWalletScreen'}
+                            params: { back: 'EditWalletScreen' }
                         })
                     }
                 />
-                <Input 
-                    editable = {false}
-                    image = {require('../../assets/coins.png')} 
-                    sizeimg = {30} 
-                    fontsize = {30} 
-                    keyboardType = "number-pad"
-                    value = {Number(isMoney).toLocaleString()}
-                    onChangeText = {(money) => {
+                <Input
+                    editable={false}
+                    image={require('../../assets/coins.png')}
+                    sizeimg={30}
+                    fontsize={30}
+                    keyboardType="number-pad"
+                    value={Number(isMoney).toLocaleString()}
+                    onChangeText={(money) => {
                         setMoney(money)
                     }}
                 />
             </View>
             <Button
-                title = {"Sửa"}
-                onPress = {() => {
+                title={"Sửa"}
+                onPress={() => {
                     handleChangeWallet(userToken, isWallet._id, isName, isIcon)
                 }}
             />
@@ -115,23 +115,23 @@ export default function EditWalletScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        alignItems:'center',
-        justifyContent:'space-between',
-        paddingBottom:50,
-        height:'100%',
+    container: {
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        paddingBottom: 50,
+        height: '100%',
     },
-    inputs:{
-        width:'100%',
-        backgroundColor:'white',
+    inputs: {
+        width: '100%',
+        backgroundColor: 'white',
         marginTop: 20,
     },
-    inputcontainer:{
-        width:360,
-        justifyContent:'flex-start',
-        alignItems:'center',
-        flexDirection:'row',
+    inputcontainer: {
+        width: 360,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flexDirection: 'row',
         paddingLeft: 15,
-        padding:15,
+        padding: 15,
     },
 })

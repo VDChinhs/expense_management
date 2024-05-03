@@ -1,20 +1,19 @@
 import { Alert } from "react-native";
 import { IP } from "../../Constant";
 
-
 //Thêm ví
 const addWallet = async (token, name, money, image) => {
-    if (token == "" || name == "" || money == null ){
+    if (token == "" || name == "" || money == null) {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
     if (image == require('../assets/question.png')) {
         Alert.alert('Cảnh báo', 'Vui lòng chọn Icon', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
-        return false  
+        return false
     }
     const data = {
         name: name,
@@ -31,15 +30,15 @@ const addWallet = async (token, name, money, image) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi thêm ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -50,9 +49,9 @@ const addWallet = async (token, name, money, image) => {
 
 //Sửa ví
 const changeWallet = async (token, id, name, image) => {
-    if (token == "" || id == "" || name == ""){
+    if (token == "" || id == "" || name == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -71,15 +70,15 @@ const changeWallet = async (token, id, name, image) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi sửa ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -90,9 +89,9 @@ const changeWallet = async (token, id, name, image) => {
 
 //Xóa ví
 const deleWallet = async (token, id) => {
-    if (token == "" || id == "" ){
+    if (token == "" || id == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -110,15 +109,15 @@ const deleWallet = async (token, id) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi xóa ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -138,11 +137,11 @@ const myWallet = async (token) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         // console.log(json);
         return json
@@ -160,11 +159,11 @@ const walletFirst = async (token) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         // console.log(json);
         return json

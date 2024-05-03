@@ -13,7 +13,7 @@ function ChiScreen({ navigation, route }) {
     const [isGroup, SetGroup] = useState(undefined);
     const [refreshing, setRefreshing] = useState(false);
 
-    const {_myGroupChi, isLoadingChi} = useSelector(state => state.groupReducer)
+    const { _myGroupChi, isLoadingChi } = useSelector(state => state.groupReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const onRefresh = useCallback(() => {
@@ -33,73 +33,73 @@ function ChiScreen({ navigation, route }) {
         if (state.route.params?.group != null) {
             SetGroup(state.route.params?.group)
         }
-    },[]);
+    }, []);
 
     return (
         <View>
-            {isLoadingChi ? 
-                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'black'} size={'large'}/>
+            {isLoadingChi ?
+                <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
+                    <ActivityIndicator color={'black'} size={'large'} />
                 </View>
-            :
+                :
                 <ScrollView
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                     }
                 >
-                    <View style = {styles.container}>
-                        <TouchableOpacity 
+                    <View style={styles.container}>
+                        <TouchableOpacity
                             onPress={() => navigation.navigate({
-                                name:'AddGroupScreen',
-                                params: {type:'Khoản chi'}
+                                name: 'AddGroupScreen',
+                                params: { type: 'Khoản chi' }
                             })}
                         >
-                            <View style = {styles.containeraddgroup}>
+                            <View style={styles.containeraddgroup}>
                                 <Image
                                     source={Number(require('../assets/add.png'))}
-                                    style = {styles.imageleft}
+                                    style={styles.imageleft}
                                 />
-                                <Text style = {styles.textl}>Nhóm mới</Text>
+                                <Text style={styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
                         {_myGroupChi.map((value, fIndex) => (
-                            <View key={fIndex} style = {{backgroundColor:'white'}}>
+                            <View key={fIndex} style={{ backgroundColor: 'white' }}>
                                 <TouchableOpacity
                                     onPress={() => {
                                         if (isChoose) {
-                                            navigation.navigate(isBack, {group: value.root});
+                                            navigation.navigate(isBack, { group: value.root });
                                         }
-                                        else{
+                                        else {
                                             navigation.navigate({
-                                                name:'EditGroupScreen',
-                                                params: {group: value.root, type:'Khoản chi' }
+                                                name: 'EditGroupScreen',
+                                                params: { group: value.root, type: 'Khoản chi' }
                                             });
                                         }
                                     }}
                                 >
-                                    <View style = {styles.containerroot}>
-                                        <View style = {styles.rootleft}>
+                                    <View style={styles.containerroot}>
+                                        <View style={styles.rootleft}>
                                             <Image
-                                                source = {{uri: value.root.image}}
-                                                style = {styles.imageleft}
+                                                source={{ uri: value.root.image }}
+                                                style={styles.imageleft}
                                             />
-                                            <View style = {styles.containertext}>
-                                                <Text style = {styles.textl}>{value.root.name}</Text>
-                                                <Text style = {styles.texts}>{_isWalleting.name}</Text>
+                                            <View style={styles.containertext}>
+                                                <Text style={styles.textl}>{value.root.name}</Text>
+                                                <Text style={styles.texts}>{_isWalleting.name}</Text>
                                             </View>
                                         </View>
                                         {
                                             !isChoose &&
                                             <Image
                                                 source={Number(require('../assets/angle-small-right.png'))}
-                                                style = {styles.imageright}
+                                                style={styles.imageright}
                                             />
                                         }
                                         {
-                                            isGroup == value.root.name && 
+                                            isGroup == value.root.name &&
                                             <Image
                                                 source={Number(require('../assets/check-mark.png'))}
-                                                style = {styles.imageright}
+                                                style={styles.imageright}
                                             />
                                         }
                                     </View>
@@ -108,44 +108,44 @@ function ChiScreen({ navigation, route }) {
                                     <TouchableOpacity
                                         key={fIndex}
                                         onPress={() => {
-                                            if(isChoose){
-                                                navigation.navigate(isBack, {group: item});
+                                            if (isChoose) {
+                                                navigation.navigate(isBack, { group: item });
                                             }
-                                            else{
+                                            else {
                                                 navigation.navigate({
-                                                    name:'EditGroupScreen',
-                                                    params: {group: item, type:'Khoản chi' }
+                                                    name: 'EditGroupScreen',
+                                                    params: { group: item, type: 'Khoản chi' }
                                                 });
                                             }
-                                    }}
+                                        }}
                                     >
-                                        <View style = {styles.containernode}>
-                                            <View style = {styles.nodeleft}>
+                                        <View style={styles.containernode}>
+                                            <View style={styles.nodeleft}>
                                                 <Image
-                                                    source = {{uri: item.image}}
-                                                    style = {styles.imageleft}
+                                                    source={{ uri: item.image }}
+                                                    style={styles.imageleft}
                                                 />
-                                                <View style = {styles.containertext}>
-                                                    <Text style = {styles.textl}>{item.name}</Text>
-                                                    <Text style = {styles.texts}>{_isWalleting.name}</Text>
+                                                <View style={styles.containertext}>
+                                                    <Text style={styles.textl}>{item.name}</Text>
+                                                    <Text style={styles.texts}>{_isWalleting.name}</Text>
                                                 </View>
                                             </View>
                                             {
                                                 !isChoose &&
                                                 <Image
                                                     source={Number(require('../assets/angle-small-right.png'))}
-                                                    style = {styles.imageright}
+                                                    style={styles.imageright}
                                                 />
                                             }
                                             {
-                                            isGroup == item.name && 
-                                            <Image
-                                                source={Number(require('../assets/check-mark.png'))}
-                                                style = {styles.imageright}
-                                            />
+                                                isGroup == item.name &&
+                                                <Image
+                                                    source={Number(require('../assets/check-mark.png'))}
+                                                    style={styles.imageright}
+                                                />
                                             }
-                                            <View style = {styles.lineroottop}/>
-                                            {(value.node.length - 1 != value.node.indexOf(item)) && <View style = {styles.linerootbot}/>}
+                                            <View style={styles.lineroottop} />
+                                            {(value.node.length - 1 != value.node.indexOf(item)) && <View style={styles.linerootbot} />}
                                         </View>
                                     </TouchableOpacity>
                                 ))}
@@ -186,7 +186,7 @@ function ThuScreen({ navigation, route }) {
     const [refreshing, setRefreshing] = useState(false);
 
     const dispatch = useDispatch()
-    const {_myGroupThu, isLoadingThu} = useSelector(state => state.groupReducer)
+    const { _myGroupThu, isLoadingThu } = useSelector(state => state.groupReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const onRefresh = useCallback(() => {
@@ -210,68 +210,68 @@ function ThuScreen({ navigation, route }) {
 
     return (
         <View>
-            {isLoadingThu ? 
-                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'black'} size={'large'}/>
+            {isLoadingThu ?
+                <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
+                    <ActivityIndicator color={'black'} size={'large'} />
                 </View>
-            :
+                :
                 <ScrollView
                     refreshControl={
                         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
                     }
                 >
-                    <View style = {styles.container}>
+                    <View style={styles.container}>
                         <TouchableOpacity onPress={() => navigation.navigate({
-                                name:'AddGroupScreen',
-                                params: {type:'Khoản thu'}
-                            })}
+                            name: 'AddGroupScreen',
+                            params: { type: 'Khoản thu' }
+                        })}
                         >
-                            <View style = {styles.containeraddgroup}>
+                            <View style={styles.containeraddgroup}>
                                 <Image
                                     source={Number(require('../assets/add.png'))}
-                                    style = {styles.imageleft}
+                                    style={styles.imageleft}
                                 />
-                                <Text style = {styles.textl}>Nhóm mới</Text>
+                                <Text style={styles.textl}>Nhóm mới</Text>
                             </View>
                         </TouchableOpacity>
                         {_myGroupThu.map((value, fIndex) => (
-                            <View key={fIndex} style = {{backgroundColor:'white'}}>
+                            <View key={fIndex} style={{ backgroundColor: 'white' }}>
                                 <TouchableOpacity
                                     onPress={() => {
-                                        if (isChoose){
-                                            navigation.navigate(isBack, {group: value.root});
+                                        if (isChoose) {
+                                            navigation.navigate(isBack, { group: value.root });
                                         }
-                                        else{
+                                        else {
                                             navigation.navigate({
-                                                name:'EditGroupScreen',
-                                                params: {group: value.root, type:'Khoản thu' }
+                                                name: 'EditGroupScreen',
+                                                params: { group: value.root, type: 'Khoản thu' }
                                             });
                                         }
                                     }}
                                 >
-                                    <View style = {styles.containerroot}>
-                                        <View style = {styles.rootleft}>
+                                    <View style={styles.containerroot}>
+                                        <View style={styles.rootleft}>
                                             <Image
-                                                source = {{uri: value.root.image}}
-                                                style = {styles.imageleft}
+                                                source={{ uri: value.root.image }}
+                                                style={styles.imageleft}
                                             />
-                                            <View style = {styles.containertext}>
-                                                <Text style = {styles.textl}>{value.root.name}</Text>
-                                                <Text style = {styles.texts}>{_isWalleting.name}</Text>
+                                            <View style={styles.containertext}>
+                                                <Text style={styles.textl}>{value.root.name}</Text>
+                                                <Text style={styles.texts}>{_isWalleting.name}</Text>
                                             </View>
                                         </View>
                                         {
                                             !isChoose &&
                                             <Image
                                                 source={Number(require('../assets/angle-small-right.png'))}
-                                                style = {styles.imageright}
+                                                style={styles.imageright}
                                             />
                                         }
                                         {
-                                            isGroup == value.root.name && 
+                                            isGroup == value.root.name &&
                                             <Image
                                                 source={Number(require('../assets/check-mark.png'))}
-                                                style = {styles.imageright}
+                                                style={styles.imageright}
                                             />
                                         }
                                     </View>
@@ -280,44 +280,44 @@ function ThuScreen({ navigation, route }) {
                                     <TouchableOpacity
                                         key={fIndex}
                                         onPress={() => {
-                                            if (isChoose){
-                                                navigation.navigate(isBack, {group: item});
+                                            if (isChoose) {
+                                                navigation.navigate(isBack, { group: item });
                                             }
-                                            else{
+                                            else {
                                                 navigation.navigate({
-                                                    name:'EditGroupScreen',
-                                                    params: {group: item, type:'Khoản thu' }
+                                                    name: 'EditGroupScreen',
+                                                    params: { group: item, type: 'Khoản thu' }
                                                 });
                                             }
-                                    }}
+                                        }}
                                     >
-                                        <View style = {styles.containernode}>
-                                            <View style = {styles.nodeleft}>
+                                        <View style={styles.containernode}>
+                                            <View style={styles.nodeleft}>
                                                 <Image
-                                                    source={{uri: item.image}}
-                                                    style = {styles.imageleft}
+                                                    source={{ uri: item.image }}
+                                                    style={styles.imageleft}
                                                 />
-                                                <View style = {styles.containertext}>
-                                                    <Text style = {styles.textl}>{item.name}</Text>
-                                                    <Text style = {styles.texts}>{_isWalleting.name}</Text>
+                                                <View style={styles.containertext}>
+                                                    <Text style={styles.textl}>{item.name}</Text>
+                                                    <Text style={styles.texts}>{_isWalleting.name}</Text>
                                                 </View>
                                             </View>
                                             {
                                                 !isChoose &&
                                                 <Image
                                                     source={Number(require('../assets/angle-small-right.png'))}
-                                                    style = {styles.imageright}
+                                                    style={styles.imageright}
                                                 />
                                             }
                                             {
-                                            isGroup == item.name && 
-                                            <Image
-                                                source={Number(require('../assets/check-mark.png'))}
-                                                style = {styles.imageright}
-                                            />
+                                                isGroup == item.name &&
+                                                <Image
+                                                    source={Number(require('../assets/check-mark.png'))}
+                                                    style={styles.imageright}
+                                                />
                                             }
-                                            <View style = {styles.lineroottop}/>
-                                            {(value.node.length - 1 != value.node.indexOf(item)) && <View style = {styles.linerootbot}/>}
+                                            <View style={styles.lineroottop} />
+                                            {(value.node.length - 1 != value.node.indexOf(item)) && <View style={styles.linerootbot} />}
                                         </View>
                                     </TouchableOpacity>
                                 ))}
@@ -327,127 +327,127 @@ function ThuScreen({ navigation, route }) {
                 </ScrollView>
             }
         </View>
-  );
+    );
 }
 
 const Tab = createMaterialTopTabNavigator();
 
-export default function TabsTopGroup({navigation, route}) {
+export default function TabsTopGroup({ navigation, route }) {
 
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
     useEffect(() => {
         navigation.setOptions({
-            headerRight: () => 
-                <HeaderRight 
-                    image1={{uri: _isWalleting.image}}
+            headerRight: () =>
+                <HeaderRight
+                    image1={{ uri: _isWalleting.image }}
                     onPress1={() => {
                         navigation.navigate({
-                            name:'MyWallet',
-                            params: {back: 'ChooseGroup', wallet: _isWalleting, type:'choose' }
+                            name: 'MyWallet',
+                            params: { back: 'ChooseGroup', wallet: _isWalleting, type: 'choose' }
                         })
                     }}
                     image2={Number(require('../assets/search.png'))}
-                />  
+                />
         });
-    },[route]);
-    
+    }, [route]);
+
     return (
         <Tab.Navigator
             initialRouteName='GroupChi'
             screenOptions={{
-                tabBarStyle:{
-                    height:40,
+                tabBarStyle: {
+                    height: 40,
                 },
                 tabBarLabelStyle: {
-                    margin:-10,
+                    margin: -10,
                     fontSize: 13,
-                    fontWeight:'bold' 
+                    fontWeight: 'bold'
                 },
             }}
         >
-            <Tab.Screen name="GroupChi" component={ChiScreen} options={{title:"KHOẢN CHI"}} initialParams={{ route: route }}/>
-            <Tab.Screen name="Groupthu" component={ThuScreen} options={{title:"KHOẢN THU"}} initialParams={{ route: route }}/>
+            <Tab.Screen name="GroupChi" component={ChiScreen} options={{ title: "KHOẢN CHI" }} initialParams={{ route: route }} />
+            <Tab.Screen name="Groupthu" component={ThuScreen} options={{ title: "KHOẢN THU" }} initialParams={{ route: route }} />
         </Tab.Navigator>
     );
 }
 
 const styles = StyleSheet.create({
-    container:{
-        gap:15,
+    container: {
+        gap: 15,
         marginTop: 10
     },
-    containertab:{
-        marginTop:15,
+    containertab: {
+        marginTop: 15,
     },
-    containeraddgroup:{
+    containeraddgroup: {
         height: 55,
         flexDirection: 'row',
-        alignItems:'center',
+        alignItems: 'center',
         paddingLeft: '5%',
         gap: 15,
-        backgroundColor:'white'
+        backgroundColor: 'white'
     },
-    containerroot:{
-        width:'100%',
-        height:55,
+    containerroot: {
+        width: '100%',
+        height: 55,
         gap: 15,
-        paddingLeft:'5%',
-        paddingRight:15,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between'
+        paddingLeft: '5%',
+        paddingRight: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
     },
-    rootleft:{
-        flexDirection:'row',
-        gap:15
+    rootleft: {
+        flexDirection: 'row',
+        gap: 15
     },
-    containernode:{
-        width:'88%',
+    containernode: {
+        width: '88%',
         height: 55,
         paddingHorizontal: 10,
-        marginLeft:'12%',
-        paddingRight:15,
-        flexDirection:'row',
-        justifyContent:'space-between',
-        alignItems:'center',
+        marginLeft: '12%',
+        paddingRight: 15,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
     },
-    nodeleft:{
-        flexDirection:'row',
-        gap:15
+    nodeleft: {
+        flexDirection: 'row',
+        gap: 15
     },
-    lineroottop:{
-        width:15,
-        height:30,
-        top:0,
-        left:-10,
-        borderLeftWidth:1,
-        borderBottomWidth:1,
-        position:'absolute'
+    lineroottop: {
+        width: 15,
+        height: 30,
+        top: 0,
+        left: -10,
+        borderLeftWidth: 1,
+        borderBottomWidth: 1,
+        position: 'absolute'
     },
-    linerootbot:{
-        height:25,
-        top:30,
-        left:-10,
-        borderLeftWidth:1,
-        position:'absolute'
+    linerootbot: {
+        height: 25,
+        top: 30,
+        left: -10,
+        borderLeftWidth: 1,
+        position: 'absolute'
     },
-    containertext:{
-        justifyContent:'center'
+    containertext: {
+        justifyContent: 'center'
     },
-    textl:{
-        fontSize:17,
-        fontWeight:'bold'
+    textl: {
+        fontSize: 17,
+        fontWeight: 'bold'
     },
-    texts:{
-        fontSize:13
+    texts: {
+        fontSize: 13
     },
-    imageleft:{
-        width:35,
-        height:35
+    imageleft: {
+        width: 35,
+        height: 35
     },
-    imageright:{
-        width:24,
-        height:24
+    imageright: {
+        width: 24,
+        height: 24
     },
 })

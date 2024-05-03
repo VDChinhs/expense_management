@@ -1,32 +1,32 @@
 import { StyleSheet, View, Text, Image } from "react-native";
 
-export default function IconTabBottom({title, focused, icon}) {
-    let path = {icon}.icon
-    return(
-        <View style = {style.tabicon}>
+export default function IconTabBottom({ title, focused, icon }) {
+    let path = { icon }.icon
+    return (
+        <View style={style.tabicon}>
             <Image
-                source = {require(path)}
+                source={require(path)}
                 resizeMode="contain"
-                style = {[style.image, {tintColor: focused ? '#e32f45' : '#748c94'}
+                style={[style.image, { tintColor: focused ? '#e32f45' : '#748c94' }
                 ]}
             />
-            <Text style = {[style.text, {color: focused ? '#e32f45' : '#748c94'}]}>{title}</Text>
+            <Text style={[style.text, { color: focused ? '#e32f45' : '#748c94' }]}>{title}</Text>
         </View>
     )
 }
 
 const style = StyleSheet.create({
-    tabicon:{
+    tabicon: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'yellow',
     },
-    image:{
-        width:20,
-        height:20
+    image: {
+        width: 20,
+        height: 20
     },
-    text:{
-        fontSize:12,
-        color:'black'
+    text: {
+        fontSize: 12,
+        color: 'black'
     }
 })

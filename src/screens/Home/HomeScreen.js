@@ -9,7 +9,7 @@ import { getFullDate } from "../../process/Date";
 import { useDispatch, useSelector } from "react-redux";
 import { setMyWalleting } from "../../redux/reducers/walletReducer";
 import { setTradeCharHome } from "../../redux/reducers/tradeReducer";
- 
+
 export default function HomeScreen({ navigation }) {
     const { _myWallet } = useSelector(state => state.walletReducer)
     const {
@@ -22,7 +22,7 @@ export default function HomeScreen({ navigation }) {
     const [isselecttab, setSelectedTab] = useState(true)
     const [isshowmoney, setShowMoney] = useState(true)
 
-    const {userToken} = useContext(AuthContext);
+    const { userToken } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -32,253 +32,253 @@ export default function HomeScreen({ navigation }) {
         }, 1000);
     });
 
-  return (
-    <View>
-        {isLoadingMMonth || isLoadingMWeek || isLoadingRecent ?
-            <View style = {{height: 750, justifyContent:'center', alignContent:'center'}}>
-                <ActivityIndicator color={'black'} size={'large'}/>
-            </View>
-            :
-            <ScrollView style = {{
-            // backgroundColor: '#F9C4BA'
-                }}
-                showsVerticalScrollIndicator = {false}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-                }
-            >
-                <View style = {styles.containertop}>
-                    <View>
-                        <View style = {styles.containersodu}>
-                            {isshowmoney ? 
-                                <Text style ={{fontSize:25, fontWeight:'bold'}}>
-                                    {_myWallet.reduce((acc, item) => acc + item.money, 0).toLocaleString()} đ
-                                </Text>
-                            :
-                                <Text style ={{fontSize:25, fontWeight:'bold'}}>********* đ</Text>
-                            }
-                            <TouchableOpacity onPress={() => setShowMoney(!isshowmoney)}>
-                            {isshowmoney ? 
-                                <Image
-                                source={require('../../assets/eye.png')}
-                                style = {{width:16, height:16}}
-                                />
-                                :
-                                <Image
-                                source={require('../../assets/eye-crossed.png')}
-                                style = {{width:16, height:16}}
-                                />
-                            }
-                            </TouchableOpacity>
-                        </View>
-                        <Text style ={{fontSize:13, fontWeight:'bold'}}>Tổng số dư</Text>
-                    </View>
-                    <TouchableOpacity
-                        onPress={() => navigation.jumpTo('Account')}
-                    >
-                        <Image
-                            source={require('../../assets/man.png')}
-                            style = {styles.imageheder}
-                        />
-                    </TouchableOpacity>
+    return (
+        <View>
+            {isLoadingMMonth || isLoadingMWeek || isLoadingRecent ?
+                <View style={{ height: 750, justifyContent: 'center', alignContent: 'center' }}>
+                    <ActivityIndicator color={'black'} size={'large'} />
                 </View>
-                <View style = {styles.container}>
-                    <View style = {styles.border}>
-                        <View style = {styles.containerheader}>
-                            <Text style = {styles.text}>Ví của tôi</Text>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('MyWallet')}
-                            >
-                                <Text style = {styles.text}>Xem tất cả</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style = {{alignItems:'center'}}>
-                            {_myWallet.slice(0,3).map((value, fIndex) => (
-                                <InfoTitle 
-                                    key={fIndex}
-                                    width={'92%'}
-                                    titlel={value.name} 
-                                    money={value.money} 
-                                    imageleft={{uri: value.image}}
-                                    onPress={() => {
-                                        dispatch(setMyWalleting(value))
-                                        navigation.navigate('Trade')
-                                    }}
-                                />
-                            ))}
-                        </View>
-                    </View>
-                    
-                    <View>
-                        <View style = {styles.containerheader}>
-                            <Text style = {styles.text}>Báo cáo chi tiêu</Text>
-                            <TouchableOpacity
-                                onPress={() => navigation.navigate('ReportScreen')}
-                            >
-                            <Text style = {styles.text}>Xem báo cáo</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style = {styles.border}>
-                            <View style = {{
-                                alignItems:'center',
-                                marginTop:20
-                                }}>
-                                <SwitchButton
-                                    titlel={'Tuần'}
-                                    titler={'Tháng'}
-                                    onPressl={() => {
-                                        dispatch(setTradeCharHome(_tradeMostWeek))
-                                        setSelectedTab(false)
-                                    }}
-                                    onPressr={() => {
-                                        dispatch(setTradeCharHome(_tradeMostMonth))
-                                        setSelectedTab(true)
-                                    }}
-                                    value={isselecttab}
-                                > 
-                                </SwitchButton>
-                            </View>
-                            <View>
-                                <View style = {{margin:15}}>
-                                <Text style ={{fontSize:20, fontWeight:'bold'}}>
-                                    {isTradeCharHome.sum.toLocaleString()} đ
-                                </Text>
-                                {isselecttab ? 
-                                    <Text style ={{fontSize:12, fontWeight:'bold'}}>Tổng chi tháng này</Text>
+                :
+                <ScrollView style={{
+                    // backgroundColor: '#F9C4BA'
+                }}
+                    showsVerticalScrollIndicator={false}
+                    refreshControl={
+                        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+                    }
+                >
+                    <View style={styles.containertop}>
+                        <View>
+                            <View style={styles.containersodu}>
+                                {isshowmoney ?
+                                    <Text style={{ fontSize: 25, fontWeight: 'bold' }}>
+                                        {_myWallet.reduce((acc, item) => acc + item.money, 0).toLocaleString()} đ
+                                    </Text>
                                     :
-                                    <Text style ={{fontSize:12, fontWeight:'bold'}}>Tổng chi tuần này</Text>
+                                    <Text style={{ fontSize: 25, fontWeight: 'bold' }}>********* đ</Text>
                                 }
-                                </View>
-                                <View style = {styles.containergraphic}>
-                                    <BarChart
-                                        data={isTradeCharHome}
-                                        width={300}
-                                        height={220}
-                                        yAxisSuffix=" Tr"
-                                        fromZero = {true}
-                                        withInnerLines = {false}
-                                        showValuesOnTopOfBars = {true}
-                                        chartConfig={{
-                                            decimalPlaces: 1,
-                                            barRadius:5,
-                                            backgroundGradientFrom: "white",
-                                            backgroundGradientTo: "white",
-                                            color: () => 'black',
-                                            labelColor: () => 'black',                        
+                                <TouchableOpacity onPress={() => setShowMoney(!isshowmoney)}>
+                                    {isshowmoney ?
+                                        <Image
+                                            source={require('../../assets/eye.png')}
+                                            style={{ width: 16, height: 16 }}
+                                        />
+                                        :
+                                        <Image
+                                            source={require('../../assets/eye-crossed.png')}
+                                            style={{ width: 16, height: 16 }}
+                                        />
+                                    }
+                                </TouchableOpacity>
+                            </View>
+                            <Text style={{ fontSize: 13, fontWeight: 'bold' }}>Tổng số dư</Text>
+                        </View>
+                        <TouchableOpacity
+                            onPress={() => navigation.jumpTo('Account')}
+                        >
+                            <Image
+                                source={require('../../assets/man.png')}
+                                style={styles.imageheder}
+                            />
+                        </TouchableOpacity>
+                    </View>
+                    <View style={styles.container}>
+                        <View style={styles.border}>
+                            <View style={styles.containerheader}>
+                                <Text style={styles.text}>Ví của tôi</Text>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('MyWallet')}
+                                >
+                                    <Text style={styles.text}>Xem tất cả</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={{ alignItems: 'center' }}>
+                                {_myWallet.slice(0, 3).map((value, fIndex) => (
+                                    <InfoTitle
+                                        key={fIndex}
+                                        width={'92%'}
+                                        titlel={value.name}
+                                        money={value.money}
+                                        imageleft={{ uri: value.image }}
+                                        onPress={() => {
+                                            dispatch(setMyWalleting(value))
+                                            navigation.navigate('Trade')
                                         }}
                                     />
+                                ))}
+                            </View>
+                        </View>
+
+                        <View>
+                            <View style={styles.containerheader}>
+                                <Text style={styles.text}>Báo cáo chi tiêu</Text>
+                                <TouchableOpacity
+                                    onPress={() => navigation.navigate('ReportScreen')}
+                                >
+                                    <Text style={styles.text}>Xem báo cáo</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.border}>
+                                <View style={{
+                                    alignItems: 'center',
+                                    marginTop: 20
+                                }}>
+                                    <SwitchButton
+                                        titlel={'Tuần'}
+                                        titler={'Tháng'}
+                                        onPressl={() => {
+                                            dispatch(setTradeCharHome(_tradeMostWeek))
+                                            setSelectedTab(false)
+                                        }}
+                                        onPressr={() => {
+                                            dispatch(setTradeCharHome(_tradeMostMonth))
+                                            setSelectedTab(true)
+                                        }}
+                                        value={isselecttab}
+                                    >
+                                    </SwitchButton>
+                                </View>
+                                <View>
+                                    <View style={{ margin: 15 }}>
+                                        <Text style={{ fontSize: 20, fontWeight: 'bold' }}>
+                                            {isTradeCharHome.sum.toLocaleString()} đ
+                                        </Text>
+                                        {isselecttab ?
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Tổng chi tháng này</Text>
+                                            :
+                                            <Text style={{ fontSize: 12, fontWeight: 'bold' }}>Tổng chi tuần này</Text>
+                                        }
+                                    </View>
+                                    <View style={styles.containergraphic}>
+                                        <BarChart
+                                            data={isTradeCharHome}
+                                            width={300}
+                                            height={220}
+                                            yAxisSuffix=" Tr"
+                                            fromZero={true}
+                                            withInnerLines={false}
+                                            showValuesOnTopOfBars={true}
+                                            chartConfig={{
+                                                decimalPlaces: 1,
+                                                barRadius: 5,
+                                                backgroundGradientFrom: "white",
+                                                backgroundGradientTo: "white",
+                                                color: () => 'black',
+                                                labelColor: () => 'black',
+                                            }}
+                                        />
+                                    </View>
+                                </View>
+                                <View style={styles.containerheader}>
+                                    <Text style={styles.text}>Chi tiêu nhiều nhất</Text>
+                                </View>
+                                <View style={{ alignItems: 'center' }}>
+                                    {isTradeCharHome.valuesChiTieu.length == 0 ?
+                                        <View style={{ width: '92%', padding: 50, alignItems: 'center' }}>
+                                            <Text style={styles.text}>Không có dữ liệu</Text>
+                                        </View>
+                                        :
+                                        <View>
+                                            {isTradeCharHome.valuesChiTieu.map((value, fIndex) => (
+                                                <InfoTitle
+                                                    key={fIndex}
+                                                    width={'92%'}
+                                                    titlel={value.group.name}
+                                                    titles={value.money}
+                                                    titleright={value.percent}
+                                                    imageleft={{ uri: value.group.image }}
+                                                    imageleftsmall={{ uri: value.wallet.image }}
+                                                />
+                                            ))}
+                                        </View>
+                                    }
                                 </View>
                             </View>
-                            <View style = {styles.containerheader}>
-                                <Text style = {styles.text}>Chi tiêu nhiều nhất</Text>
-                            </View>
-                            <View style = {{alignItems:'center'}}>
-                                {isTradeCharHome.valuesChiTieu.length == 0 ? 
-                                    <View style = {{width:'92%', padding: 50, alignItems: 'center'}}>
-                                        <Text style = {styles.text}>Không có dữ liệu</Text>
-                                    </View>
-                                    :
-                                    <View>
-                                        {isTradeCharHome.valuesChiTieu.map((value, fIndex) => (
-                                            <InfoTitle 
-                                                key={fIndex}
-                                                width={'92%'}
-                                                titlel={value.group.name}
-                                                titles={value.money} 
-                                                titleright={value.percent} 
-                                                imageleft={{uri: value.group.image}}
-                                                imageleftsmall={{uri: value.wallet.image}}
-                                            />
-                                        ))}
-                                    </View>
-                                }
-                            </View>
                         </View>
-                    </View>
-                    
-                    <View style = {{width: '92%'}}>
-                        <View style = {styles.containerheader}>
-                            <Text style = {styles.text}>Giao dịch gần đây</Text>
-                            <TouchableOpacity
-                                onPress={() => navigation.jumpTo('Trade')}
-                            >
-                            <Text style = {styles.text}>Xem tất cả</Text>
-                            </TouchableOpacity>
-                        </View>
-                        <View style = {styles.border}>
-                            <View style = {{alignItems:'center'}}>
-                                {_tradeRecent.length == 0 ? 
-                                    <View style = {{paddingTop: 40, paddingBottom: 30, alignItems: 'center'}}>
-                                        <Text style = {styles.text}>Không có dữ liệu</Text>
-                                    </View>
-                                :
-                                    <View>
-                                        {_tradeRecent.map((value, fIndex) => (
-                                            <InfoTitle 
-                                                key={fIndex}
-                                                width={'92%'}
-                                                titlel={value.groupId.name}
-                                                titles={getFullDate(value.date)} 
-                                                money={value.money} 
-                                                imageleft={{uri: value.groupId.image}}
-                                                imageleftsmall={{uri: value.walletId.image}}
-                                                onPress={() => navigation.navigate({
-                                                    name:'EditTradeScreen',
-                                                    params: {trade: value }
-                                                })}
-                                            />
-                                        ))}
-                                    </View>
-                                }
+
+                        <View style={{ width: '92%' }}>
+                            <View style={styles.containerheader}>
+                                <Text style={styles.text}>Giao dịch gần đây</Text>
+                                <TouchableOpacity
+                                    onPress={() => navigation.jumpTo('Trade')}
+                                >
+                                    <Text style={styles.text}>Xem tất cả</Text>
+                                </TouchableOpacity>
+                            </View>
+                            <View style={styles.border}>
+                                <View style={{ alignItems: 'center' }}>
+                                    {_tradeRecent.length == 0 ?
+                                        <View style={{ paddingTop: 40, paddingBottom: 30, alignItems: 'center' }}>
+                                            <Text style={styles.text}>Không có dữ liệu</Text>
+                                        </View>
+                                        :
+                                        <View>
+                                            {_tradeRecent.map((value, fIndex) => (
+                                                <InfoTitle
+                                                    key={fIndex}
+                                                    width={'92%'}
+                                                    titlel={value.groupId.name}
+                                                    titles={getFullDate(value.date)}
+                                                    money={value.money}
+                                                    imageleft={{ uri: value.groupId.image }}
+                                                    imageleftsmall={{ uri: value.walletId.image }}
+                                                    onPress={() => navigation.navigate({
+                                                        name: 'EditTradeScreen',
+                                                        params: { trade: value }
+                                                    })}
+                                                />
+                                            ))}
+                                        </View>
+                                    }
+                                </View>
                             </View>
                         </View>
                     </View>
-                </View>
-            </ScrollView>
-        }
-    </View>
-  );
+                </ScrollView>
+            }
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         flex: 1,
         justifyContent: 'space-around',
         alignItems: 'center',
         gap: 10,
         marginBottom: 80
     },
-    containertop:{
+    containertop: {
         marginTop: 45,
         marginBottom: 20,
         marginHorizontal: '5%',
-        flexDirection:'row',
-        justifyContent:'space-between'
+        flexDirection: 'row',
+        justifyContent: 'space-between'
     },
-    containersodu:{
-        flexDirection:'row',
-        alignItems:'center',
-        gap:10
+    containersodu: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 10
     },
-    imageheder:{
-        width:35,
-        height:35
+    imageheder: {
+        width: 35,
+        height: 35
     },
-    containergraphic:{
-        alignItems:'center'
+    containergraphic: {
+        alignItems: 'center'
     },
-    containerheader:{
+    containerheader: {
         margin: '5%',
         marginVertical: 12.5,
-        flexDirection:'row',
-        justifyContent:"space-between"
+        flexDirection: 'row',
+        justifyContent: "space-between"
     },
-    text:{
+    text: {
         fontWeight: 'bold'
     },
-    border:{
+    border: {
         borderRadius: 15,
         paddingBottom: 10,
-        backgroundColor:'white'
+        backgroundColor: 'white'
     }
 })

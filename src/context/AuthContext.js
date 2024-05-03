@@ -12,7 +12,7 @@ import { setMyWalleting } from "../redux/reducers/walletReducer";
 
 export const AuthContext = createContext();
 
-export const AuthProvider = ({ children }) =>{
+export const AuthProvider = ({ children }) => {
     const [isLoading, setisLoading] = useState(true);
     const [userToken, setUserToken] = useState(null);
     const [isData, setData] = useState(null)
@@ -21,9 +21,9 @@ export const AuthProvider = ({ children }) =>{
 
     const storeData = async (value) => {
         try {
-          await AsyncStorage.setItem('userToken', value);
+            await AsyncStorage.setItem('userToken', value);
         } catch (e) {
-          console.log("Lỗi: " + e)
+            console.log("Lỗi: " + e)
         }
     };
 
@@ -33,7 +33,7 @@ export const AuthProvider = ({ children }) =>{
         if (data) {
             setData(data)
             storeData(data.token);
-            
+
             try {
                 const userToken = await AsyncStorage.getItem('userToken');
                 if (userToken !== null) {
@@ -43,7 +43,7 @@ export const AuthProvider = ({ children }) =>{
 
                     dispatch(myAllWallet(userToken))
                     dispatch(setMyWalleting(res_wallet[0]))
-                    
+
                     dispatch(myAllGroupChi({ userToken: userToken, walletId: res_wallet[0]._id }))
                     dispatch(myAllGroupThu({ userToken: userToken, walletId: res_wallet[0]._id }))
                     dispatch(myAllGroupParentChi({ userToken: userToken, walletId: res_wallet[0]._id, type: 0 }))
@@ -55,9 +55,9 @@ export const AuthProvider = ({ children }) =>{
                     dispatch(myTradeMWeek(userToken))
                     dispatch(myTradeRecent(userToken))
                     dispatch(myTradeMonths({ userToken: userToken, walletId: res_wallet[0]._id }))
-                    dispatch(myTradeReports({ userToken: userToken, walletId: res_wallet[0]._id}))
-                    dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: res_wallet[0]._id}))
-                    dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: res_wallet[0]._id}))
+                    dispatch(myTradeReports({ userToken: userToken, walletId: res_wallet[0]._id }))
+                    dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: res_wallet[0]._id }))
+                    dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: res_wallet[0]._id }))
                 }
             } catch (error) {
                 console.log("Lỗi: " + error)
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) =>{
         console.log('Xóa userToken');
     }
 
-    return(
+    return (
         <AuthContext.Provider value={{ login, logout, userToken, isData }}>
             {children}
         </AuthContext.Provider>

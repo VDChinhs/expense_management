@@ -3,9 +3,9 @@ import { IP } from "../../Constant";
 
 // Đăng ký
 const doSign = async (name, username, password) => {
-    if (name == "" || username == "" || password == "" ){
+    if (name == "" || username == "" || password == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -23,15 +23,15 @@ const doSign = async (name, username, password) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi đăng ký tài khoản', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -41,10 +41,10 @@ const doSign = async (name, username, password) => {
 }
 
 //Đăng nhập
-const doLogin = async (username,password) => {
-    if (username == "" || password == "" ){
+const doLogin = async (username, password) => {
+    if (username == "" || password == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -61,15 +61,15 @@ const doLogin = async (username,password) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi đăng nhập', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -78,4 +78,4 @@ const doLogin = async (username,password) => {
     }
 }
 
-export {doSign, doLogin};
+export { doSign, doLogin };

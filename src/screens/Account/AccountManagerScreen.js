@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet,Image,TouchableWithoutFeedback } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import ButtonSc from "../../components/ButtonSc";
@@ -9,27 +9,27 @@ import { changePassWord, deleAcc } from "../../process/UserController";
 export function ChangePassWord({ navigation }) {
     const [passwordOld, setPasswordOld] = useState('');
     const [passwordNew, setPasswordNew] = useState('');
-    const {userToken} = useContext(AuthContext);
+    const { userToken } = useContext(AuthContext);
 
     async function handleChangePassWord(userToken, passwordOld, passwordNew) {
-        if (await changePassWord(userToken, passwordOld, passwordNew)){
+        if (await changePassWord(userToken, passwordOld, passwordNew)) {
             navigation.goBack()
         }
     }
 
-    return(
-        <View style = {styles.containerchangepassword}>
-            <InputText 
-                label = {'Mật khẩu cũ'}
+    return (
+        <View style={styles.containerchangepassword}>
+            <InputText
+                label={'Mật khẩu cũ'}
                 onChangeText={(text) => setPasswordOld(text)}
-                />
-            <InputText 
-                label = {'Mật khẩu mới'}
+            />
+            <InputText
+                label={'Mật khẩu mới'}
                 onChangeText={(text) => setPasswordNew(text)}
-                />
-            <Button 
-                title = {'Thay đổi mật khẩu'}
-                onPress = {() => {
+            />
+            <Button
+                title={'Thay đổi mật khẩu'}
+                onPress={() => {
                     handleChangePassWord(userToken, passwordOld, passwordNew)
                 }}
             />
@@ -38,25 +38,25 @@ export function ChangePassWord({ navigation }) {
 }
 
 export function DeleAccount({ navigation }) {
-    const {logout, userToken} = useContext(AuthContext);
+    const { logout, userToken } = useContext(AuthContext);
 
     async function handleDeleAccount(userToken) {
-        if (await deleAcc(userToken)){
+        if (await deleAcc(userToken)) {
             logout()
         }
     }
-    
-    return(
-        <View style = {styles.containerdele}>
-            <View style = {styles.infodele}>
-                <Text style = {{fontSize:20, fontWeight:'bold'}}>Xóa tài khoản sẽ:</Text>
-                <Text style = {{fontSize:15, fontWeight:'bold'}}>❌ Không thể khôi phục dữ liệu ban đầu</Text>
-                <Text style = {{fontSize:15, fontWeight:'bold'}}>❌ Đăng xuất khỏi tất cả các thiết bị</Text>
-                <Text style = {{fontSize:15, fontWeight:'bold'}}>❌ Xóa Toàn bộ thông tin tài khoản</Text>
+
+    return (
+        <View style={styles.containerdele}>
+            <View style={styles.infodele}>
+                <Text style={{ fontSize: 20, fontWeight: 'bold' }}>Xóa tài khoản sẽ:</Text>
+                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>❌ Không thể khôi phục dữ liệu ban đầu</Text>
+                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>❌ Đăng xuất khỏi tất cả các thiết bị</Text>
+                <Text style={{ fontSize: 15, fontWeight: 'bold' }}>❌ Xóa Toàn bộ thông tin tài khoản</Text>
             </View>
-            <Button 
+            <Button
                 title={"Xác nhận"}
-                onPress={() => 
+                onPress={() =>
                     handleDeleAccount(userToken)
                 }
             />
@@ -65,42 +65,42 @@ export function DeleAccount({ navigation }) {
 }
 
 export default function AccountManagerScreen({ navigation }) {
-    const {logout, isData} = useContext(AuthContext);
+    const { logout, isData } = useContext(AuthContext);
 
     function handleLogout() {
         logout()
     }
 
     return (
-        <View style = {styles.container}>
+        <View style={styles.container}>
             <TouchableWithoutFeedback >
-                <View style = {styles.info_button}>
-                    <View style ={styles.info}>
-                        <Image style = {styles.avatar} source={require('../../assets/man.png')}></Image>
-                        <Text style = {styles.text}>{isData.data.name}</Text>
-                        <Text style = {styles.text}>{isData.data.username}</Text>
+                <View style={styles.info_button}>
+                    <View style={styles.info}>
+                        <Image style={styles.avatar} source={require('../../assets/man.png')}></Image>
+                        <Text style={styles.text}>{isData.data.name}</Text>
+                        <Text style={styles.text}>{isData.data.username}</Text>
                     </View>
                 </View>
             </TouchableWithoutFeedback>
 
-            <View style = {styles.option}>
-                <ButtonSc 
-                    title = {'Thay đổi mật khẩu'} 
-                    image = {require('../../assets/replace.png')}
-                    onPress = {() => 
+            <View style={styles.option}>
+                <ButtonSc
+                    title={'Thay đổi mật khẩu'}
+                    image={require('../../assets/replace.png')}
+                    onPress={() =>
                         navigation.navigate('ChangePassWord')
-                    } 
+                    }
                 />
-                <ButtonSc 
-                    title = {'Xóa tài khoản'} 
-                    image = {require('../../assets/delete-user.png')} 
-                    onPress = {() => 
+                <ButtonSc
+                    title={'Xóa tài khoản'}
+                    image={require('../../assets/delete-user.png')}
+                    onPress={() =>
                         navigation.navigate('DeleAccount')
-                    } 
+                    }
                 />
             </View>
-            <Button 
-                title={"Đăng xuất"} 
+            <Button
+                title={"Đăng xuất"}
                 onPress={() =>
                     handleLogout()
                 }
@@ -110,47 +110,47 @@ export default function AccountManagerScreen({ navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         alignItems: 'center'
     },
-    info_button:{
-        justifyContent:'center',
-        alignItems:'center',
-        flexDirection:'row',
-        marginBottom:20,
-        marginTop:20,
-        gap:-31,
+    info_button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        marginBottom: 20,
+        marginTop: 20,
+        gap: -31,
     },
-    info:{
-        alignItems:'center',
-        width:328
+    info: {
+        alignItems: 'center',
+        width: 328
     },
-    avatar:{
-        width:100,
-        height:100,
-        marginBottom:10
+    avatar: {
+        width: 100,
+        height: 100,
+        marginBottom: 10
     },
-    text:{
-        fontWeight:'bold'
+    text: {
+        fontWeight: 'bold'
     },
-    option:{
-        marginBottom:300,
+    option: {
+        marginBottom: 300,
     },
-    containerchangepassword:{
-        alignItems:'center',
-        gap:30,
-        marginTop:30
+    containerchangepassword: {
+        alignItems: 'center',
+        gap: 30,
+        marginTop: 30
     },
-    containerdele:{
-        marginTop:15,
-        alignItems:'center',
-        justifyContent:'space-around'
+    containerdele: {
+        marginTop: 15,
+        alignItems: 'center',
+        justifyContent: 'space-around'
     },
-    infodele:{
-        width:360,
-        paddingLeft:15,
-        gap:15,
-        paddingBottom:450,
-        justifyContent:'flex-start',
+    infodele: {
+        width: 360,
+        paddingLeft: 15,
+        gap: 15,
+        paddingBottom: 450,
+        justifyContent: 'flex-start',
     }
 })

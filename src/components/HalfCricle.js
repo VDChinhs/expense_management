@@ -1,5 +1,5 @@
 import { StyleSheet, View, TextInput } from "react-native";
-import Svg, {G, Circle } from "react-native-svg";
+import Svg, { G, Circle } from "react-native-svg";
 
 export default function HaldCircle({
     percentage = 20,
@@ -17,10 +17,10 @@ export default function HaldCircle({
     const strokeDashoffset = circleCircumference - (circleCircumference * maxPerc) / 100
 
     return (
-        <View style = {styles.container}>
-            <Svg 
-                width={radius * 2} 
-                height={radius * 2} 
+        <View style={styles.container}>
+            <Svg
+                width={radius * 2}
+                height={radius * 2}
                 viewBox={`0 0 ${haldCircle * 2} ${haldCircle * 2}`}
             >
                 <G rotation={'-180'} origin={`${haldCircle}, ${haldCircle}`}>
@@ -50,38 +50,38 @@ export default function HaldCircle({
             </Svg>
             <TextInput
                 underlineColorAndroid="transparent"
-                editable = {false}
+                editable={false}
                 value={'Số tiền bạn có thể chi'}
-                style = {[
+                style={[
                     StyleSheet.absoluteFillObject,
                     {
-                    fontSize: radius / 10, 
-                    bottom: radius / 1.6,
-                    color: textColortitle ?? color,
-                    fontWeight:'bold',
-                    textAlign:'center'
-                }]}
+                        fontSize: radius / 10,
+                        bottom: radius / 1.6,
+                        color: textColortitle ?? color,
+                        fontWeight: 'bold',
+                        textAlign: 'center'
+                    }]}
             />
             <TextInput
                 underlineColorAndroid="transparent"
-                editable = {false}
+                editable={false}
                 value={text.toLocaleString()}
-                style = {[
+                style={[
                     StyleSheet.absoluteFillObject,
                     {
-                    fontSize: radius / 5, 
-                    bottom: radius / 4,
-                    color: textColor ?? color,
-                    fontWeight:'bold',
-                    textAlign:'center'
-                }]}
+                        fontSize: radius / 5,
+                        bottom: radius / 4,
+                        color: textColor ?? color,
+                        fontWeight: 'bold',
+                        textAlign: 'center'
+                    }]}
             />
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    container:{
-        alignItems:'center'
+    container: {
+        alignItems: 'center'
     },
 })

@@ -1,4 +1,3 @@
-import * as React from 'react';
 import { Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { Entypo } from '@expo/vector-icons';
 
@@ -18,10 +17,10 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius:5,
-    borderColor:"black",
-    borderWidth:1,
-    margin:5
+    borderRadius: 5,
+    borderColor: "black",
+    borderWidth: 1,
+    margin: 5
   },
   text: {
     fontWeight: 'bold',

@@ -3,32 +3,32 @@ import { IP } from "../../Constant";
 
 // Thêm nhóm
 const addGroup = async (token, name, image, type, parent, walletId) => {
-    if (token == "" || name == "" || type == null || walletId == "" ){
+    if (token == "" || name == "" || type == null || walletId == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
     if (image == require('../assets/question.png')) {
         Alert.alert('Cảnh báo', 'Vui lòng chọn Icon', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
-        return false 
+        return false
     }
     let data
     if (parent == "Chọn nhóm") {
         data = {
             name: name,
             image: image,
-            type: (type == "Khoản chi" ? 0: 1),
+            type: (type == "Khoản chi" ? 0 : 1),
             walletId: walletId
         };
     }
-    else{
+    else {
         data = {
             name: name,
             image: image,
-            type: (type == "Khoản chi" ? 0: 1),
+            type: (type == "Khoản chi" ? 0 : 1),
             parent: parent,
             walletId: walletId
         };
@@ -43,15 +43,15 @@ const addGroup = async (token, name, image, type, parent, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi thêm ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -62,9 +62,9 @@ const addGroup = async (token, name, image, type, parent, walletId) => {
 
 // Sửa nhóm
 const changeGroup = async (token, id, name, image, parent, walletId) => {
-    if (token == "" || id == "" || name == "" || image == ""){
+    if (token == "" || id == "" || name == "" || image == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -77,13 +77,13 @@ const changeGroup = async (token, id, name, image, parent, walletId) => {
             walletId: walletId
         };
     }
-    else{
+    else {
         data = {
             id: id,
             name: name,
             image: image,
             parent: parent,
-            walletId,walletId
+            walletId, walletId
         };
     }
     let response = await fetch(`http://${IP}:3000/user/group/changegroup`, {
@@ -96,15 +96,15 @@ const changeGroup = async (token, id, name, image, parent, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi sửa ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -114,10 +114,10 @@ const changeGroup = async (token, id, name, image, parent, walletId) => {
 }
 
 //Xóa nhóm
-const deleGroup = async(token, id) => {
-    if (token == "" || id == "" ){
+const deleGroup = async (token, id) => {
+    if (token == "" || id == "") {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
@@ -135,15 +135,15 @@ const deleGroup = async(token, id) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi xóa nhóm', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         if (!json.status) {
             Alert.alert('Cảnh báo', json.mes, [
-                {text: 'OK'}
+                { text: 'OK' }
             ]);
             return false
         }
@@ -163,11 +163,11 @@ const myGroup = async (token, type, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         // console.log(json);
         return json
@@ -175,7 +175,7 @@ const myGroup = async (token, type, walletId) => {
 }
 
 //Lấy các nhóm cha
-const groupParent = async(token, type, walletId) => {
+const groupParent = async (token, type, walletId) => {
     let response = await fetch(`http://${IP}:3000/user/group/groupparent?type=${type}&walletId=${walletId}`, {
         method: 'Get',
         headers: {
@@ -185,11 +185,11 @@ const groupParent = async(token, type, walletId) => {
     })
     if (!response.ok) {
         Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
-            {text: 'OK'}
+            { text: 'OK' }
         ]);
         return false
     }
-    else{
+    else {
         let json = await response.json()
         // console.log(json);
         return json

@@ -4,13 +4,13 @@ import { AuthContext } from "../../context/AuthContext";
 
 import { useSelector } from "react-redux";
 
-export default function ChooseGroupCha({navigation, route}) {
-    const {userToken} = useContext(AuthContext);
+export default function ChooseGroupCha({ navigation, route }) {
+    const { userToken } = useContext(AuthContext);
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const { _myGroupParentChi, _myGroupParentThu, isLoadingChi, isLoadingThu } = useSelector(state => state.groupReducer)
 
     const [isChoose, SetChoose] = useState(false);
-    const [isGroup, SetGroup] = useState({_id:''});
+    const [isGroup, SetGroup] = useState({ _id: '' });
     const [isBack, SetBack] = useState('');
 
     useEffect(() => {
@@ -23,46 +23,46 @@ export default function ChooseGroupCha({navigation, route}) {
         if (route.params?.back) {
             SetBack(route.params?.back)
         }
-    },[route]);
+    }, [route]);
 
     return (
         <View>
-            {isLoadingChi || isLoadingThu ? 
-                <View style = {{height: '100%', justifyContent:'center', alignContent:'center'}}>
-                    <ActivityIndicator color={'black'} size={'large'}/>
+            {isLoadingChi || isLoadingThu ?
+                <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
+                    <ActivityIndicator color={'black'} size={'large'} />
                 </View>
-            :
-                <View style = {styles.container}>
+                :
+                <View style={styles.container}>
                     {(route.params?.khoan == 0 ? _myGroupParentChi : _myGroupParentThu).map(value => (
                         <View key={value._id} >
                             <TouchableOpacity
                                 onPress={() => {
-                                    isChoose && navigation.navigate(isBack, {groupcha: value});
+                                    isChoose && navigation.navigate(isBack, { groupcha: value });
                                 }}
                             >
-                                <View style = {styles.containerroot}>
-                                    <View style = {styles.rootleft}>
+                                <View style={styles.containerroot}>
+                                    <View style={styles.rootleft}>
                                         <Image
-                                            source={{uri: value.image}}
-                                            style = {styles.imageleft}
+                                            source={{ uri: value.image }}
+                                            style={styles.imageleft}
                                         />
-                                        <View style = {styles.containertext}>
-                                            <Text style = {styles.textl}>{value.name}</Text>
-                                            <Text style = {styles.texts}>{_isWalleting.name}</Text>
+                                        <View style={styles.containertext}>
+                                            <Text style={styles.textl}>{value.name}</Text>
+                                            <Text style={styles.texts}>{_isWalleting.name}</Text>
                                         </View>
                                     </View>
                                     {
                                         !isChoose &&
                                         <Image
                                             source={require('../../assets/angle-small-right.png')}
-                                            style = {styles.imageright}
+                                            style={styles.imageright}
                                         />
                                     }
                                     {
-                                        isGroup._id == value._id && 
+                                        isGroup._id == value._id &&
                                         <Image
                                             source={require('../../assets/check-mark.png')}
-                                            style = {styles.imageright}
+                                            style={styles.imageright}
                                         />
                                     }
                                 </View>
@@ -76,41 +76,41 @@ export default function ChooseGroupCha({navigation, route}) {
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         gap: 15,
         marginTop: 20
     },
-    containerroot:{
-        width:'100%',
-        height:55,
+    containerroot: {
+        width: '100%',
+        height: 55,
         gap: 15,
-        paddingLeft:'5%',
-        paddingRight:15,
-        flexDirection:'row',
-        alignItems:'center',
-        justifyContent:'space-between',
-        backgroundColor:'white'
+        paddingLeft: '5%',
+        paddingRight: 15,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        backgroundColor: 'white'
     },
-    rootleft:{
-        flexDirection:'row',
-        gap:15
+    rootleft: {
+        flexDirection: 'row',
+        gap: 15
     },
-    containertext:{
-        justifyContent:'center'
+    containertext: {
+        justifyContent: 'center'
     },
-    textl:{
-        fontSize:17,
-        fontWeight:'bold'
+    textl: {
+        fontSize: 17,
+        fontWeight: 'bold'
     },
-    texts:{
-        fontSize:13
+    texts: {
+        fontSize: 13
     },
-    imageleft:{
-        width:35,
-        height:35
+    imageleft: {
+        width: 35,
+        height: 35
     },
-    imageright:{
-        width:24,
-        height:24
+    imageright: {
+        width: 24,
+        height: 24
     },
 })

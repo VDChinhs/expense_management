@@ -13,42 +13,42 @@ import { myTradeMonths, myTradeReports, myTradeRecent } from "../../redux/action
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
-        <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
-        <Image
-            source={image}
-            style = {{
-            width: sizeimg,
-            height: sizeimg,
-            }}
-        />
-        <TextInput
-            style={[styles.input, {fontSize: fontsize}]}
-            placeholder={label}
-            {...prop}
-            
-        />
+        <View style={[styles.inputcontainer, { gap: 55 - sizeimg }]}>
+            <Image
+                source={image}
+                style={{
+                    width: sizeimg,
+                    height: sizeimg,
+                }}
+            />
+            <TextInput
+                style={[styles.input, { fontSize: fontsize }]}
+                placeholder={label}
+                {...prop}
+
+            />
         </View>
     );
 }
 
-function TitleInput ({ image, sizeimg, fontsize, title, onPress}){
+function TitleInput({ image, sizeimg, fontsize, title, onPress }) {
     return (
-        <TouchableOpacity 
-            style = {[styles.containertitle, {gap: 55 - sizeimg}]} 
+        <TouchableOpacity
+            style={[styles.containertitle, { gap: 55 - sizeimg }]}
             onPress={onPress}
         >
             <Image
                 source={image}
-                style = {{
-                width: sizeimg,
-                height: sizeimg,
+                style={{
+                    width: sizeimg,
+                    height: sizeimg,
                 }}
             />
-            <Text style = {{
+            <Text style={{
                 fontSize: fontsize,
                 fontWeight: 'bold',
                 opacity: title == 'Chọn nhóm' ? 0.4 : 1
-                }}
+            }}
             >
                 {title}
             </Text>
@@ -72,14 +72,14 @@ const convertDate = (chooseDate) => {
         var time = (day == 1 ? 'Chủ nhật' : 'Thứ ' + day) + ', ' + date + '/' + month + '/' + year
         return time
     }
-} 
+}
 
 export default function AddTradeScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext); 
+    const { userToken } = useContext(AuthContext);
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const [isMoney, setMoney] = useState(null);
-    const [isGroup, setGroup] = useState({name: 'Chọn nhóm', image: require('../../assets/question.png')});
+    const [isGroup, setGroup] = useState({ name: 'Chọn nhóm', image: require('../../assets/question.png') });
     const [isNote, setNote] = useState('');
     const [isDate, setDate] = useState(new Date());
     const [isWallet, setWallet] = useState(_isWalleting);
@@ -88,7 +88,7 @@ export default function AddTradeScreen({ navigation, route }) {
 
     const dispatch = useDispatch()
 
-    useEffect(() => {   
+    useEffect(() => {
         if (route.params?.group) {
             setGroup(route.params?.group)
         }
@@ -97,12 +97,12 @@ export default function AddTradeScreen({ navigation, route }) {
         }
         if (route.params?.wallet) {
             setWallet(route.params?.wallet)
-            setGroup({name: 'Chọn nhóm', image: require('../../assets/question.png')})
+            setGroup({ name: 'Chọn nhóm', image: require('../../assets/question.png') })
         }
-    },[route]);
+    }, [route]);
 
     async function handleAddTrade(userToken, isMoney, groupId, isNote, isDate, walletId) {
-        if(await addTrade(userToken, isMoney, groupId, isNote, isDate, walletId)){
+        if (await addTrade(userToken, isMoney, groupId, isNote, isDate, walletId)) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
             dispatch(myAllBudget(userToken))
@@ -113,117 +113,117 @@ export default function AddTradeScreen({ navigation, route }) {
     }
 
     return (
-        <View style = {styles.container}>
-            <View style = {styles.inputs}>
-                <Input 
-                    label ={"0"} 
-                    image = {Number(require('../../assets/coins.png'))} 
-                    sizeimg = {30} 
-                    fontsize = {30} 
-                    autoFocus = {true}
-                    keyboardType = "number-pad"
-                    onChangeText = {(money) => {
-                        if (!money.startsWith('0')){
+        <View style={styles.container}>
+            <View style={styles.inputs}>
+                <Input
+                    label={"0"}
+                    image={Number(require('../../assets/coins.png'))}
+                    sizeimg={30}
+                    fontsize={30}
+                    autoFocus={true}
+                    keyboardType="number-pad"
+                    onChangeText={(money) => {
+                        if (!money.startsWith('0')) {
                             setMoney(money)
                         }
                     }}
-                    value = {isMoney && isMoney.toLocaleString()}
+                    value={isMoney && isMoney.toLocaleString()}
                 />
-            
-            <TitleInput 
-                title = {isGroup.name} 
-                image = {(typeof isGroup.image) == 'number' ? Number(isGroup.image) : {uri: isGroup.image}} 
-                sizeimg = {30} 
-                fontsize = {20}
-                onPress = {() => navigation.navigate({
-                    name:'ChooseGroup',
-                    params: {back: 'AddTrade', group: isGroup, type:'choose' }
-                })}
-            />
 
-            <Input 
-                label ={"Ghi chú"} 
-                image = {Number(require('../../assets/align-left.png'))} 
-                sizeimg = {20} 
-                fontsize = {15}
-                onChangeText = {(value) => setNote(value)}
-            />
+                <TitleInput
+                    title={isGroup.name}
+                    image={(typeof isGroup.image) == 'number' ? Number(isGroup.image) : { uri: isGroup.image }}
+                    sizeimg={30}
+                    fontsize={20}
+                    onPress={() => navigation.navigate({
+                        name: 'ChooseGroup',
+                        params: { back: 'AddTrade', group: isGroup, type: 'choose' }
+                    })}
+                />
 
-            <TitleInput 
-                title = {convertDate(isDate)} 
-                image = {require('../../assets/calendar-day.png')} 
-                sizeimg = {20} 
-                fontsize = {15}
-                onPress = {() => setShowPickDate(true)}
-            />
+                <Input
+                    label={"Ghi chú"}
+                    image={Number(require('../../assets/align-left.png'))}
+                    sizeimg={20}
+                    fontsize={15}
+                    onChangeText={(value) => setNote(value)}
+                />
 
-            <TitleInput 
-                title ={isWallet.name}
-                image = {(typeof isWallet.image) == 'number' ? Number(isWallet.image) : {uri: isWallet.image}} 
-                sizeimg = {20} 
-                fontsize = {15}
-                onPress = {() => navigation.navigate({
-                    name:'MyWallet',
-                    params: {back: 'AddTrade', wallet: isWallet, type:'choose' }
-                })}
-            />
+                <TitleInput
+                    title={convertDate(isDate)}
+                    image={require('../../assets/calendar-day.png')}
+                    sizeimg={20}
+                    fontsize={15}
+                    onPress={() => setShowPickDate(true)}
+                />
 
-        </View>
-        
-            <Button 
-                title = {"Lưu"} 
-                onPress = {() => 
+                <TitleInput
+                    title={isWallet.name}
+                    image={(typeof isWallet.image) == 'number' ? Number(isWallet.image) : { uri: isWallet.image }}
+                    sizeimg={20}
+                    fontsize={15}
+                    onPress={() => navigation.navigate({
+                        name: 'MyWallet',
+                        params: { back: 'AddTrade', wallet: isWallet, type: 'choose' }
+                    })}
+                />
+
+            </View>
+
+            <Button
+                title={"Lưu"}
+                onPress={() =>
                     handleAddTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)
-                }                
+                }
             />
 
-        {isshowpickdate && (
-            <DateTimePicker
-                testID = "dateTimePicker"
-                value = {isDate}
-                mode = {'date'}
-                is24Hour = {true}
-                timeZoneName = "Asia/Bangkok"
-                onChange = {(event, selectedDate) => {
-                    const chooseDate = selectedDate;
-                    setShowPickDate(false);
-                    setDate(chooseDate);
-                }}
-            />
-        )}
+            {isshowpickdate && (
+                <DateTimePicker
+                    testID="dateTimePicker"
+                    value={isDate}
+                    mode={'date'}
+                    is24Hour={true}
+                    timeZoneName="Asia/Bangkok"
+                    onChange={(event, selectedDate) => {
+                        const chooseDate = selectedDate;
+                        setShowPickDate(false);
+                        setDate(chooseDate);
+                    }}
+                />
+            )}
         </View>
     );
 }
 
 const styles = StyleSheet.create({
-    container:{
+    container: {
         alignItems: 'center',
-        justifyContent:'space-between',
-        paddingBottom:50,
-        height:'100%',
+        justifyContent: 'space-between',
+        paddingBottom: 50,
+        height: '100%',
     },
-    containertitle:{
-      flexDirection:'row',
-      paddingLeft: 15,
-      padding: 15,
-      alignItems:'center',
+    containertitle: {
+        flexDirection: 'row',
+        paddingLeft: 15,
+        padding: 15,
+        alignItems: 'center',
     },
-    inputs:{
-      width:'100%',
-      backgroundColor:'white',
-      gap:-10,
-      marginTop: 20,
+    inputs: {
+        width: '100%',
+        backgroundColor: 'white',
+        gap: -10,
+        marginTop: 20,
     },
-    inputcontainer:{
-      width:360,
-      justifyContent:'flex-start',
-      flexDirection:'row',
-      paddingLeft: 15,
-      padding:15,
+    inputcontainer: {
+        width: 360,
+        justifyContent: 'flex-start',
+        flexDirection: 'row',
+        paddingLeft: 15,
+        padding: 15,
     },
     input: {
-      width:'83%',
-      fontWeight: 'bold',
-      // backgroundColor:'red'
+        width: '83%',
+        fontWeight: 'bold',
+        // backgroundColor:'red'
     },
 })

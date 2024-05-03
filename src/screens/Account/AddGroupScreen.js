@@ -10,56 +10,56 @@ import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
-      <View style = {[styles.inputcontainer, {gap: 55 - sizeimg}]}>
-        <TouchableOpacity onPress={onPressImage}>
-          <Image
-            source={image}
-            style = {{
-              width: sizeimg,
-              height: sizeimg,
-            }}
-          />
-        </TouchableOpacity>
-        <TextInput
-          style={{fontSize: fontsize, fontWeight:'bold',width:'90%'}}
-          placeholder={label}
-          {...prop}
-        />
-      </View>
+        <View style={[styles.inputcontainer, { gap: 55 - sizeimg }]}>
+            <TouchableOpacity onPress={onPressImage}>
+                <Image
+                    source={image}
+                    style={{
+                        width: sizeimg,
+                        height: sizeimg,
+                    }}
+                />
+            </TouchableOpacity>
+            <TextInput
+                style={{ fontSize: fontsize, fontWeight: 'bold', width: '90%' }}
+                placeholder={label}
+                {...prop}
+            />
+        </View>
     );
 }
 
-function TitleInput ({ imagel, imager, sizeimg, titlel, titles, onPress1, onPress2, fontsize }){
+function TitleInput({ imagel, imager, sizeimg, titlel, titles, onPress1, onPress2, fontsize }) {
     return (
         <View>
-            <View style = {{flexDirection:'row', alignItems: 'center', justifyContent:'space-between', paddingRight: 20}}>
-                <TouchableOpacity 
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', paddingRight: 20 }}>
+                <TouchableOpacity
                     onPress={onPress1}>
-                            <View style = {[styles.containertitle, {gap: 55 - sizeimg}]}>
-                                <Image
-                                    source={imagel}
-                                    style = {{
-                                        width: sizeimg,
-                                        height: sizeimg,
-                                    }}
-                                />
-                                <View>
-                                    {titles && 
-                                        <Text style = {{
-                                            opacity: titles == 'Nhóm cha' ? 0.4 : 1,
-                                            fontSize: 14
-                                        }}
-                                        >
-                                            {titles}
-                                        </Text>
-                                    }
-                                    <Text
-                                        style = {{fontSize:fontsize}}
-                                    >
-                                        {titlel}
-                                    </Text>
-                                </View>
-                            </View>
+                    <View style={[styles.containertitle, { gap: 55 - sizeimg }]}>
+                        <Image
+                            source={imagel}
+                            style={{
+                                width: sizeimg,
+                                height: sizeimg,
+                            }}
+                        />
+                        <View>
+                            {titles &&
+                                <Text style={{
+                                    opacity: titles == 'Nhóm cha' ? 0.4 : 1,
+                                    fontSize: 14
+                                }}
+                                >
+                                    {titles}
+                                </Text>
+                            }
+                            <Text
+                                style={{ fontSize: fontsize }}
+                            >
+                                {titlel}
+                            </Text>
+                        </View>
+                    </View>
                 </TouchableOpacity>
                 {
                     imager &&
@@ -68,7 +68,7 @@ function TitleInput ({ imagel, imager, sizeimg, titlel, titles, onPress1, onPres
                     >
                         <Image
                             source={imager}
-                            style = {{
+                            style={{
                                 width: sizeimg,
                                 height: sizeimg,
                             }}
@@ -88,7 +88,7 @@ export default function AddGroupScreen({ navigation, route }) {
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isGroupType, setGroupType] = useState('');
-    const [isGroupCha, setGroupCha] = useState({name: 'Chọn nhóm'});
+    const [isGroupCha, setGroupCha] = useState({ name: 'Chọn nhóm' });
 
     useEffect(() => {
         if (route.params?.type) {
@@ -100,10 +100,10 @@ export default function AddGroupScreen({ navigation, route }) {
         if (route.params?.groupcha) {
             setGroupCha(route.params?.groupcha)
         }
-    },[route]);
+    }, [route]);
 
     async function handleAddGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId) {
-        if(await addGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId)){
+        if (await addGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId)) {
             navigation.goBack()
             dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
@@ -112,55 +112,55 @@ export default function AddGroupScreen({ navigation, route }) {
         }
     }
 
-    return(
-        <View style = {styles.container}>
-            <View style = {styles.inputs}>
-                <Input 
-                    label = {"Tên nhóm"} 
-                    value = {isNameGroup}
-                    image = {(typeof isIcon) == 'number' ? Number(isIcon) : {uri: isIcon}} 
-                    sizeimg = {35} 
-                    fontsize = {25} 
-                    autoFocus = {true}
-                    onChangeText = {(text) => setNameGroup(text)}
-                    onPressImage = {() => 
-                      navigation.navigate({
-                        name: 'ChooseIcon',
-                        params: {back: 'AddGroupScreen'}
-                      })}
-                />
-                <TitleInput 
-                    imagel = {require('../../assets/plus-minus.png')} 
-                    titlel = {isGroupType}
-                    sizeimg = {25} 
-                    fontsize = {20}
-                />
-                <TitleInput 
-                    imagel = {require('../../assets/family-tree.png')} 
-                    imager = {require('../../assets/cross.png')} 
-                    titles = {'Nhóm cha'}
-                    titlel = {isGroupCha.name}
-                    sizeimg = {25} 
-                    fontsize = {20}
-                    onPress1 = {() => {
+    return (
+        <View style={styles.container}>
+            <View style={styles.inputs}>
+                <Input
+                    label={"Tên nhóm"}
+                    value={isNameGroup}
+                    image={(typeof isIcon) == 'number' ? Number(isIcon) : { uri: isIcon }}
+                    sizeimg={35}
+                    fontsize={25}
+                    autoFocus={true}
+                    onChangeText={(text) => setNameGroup(text)}
+                    onPressImage={() =>
                         navigation.navigate({
-                            name:'ChooseGroupCha',
-                            params: {back: 'AddGroupScreen' ,group: isGroupCha, khoan: isGroupType == 'Khoản chi' ? 0:1, type:'choose'}
+                            name: 'ChooseIcon',
+                            params: { back: 'AddGroupScreen' }
+                        })}
+                />
+                <TitleInput
+                    imagel={require('../../assets/plus-minus.png')}
+                    titlel={isGroupType}
+                    sizeimg={25}
+                    fontsize={20}
+                />
+                <TitleInput
+                    imagel={require('../../assets/family-tree.png')}
+                    imager={require('../../assets/cross.png')}
+                    titles={'Nhóm cha'}
+                    titlel={isGroupCha.name}
+                    sizeimg={25}
+                    fontsize={20}
+                    onPress1={() => {
+                        navigation.navigate({
+                            name: 'ChooseGroupCha',
+                            params: { back: 'AddGroupScreen', group: isGroupCha, khoan: isGroupType == 'Khoản chi' ? 0 : 1, type: 'choose' }
                         })
                     }}
-                    onPress2 = {() => setGroupCha({name: 'Chọn nhóm'})}
+                    onPress2={() => setGroupCha({ name: 'Chọn nhóm' })}
 
                 />
             </View>
 
             <Button
                 title={"Lưu"}
-                onPress={() => 
+                onPress={() =>
                     handleAddGroup(
-                        userToken, 
-                        isNameGroup, 
-                        isIcon, 
-                        isGroupType, 
+                        userToken,
+                        isNameGroup,
+                        isIcon,
+                        isGroupType,
                         isGroupCha._id,
                         _isWalleting._id
                     )
@@ -171,30 +171,30 @@ export default function AddGroupScreen({ navigation, route }) {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        alignItems:'center',
-        justifyContent:'space-between',
+    container: {
+        alignItems: 'center',
+        justifyContent: 'space-between',
         paddingBottom: 50,
-        height:'100%',
+        height: '100%',
     },
-    inputs:{
-        width:'100%',
-        backgroundColor:'white',
+    inputs: {
+        width: '100%',
+        backgroundColor: 'white',
         marginTop: 20,
     },
-    containertitle:{
+    containertitle: {
         width: '200%',
-        flexDirection:'row',
+        flexDirection: 'row',
         paddingLeft: 15,
         padding: 15,
-        alignItems:'center',
+        alignItems: 'center',
     },
-    inputcontainer:{
-        width:360,
-        justifyContent:'flex-start',
-        alignItems:'center',
-        flexDirection:'row',
+    inputcontainer: {
+        width: 360,
+        justifyContent: 'flex-start',
+        alignItems: 'center',
+        flexDirection: 'row',
         paddingLeft: 15,
-        padding:15,
+        padding: 15,
     },
 })

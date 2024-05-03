@@ -2,47 +2,47 @@ import { StyleSheet, View, Text } from "react-native";
 import Button from "../../components/Button";
 import InputText from "../../components/InputText";
 import Logo from "../../components/Logo";
-import { useState,useContext } from "react";
+import { useState, useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 
-export default function LoginScreen({navigation}) {
+export default function LoginScreen({ navigation }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const {login} = useContext(AuthContext);
+    const { login } = useContext(AuthContext);
 
     async function handleLogin(username, password) {
         await login(username.trim(), password.trim())
     }
 
-    return(
-        <View style = {styles.container}>
-            <View style = {styles.container}>
-                <Logo 
-                    text = {"MONEY SAVER"} 
-                    image = {require('../../assets/dollar.png')}
+    return (
+        <View style={styles.container}>
+            <View style={styles.container}>
+                <Logo
+                    text={"MONEY SAVER"}
+                    image={require('../../assets/dollar.png')}
                 />
-                <InputText 
-                    label = {"Email"}
-                    onChangeText = {(text) => setUsername(text)}
+                <InputText
+                    label={"Email"}
+                    onChangeText={(text) => setUsername(text)}
                 />
-                <InputText 
-                    label = {"Mật khẩu"}
-                    secureTextEntry = {true}
-                    onChangeText = {(text) => setPassword(text)}
+                <InputText
+                    label={"Mật khẩu"}
+                    secureTextEntry={true}
+                    onChangeText={(text) => setPassword(text)}
                 />
                 <Button
-                    style = {styles.margin} 
-                    title = {"Đăng nhập"}
-                    onPress = {() => 
+                    style={styles.margin}
+                    title={"Đăng nhập"}
+                    onPress={() =>
                         handleLogin(username, password)
                     }
                 />
             </View>
             <Button
-                style = {styles.margin}
-                title = {"Tạo tài khoản"} 
-                transparent = {true}
+                style={styles.margin}
+                title={"Tạo tài khoản"}
+                transparent={true}
                 onPress={() => navigation.navigate('SignScreen')}
             />
         </View>
@@ -50,17 +50,17 @@ export default function LoginScreen({navigation}) {
 }
 
 const styles = StyleSheet.create({
-    container:{
-        flex:1,
-        justifyContent:"center",
-        alignItems:"center",
+    container: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
         // backgroundColor:'#FFD3D3',
     },
-    word:{
-        fontWeight:'bold',
+    word: {
+        fontWeight: 'bold',
         fontSize: 15,
     },
-    margin:{
-        marginBottom:20
+    margin: {
+        marginBottom: 20
     }
 })
