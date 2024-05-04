@@ -9,6 +9,7 @@ import { getFullDate } from "../../process/Date";
 import { useDispatch, useSelector } from "react-redux";
 import { setMyWalleting } from "../../redux/reducers/walletReducer";
 import { setTradeCharHome } from "../../redux/reducers/tradeReducer";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function HomeScreen({ navigation }) {
     const { _myWallet } = useSelector(state => state.walletReducer)
@@ -35,8 +36,9 @@ export default function HomeScreen({ navigation }) {
     return (
         <View>
             {isLoadingMMonth || isLoadingMWeek || isLoadingRecent ?
-                <View style={{ height: 750, justifyContent: 'center', alignContent: 'center' }}>
-                    <ActivityIndicator color={'black'} size={'large'} />
+                <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
+                    {/* <ActivityIndicator color={'black'} size={'large'} /> */}
+                    <LoadingIndicator size={40} color={'black'} />
                 </View>
                 :
                 <ScrollView style={{

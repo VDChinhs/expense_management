@@ -3,6 +3,7 @@ import { useState, useContext, useEffect } from "react";
 import { AuthContext } from "../../context/AuthContext";
 
 import { useSelector } from "react-redux";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function ChooseGroupCha({ navigation, route }) {
     const { userToken } = useContext(AuthContext);
@@ -29,7 +30,8 @@ export default function ChooseGroupCha({ navigation, route }) {
         <View>
             {isLoadingChi || isLoadingThu ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
-                    <ActivityIndicator color={'black'} size={'large'} />
+                    {/* <ActivityIndicator color={'black'} size={'large'} /> */}
+                    <LoadingIndicator size={40} color={'black'} />
                 </View>
                 :
                 <View style={styles.container}>

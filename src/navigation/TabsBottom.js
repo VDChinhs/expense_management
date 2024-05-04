@@ -7,6 +7,7 @@ import AddTradeScreen from "../screens/Trade/AddTradeScreen";
 import { StyleSheet, View, Image, Text, TouchableWithoutFeedback } from "react-native";
 import HeaderRight from "../components/HeaderRight";
 import { useSelector } from 'react-redux';
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 
 const Tab = createBottomTabNavigator();
 

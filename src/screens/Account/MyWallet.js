@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
 import { setMyWalleting } from "../../redux/reducers/walletReducer";
 import { myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function MyWallet({ navigation, route }) {
     const { userToken } = useContext(AuthContext);
@@ -43,7 +44,8 @@ export default function MyWallet({ navigation, route }) {
         <View>
             {isLoading ?
                 <View style={{ height: 600, justifyContent: 'center', alignContent: 'center' }}>
-                    <ActivityIndicator color={'black'} size={'large'} />
+                    {/* <ActivityIndicator color={'black'} size={'large'} /> */}
+                    <LoadingIndicator size={40} color={'black'} />
                 </View>
                 :
                 <View>

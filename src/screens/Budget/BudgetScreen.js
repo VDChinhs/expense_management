@@ -8,6 +8,7 @@ import { getRangeDate } from "../../process/Date";
 import { AuthContext } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setIndexBudget } from "../../redux/reducers/budgetReducer";
+import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function BudgetScreen({ navigation }) {
     const { userToken } = useContext(AuthContext);
@@ -40,7 +41,8 @@ export default function BudgetScreen({ navigation }) {
         <View>
             {isLoading ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
-                    <ActivityIndicator color={'black'} size={'large'} />
+                    {/* <ActivityIndicator color={'black'} size={'large'} /> */}
+                    <LoadingIndicator size={40} color={'black'} />
                 </View>
                 :
                 <View>
@@ -164,7 +166,7 @@ export default function BudgetScreen({ navigation }) {
                                                 <View style={{ alignItems: 'flex-end', padding: 10 }}>
                                                     <Progress.Bar
                                                         progress={value.moneyloss / value.money}
-                                                        color={value.moneyloss - value.money > 1 ? "red" : "green"}
+                                                        color={value.moneyloss - value.money > 1 ? "#AE4B4B" : "green"}
                                                         width={260}
                                                     />
                                                 </View>

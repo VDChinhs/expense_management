@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import HeaderRight from "../components/HeaderRight";
 
 import { useSelector, useDispatch } from 'react-redux';
+import LoadingIndicator from '../components/LoadingIndicator';
 
 function ChiScreen({ navigation, route }) {
     const state = route.params;
@@ -39,7 +40,8 @@ function ChiScreen({ navigation, route }) {
         <View>
             {isLoadingChi ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
-                    <ActivityIndicator color={'black'} size={'large'} />
+                    {/* <ActivityIndicator color={'black'} size={'large'} /> */}
+                    <LoadingIndicator size={40} color={'black'} />
                 </View>
                 :
                 <ScrollView
@@ -212,7 +214,8 @@ function ThuScreen({ navigation, route }) {
         <View>
             {isLoadingThu ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
-                    <ActivityIndicator color={'black'} size={'large'} />
+                    {/* <ActivityIndicator color={'black'} size={'large'} /> */}
+                    <LoadingIndicator size={40} color={'black'} />
                 </View>
                 :
                 <ScrollView
