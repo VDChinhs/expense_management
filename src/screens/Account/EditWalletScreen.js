@@ -3,9 +3,9 @@ import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
 import { changeWallet, deleWallet } from "../../process/WalletController";
-import { AuthContext } from "../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { myAllWallet } from "../../redux/actions/walletAction";
+import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -29,7 +29,7 @@ function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
 }
 
 export default function EditWalletScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
 
     const [isName, setName] = useState('');
     const [isIcon, setIcon] = useState(null);

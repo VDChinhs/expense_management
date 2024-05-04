@@ -3,15 +3,13 @@ import { StyleSheet, Text, View, Image, TouchableOpacity, FlatList, Dimensions, 
 import InfoTitle from "../../components/InfoTitle";
 import { ScrollView } from "react-native-gesture-handler";
 import { PieChart } from "react-native-chart-kit";
-import { AuthContext } from "../../context/AuthContext";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setIndexTradeMonths } from "../../redux/reducers/tradeReducer";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function DetailReportScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
-    const { isLoading, indexTradeMonths, _tradeReportDetailChi, _tradeReportDetailThu } = useSelector(state => state.tradeReducer)
+    const { isLoading, indexTradeMonths, _tradeReportDetailChi, _tradeReportDetailThu, _tradeReport } = useSelector(state => state.tradeReducer)
     const dispatch = useDispatch()
 
     const ref = useRef(null);

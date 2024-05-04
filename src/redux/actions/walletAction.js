@@ -5,7 +5,7 @@ export const myAllWallet = createAsyncThunk(
     'wallet/myAllWallet',
     async (userToken) => {
         try {
-            let res = await myWallet(userToken)
+            const res = await myWallet(userToken)
             return res
         } catch (error) {
             return error

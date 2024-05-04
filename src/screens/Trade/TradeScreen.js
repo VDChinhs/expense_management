@@ -3,14 +3,12 @@ import { useState, useRef, useEffect, useContext, useCallback } from "react";
 import Button from "../../components/Button";
 import InfoTitle from "../../components/InfoTitle";
 import { getDate, getDay, getWeekMonth } from "../../process/Date";
-import { AuthContext } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setIndexTradeMonths } from "../../redux/reducers/tradeReducer";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 
 export default function TradeScreen({ navigation }) {
-    const { userToken } = useContext(AuthContext);
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const { _tradeMonths, isLoading, indexTradeMonths } = useSelector(state => state.tradeReducer)
     const dispatch = useDispatch()

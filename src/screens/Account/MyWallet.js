@@ -1,7 +1,6 @@
 import { View, StyleSheet, ScrollView, Text, Image, Dimensions, TouchableOpacity, ActivityIndicator, RefreshControl } from "react-native";
 import InfoTitle from "../../components/InfoTitle";
-import { useState, useEffect, useContext, useCallback } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useState, useEffect, useCallback } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
 import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
@@ -10,7 +9,7 @@ import { myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDet
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function MyWallet({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
 
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);

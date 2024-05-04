@@ -1,9 +1,8 @@
 import { View, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Button from "../../components/Button";
 import { addWallet } from "../../process/WalletController";
-import { AuthContext } from "../../context/AuthContext";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { myAllWallet } from "../../redux/actions/walletAction";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
@@ -31,7 +30,7 @@ export default function AddWalletScreen({ navigation, route }) {
     const [isNameGroup, setNameGroup] = useState('');
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isMoney, setMoney] = useState(0);
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
 
     const dispatch = useDispatch()
 

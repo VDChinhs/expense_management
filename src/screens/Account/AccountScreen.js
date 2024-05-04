@@ -1,10 +1,9 @@
 import { Text, View, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
 import ButtonSc from "../../components/ButtonSc";
-import { useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useSelector } from "react-redux";
 
 export default function AccountScreen({ navigation }) {
-    const { isData } = useContext(AuthContext);
+    const { myData } = useSelector(state => state.userReducer)
 
     return (
         <View>
@@ -16,8 +15,8 @@ export default function AccountScreen({ navigation }) {
                 <View style={styles.info_button}>
                     <View style={styles.info}>
                         <Image style={styles.avatar} source={require('../../assets/man.png')}></Image>
-                        <Text style={styles.text}>{isData.data.name}</Text>
-                        <Text style={styles.text}>{isData.data.username}</Text>
+                        <Text style={styles.text}>{myData.name}</Text>
+                        <Text style={styles.text}>{myData.username}</Text>
                     </View>
                     <Image style={styles.buttonright} source={require('../../assets/angle-small-right.png')}></Image>
                 </View>

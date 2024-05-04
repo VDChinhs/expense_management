@@ -1,10 +1,9 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Modal } from "react-native";
 import Button from "../../components/Button";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { thisweek, thismonth, thisquy, thisyear, convertFirstDay, getRangeDate } from "../../process/Date";
+import { thisweek, thismonth, thisquy, thisyear, getRangeDate } from "../../process/Date";
 import { addBudget } from "../../process/BudgetController";
-import { AuthContext } from "../../context/AuthContext";
 
 import { useDispatch, useSelector } from "react-redux";
 import { myAllBudget } from "../../redux/actions/budgetAction";
@@ -81,7 +80,7 @@ const convertDate = (chooseDate) => {
 }
 
 export default function AddBudget({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const dispatch = useDispatch()

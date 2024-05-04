@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "reac
 import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
 import { addGroup } from "../../process/GroupController";
-import { AuthContext } from "../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
 
@@ -81,7 +80,7 @@ function TitleInput({ imagel, imager, sizeimg, titlel, titles, onPress1, onPress
 }
 
 export default function AddGroupScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const dispatch = useDispatch()
 

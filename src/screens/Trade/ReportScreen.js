@@ -1,14 +1,12 @@
 import { Text, View, StyleSheet, FlatList, TouchableOpacity, Image, ScrollView, Dimensions, RefreshControl, ActivityIndicator } from "react-native";
-import { useState, useRef, useEffect, useContext, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { PieChart, BarChart } from "react-native-chart-kit";
-import { AuthContext } from "../../context/AuthContext";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setIndexTradeMonths } from "../../redux/reducers/tradeReducer";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function ReportScreen({ navigation }) {
-    const { userToken } = useContext(AuthContext);
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const { _tradeReport, isLoading, indexTradeMonths } = useSelector(state => state.tradeReducer)
     const dispatch = useDispatch()

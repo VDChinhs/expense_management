@@ -3,7 +3,6 @@ import { useState, useEffect, useContext } from "react";
 import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
 import { deleGroup, changeGroup } from "../../process/GroupController";
-import { AuthContext } from "../../context/AuthContext";
 import { useDispatch } from "react-redux";
 import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
 import { useSelector } from "react-redux";
@@ -81,7 +80,8 @@ function TitleInput({ imagel, imager, sizeimg, titlel, titles, onPress1, onPress
 }
 
 export default function EditGroupScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+
+    const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const dispatch = useDispatch()
 

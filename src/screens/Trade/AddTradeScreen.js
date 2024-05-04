@@ -1,15 +1,14 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import Button from "../../components/Button";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { addTrade } from "../../process/TradeController";
-import { AuthContext } from "../../context/AuthContext";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
 import { myAllWallet } from "../../redux/actions/walletAction";
 import { myAllBudget } from "../../redux/actions/budgetAction";
-import { myTradeMonths, myTradeReports, myTradeRecent } from "../../redux/actions/tradeAction";
+import { myTradeMonths, myTradeReports, myTradeRecent, myTradeMMonth, myTradeMWeek, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -75,7 +74,7 @@ const convertDate = (chooseDate) => {
 }
 
 export default function AddTradeScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
     const [isMoney, setMoney] = useState(null);
@@ -106,9 +105,14 @@ export default function AddTradeScreen({ navigation, route }) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
             dispatch(myAllBudget(userToken))
+
+            dispatch(myTradeMMonth(userToken))
+            dispatch(myTradeMWeek(userToken))
+            dispatch(myTradeRecent(userToken))
             dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myTradeRecent(userToken))
+            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
         }
     }
 

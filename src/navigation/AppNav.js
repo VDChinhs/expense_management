@@ -2,8 +2,6 @@ import { View, Text } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { TransitionPresets } from '@react-navigation/stack';
-import { useContext } from "react";
-import { AuthContext } from "../context/AuthContext";
 
 import { ChangePassWord } from "../screens/Account/AccountManagerScreen";
 import { DeleAccount } from "../screens/Account/AccountManagerScreen";
@@ -31,9 +29,8 @@ import { useSelector } from "react-redux";
 const Stack = createStackNavigator()
 
 export default function AppNav() {
-    const { userToken } = useContext(AuthContext);
     const { _isWalleting } = useSelector(state => state.walletReducer)
-
+    const { userToken } = useSelector(state => state.userReducer)
     return (
         <NavigationContainer>
             {userToken == null ? (

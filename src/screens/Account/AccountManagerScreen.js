@@ -1,15 +1,18 @@
 import { Text, View, StyleSheet, Image, TouchableWithoutFeedback } from "react-native";
-import { useContext, useState } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useState } from "react";
 import ButtonSc from "../../components/ButtonSc";
 import Button from "../../components/Button";
 import InputText from "../../components/InputText";
 import { changePassWord, deleAcc } from "../../process/UserController";
 
+import { useDispatch, useSelector } from "react-redux";
+import { myLogout } from "../../redux/reducers/userReducer";
+
 export function ChangePassWord({ navigation }) {
     const [passwordOld, setPasswordOld] = useState('');
     const [passwordNew, setPasswordNew] = useState('');
-    const { userToken } = useContext(AuthContext);
+
+    const { userToken } = useSelector(state => state.userReducer)
 
     async function handleChangePassWord(userToken, passwordOld, passwordNew) {
         if (await changePassWord(userToken, passwordOld, passwordNew)) {
@@ -37,12 +40,13 @@ export function ChangePassWord({ navigation }) {
     )
 }
 
-export function DeleAccount({ navigation }) {
-    const { logout, userToken } = useContext(AuthContext);
+export function DeleAccount() {
+    const { userToken } = useSelector(state => state.userReducer)
+    const dispatch = useDispatch()
 
     async function handleDeleAccount(userToken) {
         if (await deleAcc(userToken)) {
-            logout()
+            dispatch(myLogout())
         }
     }
 
@@ -65,39 +69,42 @@ export function DeleAccount({ navigation }) {
 }
 
 export default function AccountManagerScreen({ navigation }) {
-    const { logout, isData } = useContext(AuthContext);
+    const { myData } = useSelector(state => state.userReducer)
+    const dispatch = useDispatch()
 
     function handleLogout() {
-        logout()
+        dispatch(myLogout())
     }
 
     return (
         <View style={styles.container}>
-            <TouchableWithoutFeedback >
-                <View style={styles.info_button}>
-                    <View style={styles.info}>
-                        <Image style={styles.avatar} source={require('../../assets/man.png')}></Image>
-                        <Text style={styles.text}>{isData.data.name}</Text>
-                        <Text style={styles.text}>{isData.data.username}</Text>
+            <View>
+                <TouchableWithoutFeedback >
+                    <View style={styles.info_button}>
+                        <View style={styles.info}>
+                            <Image style={styles.avatar} source={require('../../assets/man.png')}></Image>
+                            <Text style={styles.text}>{myData.name}</Text>
+                            <Text style={styles.text}>{myData.username}</Text>
+                        </View>
                     </View>
-                </View>
-            </TouchableWithoutFeedback>
+                </TouchableWithoutFeedback>
 
-            <View style={styles.option}>
-                <ButtonSc
-                    title={'Thay đổi mật khẩu'}
-                    image={require('../../assets/replace.png')}
-                    onPress={() =>
-                        navigation.navigate('ChangePassWord')
-                    }
-                />
-                <ButtonSc
-                    title={'Xóa tài khoản'}
-                    image={require('../../assets/delete-user.png')}
-                    onPress={() =>
-                        navigation.navigate('DeleAccount')
-                    }
-                />
+                <View>
+                    <ButtonSc
+                        title={'Thay đổi mật khẩu'}
+                        image={require('../../assets/replace.png')}
+                        onPress={() =>
+                            navigation.navigate('ChangePassWord')
+                        }
+                    />
+                    <ButtonSc
+                        title={'Xóa tài khoản'}
+                        image={require('../../assets/delete-user.png')}
+                        onPress={() =>
+                            navigation.navigate('DeleAccount')
+                        }
+                    />
+                </View>
             </View>
             <Button
                 title={"Đăng xuất"}
@@ -111,7 +118,10 @@ export default function AccountManagerScreen({ navigation }) {
 
 const styles = StyleSheet.create({
     container: {
-        alignItems: 'center'
+        alignItems: 'center',
+        height: '100%',
+        justifyContent:'space-between',
+        paddingBottom: 50
     },
     info_button: {
         justifyContent: 'center',
@@ -132,9 +142,6 @@ const styles = StyleSheet.create({
     },
     text: {
         fontWeight: 'bold'
-    },
-    option: {
-        marginBottom: 300,
     },
     containerchangepassword: {
         alignItems: 'center',

@@ -5,13 +5,11 @@ import HaldCircle from '../../components/HalfCricle';
 import InfoTitle from "../../components/InfoTitle";
 import * as Progress from 'react-native-progress';
 import { getRangeDate } from "../../process/Date";
-import { AuthContext } from "../../context/AuthContext";
 import { useDispatch, useSelector } from "react-redux";
 import { setIndexBudget } from "../../redux/reducers/budgetReducer";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function BudgetScreen({ navigation }) {
-    const { userToken } = useContext(AuthContext);
     const { _myBudget, isLoading, index } = useSelector(state => state.budgetReducer)
 
     const dispatch = useDispatch()

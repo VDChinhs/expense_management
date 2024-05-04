@@ -5,9 +5,8 @@ import HeaderRight from "../../components/HeaderRight";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear, getRangeDate, convertFirstDay } from "../../process/Date";
 import { changeBudget, deleBudget } from "../../process/BudgetController";
-import { AuthContext } from "../../context/AuthContext";
 
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { myAllBudget } from "../../redux/actions/budgetAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
@@ -83,7 +82,7 @@ const convertDate = (chooseDate) => {
 }
 
 export default function EditBudgetScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
 
     const dispatch = useDispatch()
 

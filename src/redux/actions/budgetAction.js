@@ -5,7 +5,7 @@ export const myAllBudget = createAsyncThunk(
     'budget/myAllBudget',
     async (userToken) => {
         try {
-            let res = await myBudget(userToken)
+            const res = await myBudget(userToken)
             return res
         } catch (error) {
             return error

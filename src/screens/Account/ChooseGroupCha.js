@@ -1,12 +1,10 @@
 import { Text, View, StyleSheet, TouchableOpacity, Image, ActivityIndicator } from "react-native";
-import { useState, useContext, useEffect } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useState, useEffect } from "react";
 
 import { useSelector } from "react-redux";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function ChooseGroupCha({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const { _myGroupParentChi, _myGroupParentThu, isLoadingChi, isLoadingThu } = useSelector(state => state.groupReducer)
 

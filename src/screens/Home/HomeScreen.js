@@ -2,8 +2,7 @@ import { Text, View, StyleSheet, ScrollView, Image, TouchableOpacity, ActivityIn
 import InfoTitle from "../../components/InfoTitle";
 import SwitchButton from "../../components/SwitchButton";
 import { BarChart } from "react-native-chart-kit";
-import { useState, useContext, useCallback } from "react";
-import { AuthContext } from "../../context/AuthContext";
+import { useState, useCallback } from "react";
 import { getFullDate } from "../../process/Date";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -23,7 +22,6 @@ export default function HomeScreen({ navigation }) {
     const [isselecttab, setSelectedTab] = useState(true)
     const [isshowmoney, setShowMoney] = useState(true)
 
-    const { userToken } = useContext(AuthContext);
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = useCallback(() => {
@@ -210,7 +208,7 @@ export default function HomeScreen({ navigation }) {
                             <View style={styles.border}>
                                 <View style={{ alignItems: 'center' }}>
                                     {_tradeRecent.length == 0 ?
-                                        <View style={{ paddingTop: 40, paddingBottom: 30, alignItems: 'center' }}>
+                                        <View style={{ paddingTop: 30, paddingBottom: 30, alignItems: 'center' }}>
                                             <Text style={styles.text}>Không có dữ liệu</Text>
                                         </View>
                                         :
@@ -280,7 +278,7 @@ const styles = StyleSheet.create({
     },
     border: {
         borderRadius: 15,
-        paddingBottom: 10,
+        paddingVertical: 10,
         backgroundColor: 'white'
     }
 })

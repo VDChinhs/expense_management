@@ -1,14 +1,14 @@
 import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
 import Button from "../../components/Button";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import HeaderRight from "../../components/HeaderRight";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { changeTrade, deleTrade } from "../../process/TradeController";
-import { AuthContext } from "../../context/AuthContext";
 
 import { useDispatch, useSelector } from "react-redux";
 import { myAllWallet } from "../../redux/actions/walletAction";
-import { myTradeMonths, myTradeReports, myTradeRecent } from "../../redux/actions/tradeAction";
+import { myAllBudget } from "../../redux/actions/budgetAction";
+import { myTradeMMonth, myTradeMWeek, myTradeRecent, myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -74,7 +74,7 @@ const convertDate = (chooseDate) => {
 }
 
 export default function EditTradeScreen({ navigation, route }) {
-    const { userToken } = useContext(AuthContext);
+    const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
 
@@ -125,9 +125,16 @@ export default function EditTradeScreen({ navigation, route }) {
         if (await deleTrade(userToken, tradeId)) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
-            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+
+            dispatch(myAllBudget(userToken))
+
+            dispatch(myTradeMMonth(userToken))
+            dispatch(myTradeMWeek(userToken))
             dispatch(myTradeRecent(userToken))
+            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting[0]._id }))
         }
     }
 
@@ -135,9 +142,16 @@ export default function EditTradeScreen({ navigation, route }) {
         if (await changeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId)) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
-            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+
+            dispatch(myAllBudget(userToken))
+
+            dispatch(myTradeMMonth(userToken))
+            dispatch(myTradeMWeek(userToken))
             dispatch(myTradeRecent(userToken))
+            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting[0]._id }))
         }
     }
 

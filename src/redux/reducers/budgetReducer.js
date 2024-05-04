@@ -21,6 +21,7 @@ const budgetSlice = createSlice({
                 state.isLoading = true
             })
             .addCase(myAllBudget.fulfilled, (state, action) => {
+                state.index = 0
                 state._myBudget = action.payload.data
                 state.isLoading = false
             })
