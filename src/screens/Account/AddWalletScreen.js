@@ -72,7 +72,6 @@ export default function AddWalletScreen({ navigation, route }) {
                     onChangeText={(money) => {
                         setMoney(money)
                     }}
-                    value={Number(isMoney).toLocaleString()}
                 />
             </View>
             <Button

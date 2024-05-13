@@ -11,7 +11,7 @@ const initialTrade = {
     _tradeReportDetailThu: [],
     isTradeCharHome: {},
     indexTradeMonths: 5,
-    isLoading: true,
+    isLoadingTrade: true,
     isLoadingMMonth: true,
     isLoadingMWeek: true,
     isLoadingRecent: true,
@@ -69,50 +69,50 @@ const tradeSlice = createSlice({
 
 
             .addCase(myTradeMonths.pending, (state, action) => {
-                state.isLoading = true
+                state.isLoadingTrade = true
             })
             .addCase(myTradeMonths.fulfilled, (state, action) => {
                 state._tradeMonths = action.payload.data
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
             .addCase(myTradeMonths.rejected, (state, action) => {
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
 
 
             .addCase(myTradeReports.pending, (state, action) => {
-                state.isLoading = true
+                state.isLoadingTrade = true
             })
             .addCase(myTradeReports.fulfilled, (state, action) => {
                 state._tradeReport = action.payload.data
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
             .addCase(myTradeReports.rejected, (state, action) => {
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
 
 
             .addCase(myTradeReportDetailChi.pending, (state, action) => {
-                state.isLoading = true
+                state.isLoadingTrade = true
             })
             .addCase(myTradeReportDetailChi.fulfilled, (state, action) => {
                 state._tradeReportDetailChi = action.payload.data
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
             .addCase(myTradeReportDetailChi.rejected, (state, action) => {
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
 
 
             .addCase(myTradeReportDetailThu.pending, (state, action) => {
-                state.isLoading = true
+                state.isLoadingTrade = true
             })
             .addCase(myTradeReportDetailThu.fulfilled, (state, action) => {
                 state._tradeReportDetailThu = action.payload.data
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
             .addCase(myTradeReportDetailThu.rejected, (state, action) => {
-                state.isLoading = false
+                state.isLoadingTrade = false
             })
     }
 })

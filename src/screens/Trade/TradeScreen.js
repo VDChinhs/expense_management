@@ -10,7 +10,7 @@ import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function TradeScreen({ navigation }) {
     const { _isWalleting } = useSelector(state => state.walletReducer)
-    const { _tradeMonths, isLoading, indexTradeMonths } = useSelector(state => state.tradeReducer)
+    const { _tradeMonths, isLoadingTrade, indexTradeMonths } = useSelector(state => state.tradeReducer)
     const dispatch = useDispatch()
 
     const ref = useRef(null);
@@ -34,7 +34,7 @@ export default function TradeScreen({ navigation }) {
 
     return (
         <View>
-            {isLoading ?
+            {isLoadingTrade ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
                     {/* <ActivityIndicator color={'black'} size={'large'} /> */}
                     <LoadingIndicator size={40} color={'black'} />

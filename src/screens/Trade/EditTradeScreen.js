@@ -131,10 +131,10 @@ export default function EditTradeScreen({ navigation, route }) {
             dispatch(myTradeMMonth(userToken))
             dispatch(myTradeMWeek(userToken))
             dispatch(myTradeRecent(userToken))
-            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting[0]._id }))
-            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting[0]._id }))
-            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting[0]._id }))
-            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
         }
     }
 
@@ -148,10 +148,10 @@ export default function EditTradeScreen({ navigation, route }) {
             dispatch(myTradeMMonth(userToken))
             dispatch(myTradeMWeek(userToken))
             dispatch(myTradeRecent(userToken))
-            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting[0]._id }))
-            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting[0]._id }))
-            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting[0]._id }))
-            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting[0]._id }))
+            dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
+            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
         }
     }
 

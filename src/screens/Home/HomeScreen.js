@@ -11,7 +11,7 @@ import { setTradeCharHome } from "../../redux/reducers/tradeReducer";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function HomeScreen({ navigation }) {
-    const { _myWallet } = useSelector(state => state.walletReducer)
+    const { _myWallet, isLoadingWallet } = useSelector(state => state.walletReducer)
     const {
         _tradeMostMonth, isTradeCharHome, _tradeMostWeek, _tradeRecent,
         isLoadingMMonth, isLoadingMWeek, isLoadingRecent
@@ -33,7 +33,7 @@ export default function HomeScreen({ navigation }) {
 
     return (
         <View>
-            {isLoadingMMonth || isLoadingMWeek || isLoadingRecent ?
+            {isLoadingMMonth || isLoadingMWeek || isLoadingRecent || isLoadingWallet ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
                     {/* <ActivityIndicator color={'black'} size={'large'} /> */}
                     <LoadingIndicator size={40} color={'black'} />

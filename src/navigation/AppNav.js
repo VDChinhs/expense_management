@@ -31,11 +31,13 @@ const Stack = createStackNavigator()
 export default function AppNav() {
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const { userToken } = useSelector(state => state.userReducer)
+    
     return (
         <NavigationContainer>
-            {userToken == null ? (
-                <StartScreen></StartScreen>
-            )
+            {userToken == null ? 
+                (
+                    <StartScreen></StartScreen>
+                )
                 :
                 (
                     <Stack.Navigator

@@ -4,7 +4,7 @@ import { myAllWallet } from "../actions/walletAction";
 const initialWallet = {
     _myWallet: [],
     _isWalleting: {},
-    isLoading: true
+    isLoadingWallet: true
 };
 
 const walletSlice = createSlice({
@@ -18,14 +18,23 @@ const walletSlice = createSlice({
     extraReducers: (builder) => {
         builder
             .addCase(myAllWallet.pending, (state, action) => {
-                state.isLoading = true
+                state.isLoadingWallet = true
             })
             .addCase(myAllWallet.fulfilled, (state, action) => {
                 state._myWallet = action.payload
-                state.isLoading = false
+
+                if (action.payload.length != 0 && state._isWalleting != {}) {
+                    action.payload.map(value => {
+                        if (value._id == state._isWalleting._id) {
+                            state._isWalleting = value
+                        }
+                    })
+                }
+
+                state.isLoadingWallet = false
             })
             .addCase(myAllWallet.rejected, (state, action) => {
-                state.isLoading = false
+                state.isLoadingWallet = false
             })
     }
 })

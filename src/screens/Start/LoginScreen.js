@@ -22,32 +22,35 @@ export default function LoginScreen({ navigation }) {
     const { isLoging } = useSelector(state => state.userReducer)
 
     async function handleLogin(username, password) {
-        dispatch(myLogin({ username: username.trim(), password: password.trim() }))
+        dispatch(myLogin({ username: username.trim(), password: password.trim() })).then(async (result) => {
+            if (result.payload) {
+                const userToken = await getTokenStorage()
+                console.log('userToken: ' + userToken);
+                const res_wallet = await myWallet(userToken)
 
-        const userToken = await getTokenStorage()
-        const res_wallet = await myWallet(userToken)
+                if (userToken !== null) {
 
-        if (userToken !== null) {
-            console.log('userToken: ' + userToken);
+                    dispatch(myAllWallet(userToken))
+                    dispatch(setMyWalleting(res_wallet[0]))
 
-            dispatch(myAllWallet(userToken))
-            dispatch(setMyWalleting(res_wallet[0]))
+                    dispatch(myAllGroupChi({ userToken: userToken, walletId: res_wallet[0]._id }))
+                    dispatch(myAllGroupThu({ userToken: userToken, walletId: res_wallet[0]._id }))
+                    dispatch(myAllGroupParentChi({ userToken: userToken, walletId: res_wallet[0]._id, type: 0 }))
+                    dispatch(myAllGroupParentThu({ userToken: userToken, walletId: res_wallet[0]._id, type: 1 }))
 
-            dispatch(myAllGroupChi({ userToken: userToken, walletId: res_wallet[0]._id }))
-            dispatch(myAllGroupThu({ userToken: userToken, walletId: res_wallet[0]._id }))
-            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: res_wallet[0]._id, type: 0 }))
-            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: res_wallet[0]._id, type: 1 }))
+                    dispatch(myAllBudget(userToken))
 
-            dispatch(myAllBudget(userToken))
+                    dispatch(myTradeMMonth(userToken))
+                    dispatch(myTradeMWeek(userToken))
+                    dispatch(myTradeRecent(userToken))
+                    dispatch(myTradeMonths({ userToken: userToken, walletId: res_wallet[0]._id }))
+                    dispatch(myTradeReports({ userToken: userToken, walletId: res_wallet[0]._id }))
+                    dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: res_wallet[0]._id }))
+                    dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: res_wallet[0]._id }))
+                }
+            }
+        })
 
-            dispatch(myTradeMMonth(userToken))
-            dispatch(myTradeMWeek(userToken))
-            dispatch(myTradeRecent(userToken))
-            dispatch(myTradeMonths({ userToken: userToken, walletId: res_wallet[0]._id }))
-            dispatch(myTradeReports({ userToken: userToken, walletId: res_wallet[0]._id }))
-            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: res_wallet[0]._id }))
-            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: res_wallet[0]._id }))
-        }
     }
 
     return (
@@ -70,8 +73,8 @@ export default function LoginScreen({ navigation }) {
                     style={styles.margin}
                     title={"Đăng nhập"}
                     disabled={isLoging}
-                    onPress={async() =>
-                        await handleLogin(username, password)
+                    onPress={() =>
+                        handleLogin(username, password)
                     }
                 />
             </View>

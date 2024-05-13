@@ -18,7 +18,7 @@ export default function MyWallet({ navigation, route }) {
     const [refreshing, setRefreshing] = useState(false);
 
     const dispatch = useDispatch()
-    const { isLoading, _myWallet } = useSelector(state => state.walletReducer)
+    const { isLoadingWallet, _myWallet } = useSelector(state => state.walletReducer)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -41,7 +41,7 @@ export default function MyWallet({ navigation, route }) {
 
     return (
         <View>
-            {isLoading ?
+            {isLoadingWallet ?
                 <View style={{ height: 600, justifyContent: 'center', alignContent: 'center' }}>
                     {/* <ActivityIndicator color={'black'} size={'large'} /> */}
                     <LoadingIndicator size={40} color={'black'} />

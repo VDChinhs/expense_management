@@ -9,7 +9,7 @@ import { setIndexTradeMonths } from "../../redux/reducers/tradeReducer";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function DetailReportScreen({ navigation, route }) {
-    const { isLoading, indexTradeMonths, _tradeReportDetailChi, _tradeReportDetailThu, _tradeReport } = useSelector(state => state.tradeReducer)
+    const { isLoadingTrade, indexTradeMonths, _tradeReportDetailChi, _tradeReportDetailThu, _tradeReport } = useSelector(state => state.tradeReducer)
     const dispatch = useDispatch()
 
     const ref = useRef(null);
@@ -37,7 +37,7 @@ export default function DetailReportScreen({ navigation, route }) {
 
     return (
         <View>
-            {isLoading ?
+            {isLoadingTrade ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
                     {/* <ActivityIndicator color={'black'} size={'large'} /> */}
                     <LoadingIndicator size={40} color={'black'} />
