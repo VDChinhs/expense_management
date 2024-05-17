@@ -13,6 +13,9 @@ const budgetSlice = createSlice({
     reducers: {
         setIndexBudget: (state, action) => {
             state.index = action.payload
+        },
+        resetBudget: (state) => {
+            state = initialBudget
         }
     },
     extraReducers: (builder) => {
@@ -31,7 +34,7 @@ const budgetSlice = createSlice({
     }
 })
 
-export const { setIndexBudget } = budgetSlice.actions
+export const { setIndexBudget, resetBudget } = budgetSlice.actions
 
 export default budgetReducer = budgetSlice.reducer
 

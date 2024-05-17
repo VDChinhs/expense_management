@@ -13,6 +13,9 @@ const walletSlice = createSlice({
     reducers: {
         setMyWalleting: (state, action) => {
             state._isWalleting = action.payload
+        },
+        resetWallet: (state) => {
+            state = initialWallet
         }
     },
     extraReducers: (builder) => {
@@ -30,7 +33,6 @@ const walletSlice = createSlice({
                         }
                     })
                 }
-
                 state.isLoadingWallet = false
             })
             .addCase(myAllWallet.rejected, (state, action) => {
@@ -39,6 +41,6 @@ const walletSlice = createSlice({
     }
 })
 
-export const { setMyWalleting } = walletSlice.actions
+export const { setMyWalleting, resetWallet } = walletSlice.actions
 
 export default walletReducer = walletSlice.reducer

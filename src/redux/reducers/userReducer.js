@@ -19,6 +19,9 @@ const userSlice = createSlice({
         myLogout: (state, action) => {
             removeTokenStorage()
             state.userToken = null
+        },
+        resetUser: (state) => {
+            state = initialUser
         }
     },
     extraReducers: (builder) => {
@@ -26,9 +29,9 @@ const userSlice = createSlice({
             .addCase(myLogin.pending, (state, action) => {
                 state.isLoging = true
             })
-            .addCase(myLogin.fulfilled, (state, action) => {  
+            .addCase(myLogin.fulfilled, (state, action) => {
                 state.myData = action.payload.data
-                state.userToken = action.payload.token             
+                state.userToken = action.payload.token
                 state.isLoging = false
             })
             .addCase(myLogin.rejected, (state, action) => {
@@ -37,6 +40,6 @@ const userSlice = createSlice({
     }
 })
 
-export const { myLogout } = userSlice.actions
+export const { myLogout, resetUser } = userSlice.actions
 
 export default userReducer = userSlice.reducer

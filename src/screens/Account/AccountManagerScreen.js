@@ -6,7 +6,11 @@ import InputText from "../../components/InputText";
 import { changePassWord, deleAcc } from "../../process/UserController";
 
 import { useDispatch, useSelector } from "react-redux";
-import { myLogout } from "../../redux/reducers/userReducer";
+import { myLogout, resetUser } from "../../redux/reducers/userReducer";
+
+import { resetWallet } from "../../redux/reducers/walletReducer";
+import { resetBudget } from "../../redux/reducers/budgetReducer";
+import { resetGroup } from "../../redux/reducers/groupReducer";
 
 export function ChangePassWord({ navigation }) {
     const [passwordOld, setPasswordOld] = useState('');
@@ -74,6 +78,11 @@ export default function AccountManagerScreen({ navigation }) {
 
     function handleLogout() {
         dispatch(myLogout())
+        dispatch(resetWallet())
+        dispatch(resetBudget())
+        dispatch(resetUser())
+        dispatch(resetWallet())
+        dispatch(resetGroup())
     }
 
     return (

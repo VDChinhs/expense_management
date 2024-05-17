@@ -27,6 +27,9 @@ const tradeSlice = createSlice({
         },
         setTradeCharHome: (state, action) => {
             state.isTradeCharHome = action.payload
+        },
+        resetTrade: (state) => {
+            state = initialTrade
         }
     },
     extraReducers: (builder) => {
@@ -117,6 +120,6 @@ const tradeSlice = createSlice({
     }
 })
 
-export const { setIndexTradeMonths, setTradeCharHome } = tradeSlice.actions
+export const { setIndexTradeMonths, setTradeCharHome, resetTrade } = tradeSlice.actions
 
 export default tradeReducer = tradeSlice.reducer
