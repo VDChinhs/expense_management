@@ -4,7 +4,7 @@ import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
 import { changeWallet, deleWallet } from "../../process/WalletController";
 import { useDispatch } from "react-redux";
-import { myAllWallet } from "../../redux/actions/walletAction";
+import { myAllWallet, myWalletChange, myWalletDele } from "../../redux/actions/walletAction";
 import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
@@ -30,6 +30,7 @@ function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
 
 export default function EditWalletScreen({ navigation, route }) {
     const { userToken } = useSelector(state => state.userReducer)
+    const { isChangeing, isDeleting } = useSelector(state => state.walletReducer)
 
     const [isName, setName] = useState('');
     const [isIcon, setIcon] = useState(null);
@@ -58,21 +59,24 @@ export default function EditWalletScreen({ navigation, route }) {
                     onPress2={() => {
                         handleDeleWallet(userToken, route.params.wallet._id)
                     }}
+                    disabled2={isDeleting}
                 />
         });
     }, [route]);
 
-    async function handleDeleWallet(userToken, walletid) {
-        if (await deleWallet(userToken, walletid)) {
-            navigation.goBack()
+    function handleDeleWallet(userToken, walletid) {
+        dispatch(myWalletDele({token: userToken, id: walletid}))
+        if (!isDeleting) {
             dispatch(myAllWallet(userToken))
+            navigation.goBack()
         }
     }
 
-    async function handleChangeWallet(userToken, isWallet, isName, isIcon) {
-        if (await changeWallet(userToken, isWallet, isName, isIcon)) {
-            navigation.goBack()
+    function handleChangeWallet(userToken, isWallet, isName, isIcon) {
+        dispatch(myWalletChange({token: userToken, id: isWallet, name: isName, image: isIcon}))
+        if (!isChangeing) {
             dispatch(myAllWallet(userToken))
+            navigation.goBack()
         }
     }
 
@@ -109,6 +113,7 @@ export default function EditWalletScreen({ navigation, route }) {
                 onPress={() => {
                     handleChangeWallet(userToken, isWallet._id, isName, isIcon)
                 }}
+                disabled={isChangeing}
             />
         </View>
     )

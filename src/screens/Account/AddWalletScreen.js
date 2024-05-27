@@ -1,9 +1,8 @@
-import { View, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import Button from "../../components/Button";
-import { addWallet } from "../../process/WalletController";
 import { useDispatch, useSelector } from "react-redux";
-import { myAllWallet } from "../../redux/actions/walletAction";
+import { myAllWallet, myWalletAdd } from "../../redux/actions/walletAction";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -31,6 +30,7 @@ export default function AddWalletScreen({ navigation, route }) {
     const [isIcon, setIcon] = useState(require('../../assets/question.png'));
     const [isMoney, setMoney] = useState(0);
     const { userToken } = useSelector(state => state.userReducer)
+    const { isCreating } = useSelector(state => state.walletReducer)
 
     const dispatch = useDispatch()
 
@@ -40,10 +40,23 @@ export default function AddWalletScreen({ navigation, route }) {
         }
     });
 
-    async function HandleAddWallet(userToken, isNameGroup, isMoney, isIcon) {
-        if (await addWallet(userToken, isNameGroup, isMoney, isIcon)) {
-            navigation.goBack()
+    function HandleAddWallet(userToken, isNameGroup, isMoney, isIcon) {
+        if (userToken == "" || isNameGroup == "" || isMoney == null) {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
+        }
+        if (isIcon == require('../../assets/question.png')) {
+            Alert.alert('Cảnh báo', 'Vui lòng chọn Icon', [
+                { text: 'OK' }
+            ]);
+            return
+        }
+        dispatch(myWalletAdd({ token: userToken, name: isNameGroup, money: isMoney, image: isIcon }))
+        if (!isCreating) {
             dispatch(myAllWallet(userToken))
+            navigation.goBack()
         }
     }
 
@@ -88,8 +101,9 @@ export default function AddWalletScreen({ navigation, route }) {
             <Button
                 title={"Lưu"}
                 onPress={() => {
-                    HandleAddWallet(userToken, isNameGroup, parseFloat(isMoney.replace(/,/g, '')), isIcon)
+                    HandleAddWallet(userToken, isNameGroup, parseFloat(String(isMoney).replace(/,/g, '')), isIcon)
                 }}
+                disabled={isCreating}
             />
         </View>
     )
