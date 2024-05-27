@@ -8,9 +8,13 @@ import { getFullDate } from "../../process/Date";
 import { useDispatch, useSelector } from "react-redux";
 import { setMyWalleting } from "../../redux/reducers/walletReducer";
 import { setTradeCharHome } from "../../redux/reducers/tradeReducer";
+import { myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myAllGroupThuChi } from "../../redux/actions/groupAction";
+
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function HomeScreen({ navigation }) {
+    const { userToken } = useSelector(state => state.userReducer)
     const { _myWallet, isLoadingWallet } = useSelector(state => state.walletReducer)
     const {
         _tradeMostMonth, isTradeCharHome, _tradeMostWeek, _tradeRecent,
@@ -102,6 +106,17 @@ export default function HomeScreen({ navigation }) {
                                         imageleft={{ uri: value.image }}
                                         onPress={() => {
                                             dispatch(setMyWalleting(value))
+
+                                            dispatch(myAllGroupChi({ userToken: userToken, walletId: value._id }))
+                                            dispatch(myAllGroupThu({ userToken: userToken, walletId: value._id }))
+                                            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: value._id, type: 0 }))
+                                            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: value._id, type: 1 }))
+                                            dispatch(myAllGroupThuChi({ userToken: userToken, walletId: value._id}))
+
+                                            dispatch(myTradeMonths({ userToken: userToken, walletId: value._id }))
+                                            dispatch(myTradeReports({ userToken: userToken, walletId: value._id }))
+                                            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: value._id }))
+                                            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: value._id }))
                                             navigation.navigate('Trade')
                                         }}
                                     />
@@ -200,7 +215,7 @@ export default function HomeScreen({ navigation }) {
                             <View style={styles.containerheader}>
                                 <Text style={styles.text}>Giao dịch gần đây</Text>
                                 <TouchableOpacity
-                                    onPress={() => navigation.jumpTo('Trade')}
+                                    onPress={() => {navigation.jumpTo('Trade')}}
                                 >
                                     <Text style={styles.text}>Xem tất cả</Text>
                                 </TouchableOpacity>

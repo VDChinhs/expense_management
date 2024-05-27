@@ -57,11 +57,11 @@ function TitleInput({ image, sizeimg, fontsize, title, onPress }) {
 
 const convertDate = (chooseDate) => {
     var currentDate = new Date()
-    if (chooseDate.getDate() - currentDate.getDate() == -1) {
+    if ((chooseDate.getDate() - currentDate.getDate() == -1) && (chooseDate.getMonth() - currentDate.getMonth() == 0)) {
         return "Hôm qua"
-    } else if (chooseDate.getDate() - currentDate.getDate() == 1) {
+    } else if ((chooseDate.getDate() - currentDate.getDate() == 1) && (chooseDate.getMonth() - currentDate.getMonth() == 0)) {
         return "Ngày mai"
-    } else if (chooseDate.getDate() - currentDate.getDate() == 0) {
+    } else if ((chooseDate.getDate() - currentDate.getDate() == 0) && (chooseDate.getMonth() - currentDate.getMonth() == 0)) {
         return "Hôm nay"
     } else {
         var day = chooseDate.getDay() + 1;
