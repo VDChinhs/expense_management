@@ -23,6 +23,7 @@ import EditTradeScreen from "../screens/Trade/EditTradeScreen";
 import EditWalletScreen from "../screens/Account/EditWalletScreen";
 import EditGroupScreen from "../screens/Account/EditGroupScreen";
 import EditBudgetScreen from "../screens/Budget/EditBudgetScreen";
+import SearchGroupScreen from "../screens/Account/SearchGroupScreen";
 
 import { useSelector } from "react-redux";
 
@@ -31,10 +32,10 @@ const Stack = createStackNavigator()
 export default function AppNav() {
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const { userToken } = useSelector(state => state.userReducer)
-    
+
     return (
         <NavigationContainer>
-            {userToken == null ? 
+            {userToken == null ?
                 (
                     <StartScreen></StartScreen>
                 )
@@ -51,6 +52,7 @@ export default function AppNav() {
                         <Stack.Screen name="TabHome" component={TabsBottom} options={{ headerShown: false }} />
                         <Stack.Screen name="AddBudget" component={AddBudget} options={{ title: 'Thêm ngân sách' }} />
                         <Stack.Screen name="EditBudgetScreen" component={EditBudgetScreen} options={{ title: 'Sửa ngân sách' }} />
+
                         <Stack.Group
                             screenOptions={{
                                 headerShown: false,
@@ -60,13 +62,13 @@ export default function AppNav() {
                             }}
                         >
                             <Stack.Screen name="AccountManagerScreen" component={AccountManagerScreen} options={{ title: "Quản lý tài khoản" }} />
+                            <Stack.Screen name="SearchGroupScreen" component={SearchGroupScreen} options={{ title: "Tìm nhóm" }} />
 
                         </Stack.Group>
 
                         <Stack.Group>
                             <Stack.Screen name="AddTrade" component={AddTradeScreen} options={{ title: "Thêm giao dịch" }} />
                             <Stack.Screen name="EditTradeScreen" component={EditTradeScreen} options={{ title: "Sửa giao dịch" }} />
-
                         </Stack.Group>
 
                         <Stack.Group>
@@ -106,7 +108,6 @@ export default function AppNav() {
 
                                         </View>
                                 }}
-
                             />
                             <Stack.Screen
                                 name="DetailReportScreen"
@@ -114,7 +115,6 @@ export default function AppNav() {
                                 options={{
                                     headerShadowVisible: false,
                                 }}
-
                             />
                         </Stack.Group>
 
@@ -122,7 +122,6 @@ export default function AppNav() {
                         <Stack.Screen name="EditGroupScreen" component={EditGroupScreen} options={{ title: "Sửa nhóm" }} />
                         <Stack.Screen name="ChooseGroupCha" component={ChooseGroupCha} options={{ title: "Chọn nhóm cha" }} />
                         <Stack.Screen name="ChooseIcon" component={ChooseIcon} options={{ title: "Chọn biểu tượng" }} />
-
                     </Stack.Navigator>
                 )}
         </NavigationContainer>

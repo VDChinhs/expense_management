@@ -162,7 +162,7 @@ const myGroup = async (token, type, walletId) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy nhóm thu, chi chỉ định', [
             { text: 'OK' }
         ]);
         return false
@@ -184,7 +184,28 @@ const groupParent = async (token, type, walletId) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
+        Alert.alert('Cảnh báo', 'Lỗi nhóm cha', [
+            { text: 'OK' }
+        ]);
+        return false
+    }
+    else {
+        let json = await response.json()
+        // console.log(json);
+        return json
+    }
+}
+
+const allGroupThuChi = async (token, walletId) => {
+    let response = await fetch(`http://${IP}:3000/user/group/getallthuchi?walletId=${walletId}`, {
+        method: 'Get',
+        headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+        },
+    })
+    if (!response.ok) {
+        Alert.alert('Cảnh báo', 'Lỗi lấy tất cả các nhóm thu chi', [
             { text: 'OK' }
         ]);
         return false
@@ -197,4 +218,4 @@ const groupParent = async (token, type, walletId) => {
 }
 
 
-export { addGroup, changeGroup, deleGroup, myGroup, groupParent };
+export { addGroup, changeGroup, deleGroup, myGroup, groupParent, allGroupThuChi };

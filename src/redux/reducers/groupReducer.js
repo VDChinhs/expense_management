@@ -1,13 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../actions/groupAction";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myAllGroupThuChi } from "../actions/groupAction";
 
 const initialGroup = {
     _myGroupChi: [],
     _myGroupThu: [],
     _myGroupParentChi: [],
     _myGroupParentThu: [],
+    _myAllGroupThuChi: [],
     isLoadingChi: true,
     isLoadingThu: true,
+    isLoading: true
 };
 
 const groupSlice = createSlice({
@@ -65,6 +67,17 @@ const groupSlice = createSlice({
             })
             .addCase(myAllGroupParentThu.rejected, (state, action) => {
                 state.isLoadingThu = false
+            })
+
+            .addCase(myAllGroupThuChi.pending, (state, action) => {
+                state.isLoading = true
+            })
+            .addCase(myAllGroupThuChi.fulfilled, (state, action) => {
+                state._myAllGroupThuChi = action.payload
+                state.isLoading = false
+            })
+            .addCase(myAllGroupThuChi.rejected, (state, action) => {
+                state.isLoading = false
             })
     }
 })

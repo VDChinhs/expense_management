@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { myLogin } from "../../redux/actions/userAction";
 import { myAllWallet } from "../../redux/actions/walletAction";
 import { setMyWalleting } from "../../redux/reducers/walletReducer";
-import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myAllGroupThuChi } from "../../redux/actions/groupAction";
 import { myAllBudget } from "../../redux/actions/budgetAction";
 import { myTradeMMonth, myTradeMWeek, myTradeRecent, myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
 
@@ -37,6 +37,7 @@ export default function LoginScreen({ navigation }) {
                     dispatch(myAllGroupThu({ userToken: userToken, walletId: res_wallet[0]._id }))
                     dispatch(myAllGroupParentChi({ userToken: userToken, walletId: res_wallet[0]._id, type: 0 }))
                     dispatch(myAllGroupParentThu({ userToken: userToken, walletId: res_wallet[0]._id, type: 1 }))
+                    dispatch(myAllGroupThuChi({ userToken: userToken, walletId: res_wallet[0]._id}))
 
                     dispatch(myAllBudget(userToken))
 

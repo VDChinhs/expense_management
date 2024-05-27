@@ -3,7 +3,7 @@ import { createMaterialTopTabNavigator } from '@react-navigation/material-top-ta
 import { useState, useEffect, useCallback } from 'react';
 import HeaderRight from "../components/HeaderRight";
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import LoadingIndicator from '../components/LoadingIndicator';
 
 function ChiScreen({ navigation, route }) {
@@ -11,7 +11,7 @@ function ChiScreen({ navigation, route }) {
 
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);
-    const [isGroup, SetGroup] = useState(undefined);
+    const [isGroup, SetGroup] = useState({ name: '' });
     const [refreshing, setRefreshing] = useState(false);
 
     const { _myGroupChi, isLoadingChi } = useSelector(state => state.groupReducer)
@@ -74,7 +74,7 @@ function ChiScreen({ navigation, route }) {
                                         else {
                                             navigation.navigate({
                                                 name: 'EditGroupScreen',
-                                                params: { group: value.root, type: 'Khoản chi' }
+                                                params: { group: value.root }
                                             });
                                         }
                                     }}
@@ -98,7 +98,7 @@ function ChiScreen({ navigation, route }) {
                                             />
                                         }
                                         {
-                                            isGroup == value.root.name &&
+                                            isGroup.name == value.root.name &&
                                             <Image
                                                 source={Number(require('../assets/check-mark.png'))}
                                                 style={styles.imageright}
@@ -116,7 +116,7 @@ function ChiScreen({ navigation, route }) {
                                             else {
                                                 navigation.navigate({
                                                     name: 'EditGroupScreen',
-                                                    params: { group: item, type: 'Khoản chi' }
+                                                    params: { group: item }
                                                 });
                                             }
                                         }}
@@ -140,7 +140,7 @@ function ChiScreen({ navigation, route }) {
                                                 />
                                             }
                                             {
-                                                isGroup == item.name &&
+                                                isGroup.name == item.name &&
                                                 <Image
                                                     source={Number(require('../assets/check-mark.png'))}
                                                     style={styles.imageright}
@@ -161,33 +161,14 @@ function ChiScreen({ navigation, route }) {
 }
 
 function ThuScreen({ navigation, route }) {
-    // const data = [
-    //     {
-    //         root: {name: 'Xã Hội', image: require('../assets/anuong.png')},
-    //         node: [
-    //             {name:'Gia đình', image: require('../assets/anuong.png')},
-    //             {name:'Công việc', image: require('../assets/tienmang.png')},
-    //             {name:'Sở thích', image: require('../assets/suckhoe.png')},
-    //         ],
-    //     },
-    //     {
-    //         root: {name: 'Công ty', image: require('../assets/thoitrang.png')},
-    //         node: [
-    //             {name:'Thưởng', image: require('../assets/thoitrang.png')},
-    //             {name:'Lãi', image: require('../assets/dichuyen.png')},
-    //             {name:'Xổ số', image: require('../assets/thucung.png')},
-    //         ]
-    //     },
-    // ]
     const state = route.params;
 
     const [isBack, SetBack] = useState('');
     const [isChoose, SetChoose] = useState(false);
-    const [isGroup, SetGroup] = useState(undefined);
+    const [isGroup, SetGroup] = useState({ name: '' });
 
     const [refreshing, setRefreshing] = useState(false);
 
-    const dispatch = useDispatch()
     const { _myGroupThu, isLoadingThu } = useSelector(state => state.groupReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
 
@@ -247,7 +228,7 @@ function ThuScreen({ navigation, route }) {
                                         else {
                                             navigation.navigate({
                                                 name: 'EditGroupScreen',
-                                                params: { group: value.root, type: 'Khoản thu' }
+                                                params: { group: value.root }
                                             });
                                         }
                                     }}
@@ -271,7 +252,7 @@ function ThuScreen({ navigation, route }) {
                                             />
                                         }
                                         {
-                                            isGroup == value.root.name &&
+                                            isGroup.name == value.root.name &&
                                             <Image
                                                 source={Number(require('../assets/check-mark.png'))}
                                                 style={styles.imageright}
@@ -289,7 +270,7 @@ function ThuScreen({ navigation, route }) {
                                             else {
                                                 navigation.navigate({
                                                     name: 'EditGroupScreen',
-                                                    params: { group: item, type: 'Khoản thu' }
+                                                    params: { group: item }
                                                 });
                                             }
                                         }}
@@ -313,7 +294,7 @@ function ThuScreen({ navigation, route }) {
                                                 />
                                             }
                                             {
-                                                isGroup == item.name &&
+                                                isGroup.name == item.name &&
                                                 <Image
                                                     source={Number(require('../assets/check-mark.png'))}
                                                     style={styles.imageright}
@@ -351,6 +332,12 @@ export default function TabsTopGroup({ navigation, route }) {
                         })
                     }}
                     image2={Number(require('../assets/search.png'))}
+                    onPress2={() =>
+                        navigation.navigate({
+                            name: 'SearchGroupScreen',
+                            params: route.params
+                        })
+                    }
                 />
         });
     }, [route]);

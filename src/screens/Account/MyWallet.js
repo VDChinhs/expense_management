@@ -1,9 +1,9 @@
-import { View, StyleSheet, ScrollView, Text, Image, Dimensions, TouchableOpacity, ActivityIndicator, RefreshControl } from "react-native";
+import { View, StyleSheet, ScrollView, Text, Image, Dimensions, TouchableOpacity, RefreshControl } from "react-native";
 import InfoTitle from "../../components/InfoTitle";
 import { useState, useEffect, useCallback } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
-import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myAllGroupThuChi } from "../../redux/actions/groupAction";
 import { setMyWalleting } from "../../redux/reducers/walletReducer";
 import { myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
 import LoadingIndicator from "../../components/LoadingIndicator";
@@ -93,6 +93,8 @@ export default function MyWallet({ navigation, route }) {
                                                 dispatch(myAllGroupThu({ userToken: userToken, walletId: value._id }))
                                                 dispatch(myAllGroupParentChi({ userToken: userToken, walletId: value._id, type: 0 }))
                                                 dispatch(myAllGroupParentThu({ userToken: userToken, walletId: value._id, type: 1 }))
+                                                dispatch(myAllGroupThuChi({ userToken: userToken, walletId: value._id}))
+
 
                                                 dispatch(myTradeMonths({ userToken: userToken, walletId: value._id }))
                                                 dispatch(myTradeReports({ userToken: userToken, walletId: value._id }))
