@@ -2,7 +2,7 @@ import { Alert } from "react-native";
 import { IP } from "../../Constant";
 import { convertFirstDay } from "./Date";
 
-//Thêm giao dichj
+//Thêm giao dịch
 const addTrade = async (token, money, groupId, note, date, walletId) => {
     if (token == "" || money == null || groupId == undefined || walletId == undefined) {
         Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
@@ -173,7 +173,7 @@ const mostTradeMonth = async (token, month) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tháng', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy các khoản chi trong tháng này và trước', [
             { text: 'OK' }
         ]);
         return false
@@ -201,7 +201,7 @@ const mostTradeWeek = async (token) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần này và trước', [
             { text: 'OK' }
         ]);
         return false
@@ -229,7 +229,7 @@ const tradeMonths = async (token, numbermonth, walletId) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy giao dịch các tháng', [
             { text: 'OK' }
         ]);
         return false
@@ -257,7 +257,7 @@ const tradeReports = async (token, numbermonth, walletId) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy báo cáo giao dịch các tháng', [
             { text: 'OK' }
         ]);
         return false
@@ -285,7 +285,7 @@ const tradeReportDetail = async (token, numbermonth, walletId, type) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tuần', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy khoản chi trong tháng', [
             { text: 'OK' }
         ]);
         return false

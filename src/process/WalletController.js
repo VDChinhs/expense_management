@@ -136,7 +136,7 @@ const myWallet = async (token) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy tất các ví', [
             { text: 'OK' }
         ]);
         return false
@@ -158,7 +158,7 @@ const walletFirst = async (token) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lấy ví', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy ví đầu tiên', [
             { text: 'OK' }
         ]);
         return false

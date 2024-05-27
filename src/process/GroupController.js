@@ -42,7 +42,7 @@ const addGroup = async (token, name, image, type, parent, walletId) => {
         body: JSON.stringify(data),
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi thêm ví', [
+        Alert.alert('Cảnh báo', 'Lỗi thêm nhóm', [
             { text: 'OK' }
         ]);
         return false
@@ -95,7 +95,7 @@ const changeGroup = async (token, id, name, image, parent, walletId) => {
         body: JSON.stringify(data),
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi sửa ví', [
+        Alert.alert('Cảnh báo', 'Lỗi sửa nhóm', [
             { text: 'OK' }
         ]);
         return false

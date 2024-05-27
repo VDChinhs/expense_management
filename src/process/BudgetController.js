@@ -33,7 +33,7 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
         body: JSON.stringify(data),
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi thêm giao dịch', [
+        Alert.alert('Cảnh báo', 'Lỗi thêm ngân sách', [
             { text: 'OK' }
         ]);
         return false
@@ -150,7 +150,7 @@ const myBudget = async (token) => {
         },
     })
     if (!response.ok) {
-        Alert.alert('Cảnh báo', 'Lỗi lây ngân sách', [
+        Alert.alert('Cảnh báo', 'Lỗi lấy tất cả ngân sách', [
             { text: 'OK' }
         ]);
         return false
