@@ -3,10 +3,9 @@ import Button from "../../components/Button";
 import { useState, useEffect } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear, getRangeDate } from "../../process/Date";
-import { addBudget } from "../../process/BudgetController";
 
 import { useDispatch, useSelector } from "react-redux";
-import { myAllBudget } from "../../redux/actions/budgetAction";
+import { myAllBudget, myBudgetAdd } from "../../redux/actions/budgetAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -82,6 +81,7 @@ const convertDate = (chooseDate) => {
 export default function AddBudget({ navigation, route }) {
     const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
+    const { isCreating } = useSelector(state => state.budgetReducer)
 
     const dispatch = useDispatch()
 
@@ -139,10 +139,18 @@ export default function AddBudget({ navigation, route }) {
         }
     }, [route]);
 
-    async function handleAddBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
-        if (await addBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId)) {
-            navigation.goBack()
+    function handleAddBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
+        dispatch(myBudgetAdd({
+            token: userToken,
+            money: isMoney,
+            groupId: groupId,
+            startDate: isRangeDateStart,
+            endDate: isRangeDateEnd,
+            walletId: walletId
+        }))
+        if (!isCreating) {
             dispatch(myAllBudget(userToken))
+            navigation.goBack()
         }
     }
 
@@ -207,6 +215,7 @@ export default function AddBudget({ navigation, route }) {
             <Button title={"Lưu"} onPress={() => {
                 handleAddBudget(userToken, parseFloat(isMoney.replace(/,/g, '')), isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)
             }}
+                disabled={isCreating}
             />
 
             {isshowpickdatestart && (

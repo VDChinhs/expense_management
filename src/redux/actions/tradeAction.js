@@ -28,7 +28,6 @@ export const myTradeChange = createAsyncThunk(
 export const myTradeDele = createAsyncThunk(
     'trade/myTradeDele',
     async ({ token, id }) => {
-        console.log("xóa");
         try {
             let res = await deleTrade(token, id)
             return res

@@ -4,10 +4,9 @@ import { useState, useEffect, useContext } from "react";
 import HeaderRight from "../../components/HeaderRight";
 import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear, getRangeDate, convertFirstDay } from "../../process/Date";
-import { changeBudget, deleBudget } from "../../process/BudgetController";
 
 import { useDispatch, useSelector } from "react-redux";
-import { myAllBudget } from "../../redux/actions/budgetAction";
+import { myAllBudget, myBudgetChange, myBudgetDele } from "../../redux/actions/budgetAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -83,6 +82,7 @@ const convertDate = (chooseDate) => {
 
 export default function EditBudgetScreen({ navigation, route }) {
     const { userToken } = useSelector(state => state.userReducer)
+    const { isChangeing, isDeleting } = useSelector(state => state.budgetReducer)
 
     const dispatch = useDispatch()
 
@@ -157,21 +157,32 @@ export default function EditBudgetScreen({ navigation, route }) {
                     onPress2={() =>
                         handleDeleBudget(userToken, route.params.budget._id)
                     }
+                    disabled2={isDeleting}
                 />
         });
     }, [route]);
 
-    async function handleDeleBudget(userToken, budgetId) {
-        if (await deleBudget(userToken, budgetId)) {
-            navigation.goBack()
+    function handleDeleBudget(userToken, budgetId) {
+        dispatch(myBudgetDele({ token: userToken, id: budgetId }))
+        if (!isDeleting) {
             dispatch(myAllBudget(userToken))
+            navigation.goBack()
         }
     }
 
-    async function handleChangeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
-        if (await changeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId)) {
+    function handleChangeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
+        dispatch(myBudgetChange({
+            token: userToken,
+            id: budgetId,
+            money: isMoney,
+            groupId: groupId,
+            startDate: isRangeDateStart,
+            endDate: isRangeDateEnd,
+            walletId: walletId
+        }))
+        dispatch(myAllBudget(userToken))
+        if (!isChangeing) {
             navigation.goBack()
-            dispatch(myAllBudget(userToken))
         }
     }
 
@@ -242,6 +253,7 @@ export default function EditBudgetScreen({ navigation, route }) {
                     isWallet._id
                 )
             }
+                disabled={isChangeing}
             />
 
             {isshowpickdatestart && (
