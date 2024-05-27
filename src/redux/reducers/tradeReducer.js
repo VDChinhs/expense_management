@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { myTradeMMonth, myTradeMWeek, myTradeRecent, myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../actions/tradeAction";
+import { myTradeMMonth, myTradeMWeek, myTradeRecent, myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu, myTradeAdd, myTradeChange, myTradeDele } from "../actions/tradeAction";
 
 const initialTrade = {
+    isCreating: false,
+    isChangeing: false,
+    isDeleting: false,
     _tradeMostMonth: [],
     _tradeMostWeek: [],
     _tradeRecent: [],
@@ -34,6 +37,36 @@ const tradeSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(myTradeAdd.pending, (state, action) => {
+                state.isCreating = true
+            })
+            .addCase(myTradeAdd.fulfilled, (state, action) => {
+                state.isCreating = false
+            })
+            .addCase(myTradeAdd.rejected, (state, action) => {
+                state.isCreating = false
+            })
+
+            .addCase(myTradeChange.pending, (state, action) => {
+                state.isChangeing = true
+            })
+            .addCase(myTradeChange.fulfilled, (state, action) => {
+                state.isChangeing = false
+            })
+            .addCase(myTradeChange.rejected, (state, action) => {
+                state.isChangeing = false
+            })
+
+            .addCase(myTradeDele.pending, (state, action) => {
+                state.isDeleting = true
+            })
+            .addCase(myTradeDele.fulfilled, (state, action) => {
+                state.isDeleting = false
+            })
+            .addCase(myTradeDele.rejected, (state, action) => {
+                state.isDeleting = false
+            })
+
             .addCase(myTradeMMonth.pending, (state, action) => {
                 state.isLoadingMMonth = true
             })

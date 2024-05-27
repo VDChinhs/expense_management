@@ -1,5 +1,42 @@
-import { mostTradeMonth, mostTradeWeek, tradeRecent, tradeMonths, tradeReports, tradeReportDetail } from "../../process/TradeController";
+import { mostTradeMonth, mostTradeWeek, tradeRecent, tradeMonths, tradeReports, tradeReportDetail, addTrade, changeTrade, deleTrade } from "../../process/TradeController";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+export const myTradeAdd = createAsyncThunk(
+    'trade/myTradeAdd',
+    async ({ token, money, groupId, note, date, walletId }) => {
+        try {
+            let res = await addTrade(token, money, groupId, note, date, walletId)
+            return res
+        } catch (error) {
+            return error
+        }
+    }
+)
+
+export const myTradeChange = createAsyncThunk(
+    'trade/myTradeChange',
+    async ({ token, id, money, groupId, note, date, walletId }) => {
+        try {
+            let res = await changeTrade(token, id, money, groupId, note, date, walletId)
+            return res
+        } catch (error) {
+            return error
+        }
+    }
+)
+
+export const myTradeDele = createAsyncThunk(
+    'trade/myTradeDele',
+    async ({ token, id }) => {
+        console.log("xóa");
+        try {
+            let res = await deleTrade(token, id)
+            return res
+        } catch (error) {
+            return error
+        }
+    }
+)
 
 export const myTradeMMonth = createAsyncThunk(
     'trade/myTradeMMonth',

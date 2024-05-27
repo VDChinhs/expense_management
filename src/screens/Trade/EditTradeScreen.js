@@ -3,12 +3,11 @@ import Button from "../../components/Button";
 import { useState, useEffect } from "react";
 import HeaderRight from "../../components/HeaderRight";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { changeTrade, deleTrade } from "../../process/TradeController";
 
 import { useDispatch, useSelector } from "react-redux";
 import { myAllWallet } from "../../redux/actions/walletAction";
 import { myAllBudget } from "../../redux/actions/budgetAction";
-import { myTradeMMonth, myTradeMWeek, myTradeRecent, myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
+import { myTradeMMonth, myTradeMWeek, myTradeRecent, myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu, myTradeChange, myTradeDele } from "../../redux/actions/tradeAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -76,7 +75,7 @@ const convertDate = (chooseDate) => {
 export default function EditTradeScreen({ navigation, route }) {
     const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
-
+    const { isChangeing, isDeleting } = useSelector(state => state.tradeReducer)
 
     const [isMoney, setMoney] = useState(0);
     const [isGroup, setGroup] = useState({ name: null, image: null });
@@ -117,12 +116,14 @@ export default function EditTradeScreen({ navigation, route }) {
                     onPress2={() => {
                         handleDeleTrade(userToken, route.params?.trade._id)
                     }}
+                    disabled2={isDeleting}
                 />
         });
     }, [route]);
 
-    async function handleDeleTrade(userToken, tradeId) {
-        if (await deleTrade(userToken, tradeId)) {
+    function handleDeleTrade(userToken, tradeId) {
+        dispatch(myTradeDele({ token: userToken, id: tradeId }))
+        if (!isDeleting) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
 
@@ -138,8 +139,17 @@ export default function EditTradeScreen({ navigation, route }) {
         }
     }
 
-    async function handleChangeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId) {
-        if (await changeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId)) {
+    function handleChangeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId) {
+        dispatch(myTradeChange({
+            token: userToken,
+            id: tradeId,
+            money: isMoney,
+            groupId: groupId,
+            note: isNote,
+            date: isDate,
+            walletId: walletId
+        }))
+        if (!isChangeing) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
 
@@ -224,13 +234,14 @@ export default function EditTradeScreen({ navigation, route }) {
                 handleChangeTrade(
                     userToken,
                     isTrade._id,
-                    parseFloat(isMoney.replace(/,/g, '')),
+                    parseFloat(String(isMoney).replace(/,/g, '')),
                     isGroup._id,
                     isNote,
                     isDate,
                     isWallet._id
                 )
             }
+                disabled={isChangeing}
             />
 
             {isshowpickdate && (

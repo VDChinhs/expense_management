@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { myAllWallet } from "../../redux/actions/walletAction";
 import { myAllBudget } from "../../redux/actions/budgetAction";
-import { myTradeMonths, myTradeReports, myTradeRecent, myTradeMMonth, myTradeMWeek, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
+import { myTradeMonths, myTradeReports, myTradeRecent, myTradeMMonth, myTradeMWeek, myTradeReportDetailChi, myTradeReportDetailThu, myTradeAdd } from "../../redux/actions/tradeAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -76,6 +76,7 @@ const convertDate = (chooseDate) => {
 export default function AddTradeScreen({ navigation, route }) {
     const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
+    const { isCreating } = useSelector(state => state.tradeReducer)
 
     const [isMoney, setMoney] = useState(null);
     const [isGroup, setGroup] = useState({ name: 'Chọn nhóm', image: require('../../assets/question.png') });
@@ -100,8 +101,16 @@ export default function AddTradeScreen({ navigation, route }) {
         }
     }, [route]);
 
-    async function handleAddTrade(userToken, isMoney, groupId, isNote, isDate, walletId) {
-        if (await addTrade(userToken, isMoney, groupId, isNote, isDate, walletId)) {
+    function handleAddTrade(userToken, isMoney, groupId, isNote, isDate, walletId) {
+        dispatch(myTradeAdd({
+            token: userToken,
+            money: isMoney,
+            groupId: groupId,
+            note: isNote,
+            date: isDate,
+            walletId: walletId
+        }))
+        if (!isCreating) {
             navigation.goBack()
             dispatch(myAllWallet(userToken))
             dispatch(myAllBudget(userToken))
@@ -184,9 +193,10 @@ export default function AddTradeScreen({ navigation, route }) {
 
             <Button
                 title={"Lưu"}
-                onPress={() =>{
+                onPress={() => {
                     handleAddTrade(userToken, parseFloat(isMoney.replace(/,/g, '')), isGroup._id, isNote, isDate, isWallet._id)
                 }}
+                disabled={isCreating}
             />
 
             {isshowpickdate && (

@@ -1,11 +1,11 @@
 import { View, StyleSheet, Image, TouchableOpacity } from "react-native";
 
-export default function HeaderRight({ onPress1, onPress2, image1, image2 }) {
+export default function HeaderRight({ onPress1, onPress2, image1, image2, disabled1, disabled2 }) {
     return (
         <View style={styles.container}>
             <TouchableOpacity onPress={onPress1}>
                 {image1 != undefined ? (
-                    <View style={styles.containerimage}>
+                    <View style={[styles.containerimage, { opacity: disabled1 ? 0.4 : 1 }]}>
                         <Image
                             source={image1}
                             style={styles.image}
@@ -19,10 +19,10 @@ export default function HeaderRight({ onPress1, onPress2, image1, image2 }) {
                     <View></View>
                 )}
             </TouchableOpacity>
-            <TouchableOpacity onPress={onPress2}>
+            <TouchableOpacity onPress={onPress2} disabled={disabled2}>
                 <Image
                     source={image2}
-                    style={styles.image}
+                    style={[styles.image, { opacity: disabled2 ? 0.4 : 1 }]}
                 />
             </TouchableOpacity>
         </View>
