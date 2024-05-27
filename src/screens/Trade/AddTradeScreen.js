@@ -1,8 +1,7 @@
-import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity } from "react-native";
+import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Alert } from "react-native";
 import Button from "../../components/Button";
 import { useState, useEffect } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { addTrade } from "../../process/TradeController";
 import { useSelector } from "react-redux";
 
 import { useDispatch } from "react-redux";
@@ -78,7 +77,7 @@ export default function AddTradeScreen({ navigation, route }) {
     const { _isWalleting } = useSelector(state => state.walletReducer)
     const { isCreating } = useSelector(state => state.tradeReducer)
 
-    const [isMoney, setMoney] = useState(null);
+    const [isMoney, setMoney] = useState(0);
     const [isGroup, setGroup] = useState({ name: 'Chọn nhóm', image: require('../../assets/question.png') });
     const [isNote, setNote] = useState('');
     const [isDate, setDate] = useState(new Date());
@@ -102,6 +101,18 @@ export default function AddTradeScreen({ navigation, route }) {
     }, [route]);
 
     function handleAddTrade(userToken, isMoney, groupId, isNote, isDate, walletId) {
+        if (userToken == "" || isMoney == null || groupId == undefined || walletId == undefined) {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
+        }
+        if (isMoney <= 0) {
+            Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
+                { text: 'OK' }
+            ]);
+            return
+        }
         dispatch(myTradeAdd({
             token: userToken,
             money: isMoney,
@@ -111,10 +122,9 @@ export default function AddTradeScreen({ navigation, route }) {
             walletId: walletId
         }))
         if (!isCreating) {
-            navigation.goBack()
             dispatch(myAllWallet(userToken))
             dispatch(myAllBudget(userToken))
-
+            
             dispatch(myTradeMMonth(userToken))
             dispatch(myTradeMWeek(userToken))
             dispatch(myTradeRecent(userToken))
@@ -122,6 +132,7 @@ export default function AddTradeScreen({ navigation, route }) {
             dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
+            navigation.goBack()
         }
     }
 
@@ -194,7 +205,7 @@ export default function AddTradeScreen({ navigation, route }) {
             <Button
                 title={"Lưu"}
                 onPress={() => {
-                    handleAddTrade(userToken, parseFloat(isMoney.replace(/,/g, '')), isGroup._id, isNote, isDate, isWallet._id)
+                    handleAddTrade(userToken, parseFloat(String(isMoney).replace(/,/g, '')), isGroup._id, isNote, isDate, isWallet._id)
                 }}
                 disabled={isCreating}
             />

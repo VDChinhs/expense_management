@@ -122,13 +122,18 @@ export default function EditTradeScreen({ navigation, route }) {
     }, [route]);
 
     function handleDeleTrade(userToken, tradeId) {
+        if (userToken == "") {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
+        }
         dispatch(myTradeDele({ token: userToken, id: tradeId }))
         if (!isDeleting) {
-            navigation.goBack()
             dispatch(myAllWallet(userToken))
-
+            
             dispatch(myAllBudget(userToken))
-
+            
             dispatch(myTradeMMonth(userToken))
             dispatch(myTradeMWeek(userToken))
             dispatch(myTradeRecent(userToken))
@@ -136,10 +141,23 @@ export default function EditTradeScreen({ navigation, route }) {
             dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
+            navigation.goBack()
         }
     }
 
     function handleChangeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId) {
+        if (userToken == "" || isMoney == null || groupId == undefined || walletId == undefined) {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
+        }
+        if (isMoney <= 0) {
+            Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
+                { text: 'OK' }
+            ]);
+            return
+        }
         dispatch(myTradeChange({
             token: userToken,
             id: tradeId,
@@ -150,11 +168,10 @@ export default function EditTradeScreen({ navigation, route }) {
             walletId: walletId
         }))
         if (!isChangeing) {
-            navigation.goBack()
             dispatch(myAllWallet(userToken))
-
+            
             dispatch(myAllBudget(userToken))
-
+            
             dispatch(myTradeMMonth(userToken))
             dispatch(myTradeMWeek(userToken))
             dispatch(myTradeRecent(userToken))
@@ -162,6 +179,7 @@ export default function EditTradeScreen({ navigation, route }) {
             dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
             dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
+            navigation.goBack()
         }
     }
 

@@ -1,4 +1,4 @@
-import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Modal } from "react-native";
+import { Text, View, StyleSheet, TextInput, Image, TouchableOpacity, Modal, Alert } from "react-native";
 import Button from "../../components/Button";
 import { useState, useEffect } from "react";
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -85,7 +85,7 @@ export default function AddBudget({ navigation, route }) {
 
     const dispatch = useDispatch()
 
-    const [isMoney, setMoney] = useState(null);
+    const [isMoney, setMoney] = useState(0);
     const [isGroup, setGroup] = useState({ name: 'Chọn nhóm', image: require('../../assets/question.png') });
     const [isRangeDateStart, setRangeDateStart] = useState(new Date());
     const [isRangeDateEnd, setRangeDateEnd] = useState(new Date());
@@ -140,6 +140,18 @@ export default function AddBudget({ navigation, route }) {
     }, [route]);
 
     function handleAddBudget(userToken, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
+        if (userToken == "" || isMoney == null || groupId == undefined || walletId == undefined) {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
+        }
+        if (isMoney <= 0) {
+            Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
+                { text: 'OK' }
+            ]);
+            return
+        }
         dispatch(myBudgetAdd({
             token: userToken,
             money: isMoney,
@@ -213,7 +225,7 @@ export default function AddBudget({ navigation, route }) {
             </View>
 
             <Button title={"Lưu"} onPress={() => {
-                handleAddBudget(userToken, parseFloat(isMoney.replace(/,/g, '')), isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)
+                handleAddBudget(userToken, parseFloat(String(isMoney).replace(/,/g, '')), isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)
             }}
                 disabled={isCreating}
             />

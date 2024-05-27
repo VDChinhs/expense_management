@@ -124,7 +124,7 @@ export default function DetailReportScreen({ navigation, route }) {
                                         />
                                     </View>
                                 </View>
-                                <View style={{ paddingHorizontal: 10 }}>
+                                <View style={{ paddingHorizontal: 10 , paddingBottom: 85}}>
                                     {(route.params.type == 0 ? _tradeReportDetailChi : _tradeReportDetailThu)[indexTradeMonths].data.map((value, index) => (
                                         <InfoTitle
                                             key={index}
@@ -162,7 +162,7 @@ const styles = StyleSheet.create({
     container: {
         paddingHorizontal: 15,
         alignItems: 'center',
-        marginVertical: 30
+        marginVertical: 30,
     },
     images: {
         width: 16,

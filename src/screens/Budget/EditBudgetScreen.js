@@ -163,6 +163,12 @@ export default function EditBudgetScreen({ navigation, route }) {
     }, [route]);
 
     function handleDeleBudget(userToken, budgetId) {
+        if (userToken == "" || budgetId == '') {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
+        }
         dispatch(myBudgetDele({ token: userToken, id: budgetId }))
         if (!isDeleting) {
             dispatch(myAllBudget(userToken))
@@ -171,6 +177,18 @@ export default function EditBudgetScreen({ navigation, route }) {
     }
 
     function handleChangeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
+        if (userToken == "" || budgetId == "" || isMoney == null || groupId == undefined || walletId == undefined) {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
+        }
+        if (isMoney <= 0) {
+            Alert.alert('Cảnh báo', 'Nhập số tiền lớn hơn 0', [
+                { text: 'OK' }
+            ]);
+            return
+        }
         dispatch(myBudgetChange({
             token: userToken,
             id: budgetId,
@@ -246,7 +264,7 @@ export default function EditBudgetScreen({ navigation, route }) {
                 handleChangeBudget(
                     userToken,
                     isBudget._id,
-                    parseFloat(isMoney.replace(/,/g, '')),
+                    parseFloat(String(isMoney).replace(/,/g, '')),
                     isGroup._id,
                     isRangeDateStart,
                     isRangeDateEnd,
