@@ -86,7 +86,7 @@ export default function EditBudgetScreen({ navigation, route }) {
 
     const dispatch = useDispatch()
 
-    const [isMoney, setMoney] = useState(null);
+    const [isMoney, setMoney] = useState(0);
     const [isGroup, setGroup] = useState({ name: null, image: null });
     const [isRangeDateStart, setRangeDateStart] = useState(new Date());
     const [isRangeDateEnd, setRangeDateEnd] = useState(new Date());
@@ -180,16 +180,24 @@ export default function EditBudgetScreen({ navigation, route }) {
             <View style={styles.inputs}>
 
                 <Input
-                    value={String(isMoney)}
                     image={require('../../assets/coins.png')}
                     sizeimg={30}
                     fontsize={30}
                     keyboardType="number-pad"
                     onChangeText={(money) => {
-                        if (!money.startsWith('0')) {
-                            setMoney(money)
+                        const rawValue = money.replace(/,/g, '');
+                        if (rawValue === '') {
+                            setMoney('');
+                            return;
                         }
+                        if (rawValue === '0') {
+                            setMoney('');
+                            return;
+                        }
+                        const formattedValue = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        setMoney(formattedValue)
                     }}
+                    value={isMoney.toLocaleString()}
                 />
 
                 <TitleInput
@@ -227,7 +235,7 @@ export default function EditBudgetScreen({ navigation, route }) {
                 handleChangeBudget(
                     userToken,
                     isBudget._id,
-                    isMoney,
+                    parseFloat(isMoney.replace(/,/g, '')),
                     isGroup._id,
                     isRangeDateStart,
                     isRangeDateEnd,

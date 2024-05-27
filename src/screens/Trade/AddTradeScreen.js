@@ -127,11 +127,19 @@ export default function AddTradeScreen({ navigation, route }) {
                     autoFocus={true}
                     keyboardType="number-pad"
                     onChangeText={(money) => {
-                        if (!money.startsWith('0')) {
-                            setMoney(money)
+                        const rawValue = money.replace(/,/g, '');
+                        if (rawValue === '') {
+                            setMoney('');
+                            return;
                         }
+                        if (rawValue === '0') {
+                            setMoney('');
+                            return;
+                        }
+                        const formattedValue = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        setMoney(formattedValue)
                     }}
-                    value={isMoney && isMoney.toLocaleString()}
+                    value={isMoney}
                 />
 
                 <TitleInput
@@ -176,9 +184,9 @@ export default function AddTradeScreen({ navigation, route }) {
 
             <Button
                 title={"Lưu"}
-                onPress={() =>
-                    handleAddTrade(userToken, isMoney, isGroup._id, isNote, isDate, isWallet._id)
-                }
+                onPress={() =>{
+                    handleAddTrade(userToken, parseFloat(isMoney.replace(/,/g, '')), isGroup._id, isNote, isDate, isWallet._id)
+                }}
             />
 
             {isshowpickdate && (

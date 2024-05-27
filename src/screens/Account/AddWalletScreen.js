@@ -70,14 +70,25 @@ export default function AddWalletScreen({ navigation, route }) {
                     fontsize={30}
                     keyboardType="number-pad"
                     onChangeText={(money) => {
-                        setMoney(money)
+                        const rawValue = money.replace(/,/g, '');
+                        if (rawValue === '') {
+                            setMoney('');
+                            return;
+                        }
+                        if (rawValue === '0') {
+                            setMoney('');
+                            return;
+                        }
+                        const formattedValue = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        setMoney(formattedValue)
                     }}
+                    value={isMoney}
                 />
             </View>
             <Button
                 title={"Lưu"}
                 onPress={() => {
-                    HandleAddWallet(userToken, isNameGroup, isMoney, isIcon)
+                    HandleAddWallet(userToken, isNameGroup, parseFloat(isMoney.replace(/,/g, '')), isIcon)
                 }}
             />
         </View>

@@ -158,11 +158,19 @@ export default function AddBudget({ navigation, route }) {
                     autoFocus={true}
                     keyboardType="number-pad"
                     onChangeText={(money) => {
-                        if (!money.startsWith('0')) {
-                            setMoney(money)
+                        const rawValue = money.replace(/,/g, '');
+                        if (rawValue === '') {
+                            setMoney('');
+                            return;
                         }
+                        if (rawValue === '0') {
+                            setMoney('');
+                            return;
+                        }
+                        const formattedValue = rawValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                        setMoney(formattedValue)
                     }}
-                    value={isMoney && isMoney.toLocaleString()}
+                    value={isMoney}
                 />
 
                 <TitleInput
@@ -197,7 +205,7 @@ export default function AddBudget({ navigation, route }) {
             </View>
 
             <Button title={"Lưu"} onPress={() => {
-                handleAddBudget(userToken, isMoney, isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)
+                handleAddBudget(userToken, parseFloat(isMoney.replace(/,/g, '')), isGroup._id, isRangeDateStart, isRangeDateEnd, isWallet._id)
             }}
             />
 
