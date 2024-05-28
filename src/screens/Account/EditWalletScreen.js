@@ -1,4 +1,4 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from "react-native";
 import { useState, useEffect } from "react";
 import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
@@ -29,7 +29,7 @@ function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
 
 export default function EditWalletScreen({ navigation, route }) {
     const { userToken } = useSelector(state => state.userReducer)
-    const { isChangeing, isDeleting } = useSelector(state => state.walletReducer)
+    const { isChangeing, isDeleting, _myWallet } = useSelector(state => state.walletReducer)
 
     const [isName, setName] = useState('');
     const [isIcon, setIcon] = useState(null);
@@ -64,6 +64,12 @@ export default function EditWalletScreen({ navigation, route }) {
     }, [route]);
 
     function handleDeleWallet(userToken, walletid) {
+        if (_myWallet.length == 1) {
+            Alert.alert('Cảnh báo', 'Chỉ còn 1 ví duy nhất, không thể xóa', [
+                { text: 'OK' }
+            ]);
+            return
+        }
         dispatch(myWalletDele({ token: userToken, id: walletid, dispatch: dispatch }))
         navigation.goBack()
     }

@@ -87,40 +87,48 @@ export default function HomeScreen({ navigation }) {
                         </TouchableOpacity>
                     </View>
                     <View style={styles.container}>
-                        <View style={styles.border}>
-                            <View style={styles.containerheader}>
-                                <Text style={styles.text}>Ví của tôi</Text>
-                                <TouchableOpacity
-                                    onPress={() => navigation.navigate('MyWallet')}
-                                >
-                                    <Text style={styles.text}>Xem tất cả</Text>
-                                </TouchableOpacity>
-                            </View>
-                            <View style={{ alignItems: 'center' }}>
-                                {_myWallet.slice(0, 3).map((value, fIndex) => (
-                                    <InfoTitle
-                                        key={fIndex}
-                                        width={'92%'}
-                                        titlel={value.name}
-                                        money={value.money}
-                                        imageleft={{ uri: value.image }}
-                                        onPress={() => {
-                                            dispatch(setMyWalleting(value))
+                        <View style={{ width: '92%' }}>
+                            <View style={styles.border}>
+                                <View style={styles.containerheader}>
+                                    <Text style={styles.text}>Ví của tôi</Text>
+                                    <TouchableOpacity
+                                        onPress={() => navigation.navigate('MyWallet')}
+                                    >
+                                        <Text style={styles.text}>Xem tất cả</Text>
+                                    </TouchableOpacity>
+                                </View>
+                                {_myWallet.length == 0 ?
+                                    <View style={{ paddingTop: 30, paddingBottom: 30, alignItems: 'center' }}>
+                                        <Text style={styles.text}>Không có ví nào</Text>
+                                    </View>
+                                    :
+                                    <View style={{ alignItems: 'center' }}>
+                                        {_myWallet.slice(0, 3).map((value, fIndex) => (
+                                            <InfoTitle
+                                                key={fIndex}
+                                                width={'92%'}
+                                                titlel={value.name}
+                                                money={value.money}
+                                                imageleft={{ uri: value.image }}
+                                                onPress={() => {
+                                                    dispatch(setMyWalleting(value))
 
-                                            dispatch(myAllGroupChi({ userToken: userToken, walletId: value._id }))
-                                            dispatch(myAllGroupThu({ userToken: userToken, walletId: value._id }))
-                                            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: value._id, type: 0 }))
-                                            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: value._id, type: 1 }))
-                                            dispatch(myAllGroupThuChi({ userToken: userToken, walletId: value._id}))
+                                                    dispatch(myAllGroupChi({ userToken: userToken, walletId: value._id }))
+                                                    dispatch(myAllGroupThu({ userToken: userToken, walletId: value._id }))
+                                                    dispatch(myAllGroupParentChi({ userToken: userToken, walletId: value._id, type: 0 }))
+                                                    dispatch(myAllGroupParentThu({ userToken: userToken, walletId: value._id, type: 1 }))
+                                                    dispatch(myAllGroupThuChi({ userToken: userToken, walletId: value._id }))
 
-                                            dispatch(myTradeMonths({ userToken: userToken, walletId: value._id }))
-                                            dispatch(myTradeReports({ userToken: userToken, walletId: value._id }))
-                                            dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: value._id }))
-                                            dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: value._id }))
-                                            navigation.navigate('Trade')
-                                        }}
-                                    />
-                                ))}
+                                                    dispatch(myTradeMonths({ userToken: userToken, walletId: value._id }))
+                                                    dispatch(myTradeReports({ userToken: userToken, walletId: value._id }))
+                                                    dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: value._id }))
+                                                    dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: value._id }))
+                                                    navigation.navigate('Trade')
+                                                }}
+                                            />
+                                        ))}
+                                    </View>
+                                }
                             </View>
                         </View>
 
@@ -190,7 +198,7 @@ export default function HomeScreen({ navigation }) {
                                 <View style={{ alignItems: 'center' }}>
                                     {isTradeCharHome.valuesChiTieu.length == 0 ?
                                         <View style={{ width: '92%', padding: 50, alignItems: 'center' }}>
-                                            <Text style={styles.text}>Không có dữ liệu</Text>
+                                            <Text style={styles.text}>Không có dữ liệu chi tiêu</Text>
                                         </View>
                                         :
                                         <View>
@@ -215,7 +223,7 @@ export default function HomeScreen({ navigation }) {
                             <View style={styles.containerheader}>
                                 <Text style={styles.text}>Giao dịch gần đây</Text>
                                 <TouchableOpacity
-                                    onPress={() => {navigation.jumpTo('Trade')}}
+                                    onPress={() => { navigation.jumpTo('Trade') }}
                                 >
                                     <Text style={styles.text}>Xem tất cả</Text>
                                 </TouchableOpacity>
@@ -224,7 +232,7 @@ export default function HomeScreen({ navigation }) {
                                 <View style={{ alignItems: 'center' }}>
                                     {_tradeRecent.length == 0 ?
                                         <View style={{ paddingTop: 30, paddingBottom: 30, alignItems: 'center' }}>
-                                            <Text style={styles.text}>Không có dữ liệu</Text>
+                                            <Text style={styles.text}>Không có dữ liệu giao dịch</Text>
                                         </View>
                                         :
                                         <View>
