@@ -5,7 +5,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear, getRangeDate } from "../../process/Date";
 
 import { useDispatch, useSelector } from "react-redux";
-import { myAllBudget, myBudgetAdd } from "../../redux/actions/budgetAction";
+import { myBudgetAdd } from "../../redux/actions/budgetAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -158,12 +158,10 @@ export default function AddBudget({ navigation, route }) {
             groupId: groupId,
             startDate: isRangeDateStart,
             endDate: isRangeDateEnd,
-            walletId: walletId
+            walletId: walletId,
+            dispatch: dispatch
         }))
-        if (!isCreating) {
-            dispatch(myAllBudget(userToken))
-            navigation.goBack()
-        }
+        navigation.goBack()
     }
 
     return (

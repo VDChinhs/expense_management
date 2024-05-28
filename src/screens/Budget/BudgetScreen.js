@@ -1,6 +1,6 @@
-import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ScrollView, RefreshControl, ActivityIndicator } from "react-native";
+import { Text, View, StyleSheet, Image, TouchableOpacity, FlatList, Dimensions, ScrollView, RefreshControl } from "react-native";
 import Button from "../../components/Button";
-import { useEffect, useState, useRef, useCallback, useContext } from "react";
+import { useEffect, useState, useRef, useCallback } from "react";
 import HaldCircle from '../../components/HalfCricle';
 import InfoTitle from "../../components/InfoTitle";
 import * as Progress from 'react-native-progress';
@@ -10,7 +10,7 @@ import { setIndexBudget } from "../../redux/reducers/budgetReducer";
 import LoadingIndicator from "../../components/LoadingIndicator";
 
 export default function BudgetScreen({ navigation }) {
-    const { _myBudget, isLoading, index } = useSelector(state => state.budgetReducer)
+    const { _myBudget, isLoading, index, isChangeing, isCreating, isDeleting } = useSelector(state => state.budgetReducer)
 
     const dispatch = useDispatch()
 
@@ -37,7 +37,7 @@ export default function BudgetScreen({ navigation }) {
 
     return (
         <View>
-            {isLoading ?
+            {isLoading || isChangeing || isCreating || isDeleting ?
                 <View style={{ height: '100%', justifyContent: 'center', alignContent: 'center' }}>
                     {/* <ActivityIndicator color={'black'} size={'large'} /> */}
                     <LoadingIndicator size={40} color={'black'} />

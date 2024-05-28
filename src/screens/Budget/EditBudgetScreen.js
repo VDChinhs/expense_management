@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear, getRangeDate, convertFirstDay } from "../../process/Date";
 
 import { useDispatch, useSelector } from "react-redux";
-import { myAllBudget, myBudgetChange, myBudgetDele } from "../../redux/actions/budgetAction";
+import { myBudgetChange, myBudgetDele } from "../../redux/actions/budgetAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -169,11 +169,8 @@ export default function EditBudgetScreen({ navigation, route }) {
             ]);
             return
         }
-        dispatch(myBudgetDele({ token: userToken, id: budgetId }))
-        if (!isDeleting) {
-            dispatch(myAllBudget(userToken))
-            navigation.goBack()
-        }
+        dispatch(myBudgetDele({ token: userToken, id: budgetId, dispatch: dispatch }))
+        navigation.goBack()
     }
 
     function handleChangeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
@@ -196,12 +193,10 @@ export default function EditBudgetScreen({ navigation, route }) {
             groupId: groupId,
             startDate: isRangeDateStart,
             endDate: isRangeDateEnd,
-            walletId: walletId
+            walletId: walletId,
+            dispatch: dispatch
         }))
-        dispatch(myAllBudget(userToken))
-        if (!isChangeing) {
-            navigation.goBack()
-        }
+        navigation.goBack()
     }
 
     return (
