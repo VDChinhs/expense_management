@@ -98,7 +98,6 @@ const deleWallet = async (token, id) => {
     const data = {
         id: id
     };
-    console.log(data);
     let response = await fetch(`http://${IP}:3000/user/wallet/delewallet`, {
         method: 'Delete',
         headers: {

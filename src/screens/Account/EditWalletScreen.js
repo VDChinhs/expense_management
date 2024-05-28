@@ -1,10 +1,9 @@
 import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
-import { changeWallet, deleWallet } from "../../process/WalletController";
 import { useDispatch } from "react-redux";
-import { myAllWallet, myWalletChange, myWalletDele } from "../../redux/actions/walletAction";
+import { myWalletChange, myWalletDele } from "../../redux/actions/walletAction";
 import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
@@ -65,19 +64,13 @@ export default function EditWalletScreen({ navigation, route }) {
     }, [route]);
 
     function handleDeleWallet(userToken, walletid) {
-        dispatch(myWalletDele({token: userToken, id: walletid}))
-        if (!isDeleting) {
-            dispatch(myAllWallet(userToken))
-            navigation.goBack()
-        }
+        dispatch(myWalletDele({ token: userToken, id: walletid, dispatch: dispatch }))
+        navigation.goBack()
     }
 
     function handleChangeWallet(userToken, isWallet, isName, isIcon) {
-        dispatch(myWalletChange({token: userToken, id: isWallet, name: isName, image: isIcon}))
-        if (!isChangeing) {
-            dispatch(myAllWallet(userToken))
-            navigation.goBack()
-        }
+        dispatch(myWalletChange({ token: userToken, id: isWallet, name: isName, image: isIcon, dispatch: dispatch }))
+        navigation.goBack()
     }
 
     return (

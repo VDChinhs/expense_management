@@ -3,9 +3,10 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const myWalletAdd = createAsyncThunk(
     'wallet/myWalletAdd',
-    async ({token, name, money, image}) => {
+    async ({ token, name, money, image, dispatch }) => {
         try {
             const res = await addWallet(token, name, money, image)
+            dispatch(myAllWallet(token))
             return res
         } catch (error) {
             return error
@@ -15,9 +16,10 @@ export const myWalletAdd = createAsyncThunk(
 
 export const myWalletChange = createAsyncThunk(
     'wallet/myWalletChange',
-    async ({token, id, name, image}) => {
+    async ({ token, id, name, image, dispatch }) => {
         try {
             const res = await changeWallet(token, id, name, image)
+            dispatch(myAllWallet(token))
             return res
         } catch (error) {
             return error
@@ -27,9 +29,10 @@ export const myWalletChange = createAsyncThunk(
 
 export const myWalletDele = createAsyncThunk(
     'wallet/myWalletDele',
-    async ({token, id}) => {
+    async ({ token, id, dispatch }) => {
         try {
             const res = await deleWallet(token, id)
+            dispatch(myAllWallet(token))
             return res
         } catch (error) {
             return error

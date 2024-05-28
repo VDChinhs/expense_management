@@ -18,7 +18,7 @@ export default function MyWallet({ navigation, route }) {
     const [refreshing, setRefreshing] = useState(false);
 
     const dispatch = useDispatch()
-    const { isLoadingWallet, _myWallet } = useSelector(state => state.walletReducer)
+    const { isLoadingWallet, _myWallet, isCreating, isChangeing, isDeleting } = useSelector(state => state.walletReducer)
 
     const onRefresh = useCallback(() => {
         setRefreshing(true);
@@ -41,7 +41,7 @@ export default function MyWallet({ navigation, route }) {
 
     return (
         <View>
-            {isLoadingWallet ?
+            {isLoadingWallet || isCreating || isChangeing || isDeleting ?
                 <View style={{ height: 600, justifyContent: 'center', alignContent: 'center' }}>
                     {/* <ActivityIndicator color={'black'} size={'large'} /> */}
                     <LoadingIndicator size={40} color={'black'} />
@@ -93,7 +93,7 @@ export default function MyWallet({ navigation, route }) {
                                                 dispatch(myAllGroupThu({ userToken: userToken, walletId: value._id }))
                                                 dispatch(myAllGroupParentChi({ userToken: userToken, walletId: value._id, type: 0 }))
                                                 dispatch(myAllGroupParentThu({ userToken: userToken, walletId: value._id, type: 1 }))
-                                                dispatch(myAllGroupThuChi({ userToken: userToken, walletId: value._id}))
+                                                dispatch(myAllGroupThuChi({ userToken: userToken, walletId: value._id }))
 
 
                                                 dispatch(myTradeMonths({ userToken: userToken, walletId: value._id }))
