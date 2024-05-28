@@ -7,7 +7,7 @@ import { getFullDate } from "../../process/Date";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setMyWalleting } from "../../redux/reducers/walletReducer";
-import { setTradeCharHome } from "../../redux/reducers/tradeReducer";
+import { setIndexTradeMonths, setTradeCharHome } from "../../redux/reducers/tradeReducer";
 import { myTradeMonths, myTradeReports, myTradeReportDetailChi, myTradeReportDetailThu } from "../../redux/actions/tradeAction";
 import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myAllGroupThuChi } from "../../redux/actions/groupAction";
 
@@ -18,7 +18,7 @@ export default function HomeScreen({ navigation }) {
     const { _myWallet, isLoadingWallet } = useSelector(state => state.walletReducer)
     const {
         _tradeMostMonth, isTradeCharHome, _tradeMostWeek, _tradeRecent,
-        isLoadingMMonth, isLoadingMWeek, isLoadingRecent
+        isLoadingMMonth, isLoadingMWeek, isLoadingRecent, indexTradeMonths, _tradeMonths
 
     } = useSelector(state => state.tradeReducer)
     const dispatch = useDispatch()
@@ -136,7 +136,12 @@ export default function HomeScreen({ navigation }) {
                             <View style={styles.containerheader}>
                                 <Text style={styles.text}>Báo cáo chi tiêu</Text>
                                 <TouchableOpacity
-                                    onPress={() => navigation.navigate('ReportScreen')}
+                                    onPress={() => {
+                                        if (indexTradeMonths == _tradeMonths.length - 1) {
+                                            dispatch(setIndexTradeMonths(_tradeMonths.length - 2))
+                                        }
+                                        navigation.navigate('ReportScreen')
+                                    }}
                                 >
                                     <Text style={styles.text}>Xem báo cáo</Text>
                                 </TouchableOpacity>
