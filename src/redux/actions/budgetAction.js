@@ -3,39 +3,45 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const myBudgetAdd = createAsyncThunk(
     'budget/myBudgetAdd',
-    async ({ token, money, groupId, startDate, endDate, walletId, dispatch }) => {
+    async ({ token, money, groupId, startDate, endDate, walletId }, { rejectWithValue }) => {
         try {
-            const res = await addBudget(token, money, groupId, startDate, endDate, walletId)
-            dispatch(myAllBudget(token))
-            return res
+            let res = await addBudget(token, money, groupId, startDate, endDate, walletId)
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )
 
 export const myBudgetChange = createAsyncThunk(
     'budget/myBudgetChange',
-    async ({ token, id, money, groupId, startDate, endDate, walletId, dispatch }) => {
+    async ({ token, id, money, groupId, startDate, endDate, walletId }) => {
         try {
-            const res = await changeBudget(token, id, money, groupId, startDate, endDate, walletId)
-            dispatch(myAllBudget(token))
-            return res
+            let res = await changeBudget(token, id, money, groupId, startDate, endDate, walletId)
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )
 
 export const myBudgetDele = createAsyncThunk(
     'budget/myBudgetDele',
-    async ({ token, id, dispatch }) => {
+    async ({ token, id }) => {
         try {
-            const res = await deleBudget(token, id)
-            dispatch(myAllBudget(token))
-            return res
+            let res = await deleBudget(token, id)
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )

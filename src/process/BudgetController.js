@@ -33,6 +33,7 @@ const addBudget = async (token, money, groupId, startDate, endDate, walletId) =>
         body: JSON.stringify(data),
     })
     if (!response.ok) {
+        console.log(response);
         Alert.alert('Cảnh báo', 'Lỗi thêm ngân sách', [
             { text: 'OK' }
         ]);

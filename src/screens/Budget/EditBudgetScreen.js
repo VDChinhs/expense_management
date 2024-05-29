@@ -6,7 +6,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import { thisweek, thismonth, thisquy, thisyear, getRangeDate, convertFirstDay } from "../../process/Date";
 
 import { useDispatch, useSelector } from "react-redux";
-import { myBudgetChange, myBudgetDele } from "../../redux/actions/budgetAction";
+import { myBudgetChange, myBudgetDele, myAllBudget } from "../../redux/actions/budgetAction";
 
 function Input({ image, sizeimg, fontsize, label, ...prop }) {
     return (
@@ -150,6 +150,9 @@ export default function EditBudgetScreen({ navigation, route }) {
             setBudget(route.params.budget)
 
         }
+    }, [route]);
+    
+    useEffect(() => {
         navigation.setOptions({
             headerRight: () =>
                 <HeaderRight
@@ -160,7 +163,7 @@ export default function EditBudgetScreen({ navigation, route }) {
                     disabled2={isDeleting}
                 />
         });
-    }, [route]);
+    });
 
     function handleDeleBudget(userToken, budgetId) {
         if (userToken == "" || budgetId == '') {
@@ -169,8 +172,13 @@ export default function EditBudgetScreen({ navigation, route }) {
             ]);
             return
         }
-        dispatch(myBudgetDele({ token: userToken, id: budgetId, dispatch: dispatch }))
-        navigation.goBack()
+        dispatch(myBudgetDele({ token: userToken, id: budgetId }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllBudget(userToken))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     function handleChangeBudget(userToken, budgetId, isMoney, groupId, isRangeDateStart, isRangeDateEnd, walletId) {
@@ -193,10 +201,13 @@ export default function EditBudgetScreen({ navigation, route }) {
             groupId: groupId,
             startDate: isRangeDateStart,
             endDate: isRangeDateEnd,
-            walletId: walletId,
-            dispatch: dispatch
-        }))
-        navigation.goBack()
+            walletId: walletId
+        })).unwrap()
+            .then(() => {
+                dispatch(myAllBudget(userToken))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     return (
