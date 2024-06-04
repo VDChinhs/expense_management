@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
 import { useDispatch } from "react-redux";
-import { myWalletChange, myWalletDele } from "../../redux/actions/walletAction";
+import { myWalletChange, myWalletDele, myAllWallet } from "../../redux/actions/walletAction";
 import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
@@ -70,13 +70,24 @@ export default function EditWalletScreen({ navigation, route }) {
             ]);
             return
         }
-        dispatch(myWalletDele({ token: userToken, id: walletid, dispatch: dispatch }))
-        navigation.goBack()
+        dispatch(myWalletDele({ token: userToken, id: walletid }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllWallet(userToken))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     function handleChangeWallet(userToken, isWallet, isName, isIcon) {
-        dispatch(myWalletChange({ token: userToken, id: isWallet, name: isName, image: isIcon, dispatch: dispatch }))
-        navigation.goBack()
+        dispatch(myWalletChange({ token: userToken, id: isWallet, name: isName, image: isIcon }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllWallet(userToken))
+                navigation.goBack()
+            })
+            .catch(() => { })
+
     }
 
     return (

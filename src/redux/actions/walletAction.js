@@ -3,39 +3,45 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 
 export const myWalletAdd = createAsyncThunk(
     'wallet/myWalletAdd',
-    async ({ token, name, money, image, dispatch }) => {
+    async ({ token, name, money, image }, { rejectWithValue }) => {
         try {
             const res = await addWallet(token, name, money, image)
-            dispatch(myAllWallet(token))
-            return res
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )
 
 export const myWalletChange = createAsyncThunk(
     'wallet/myWalletChange',
-    async ({ token, id, name, image, dispatch }) => {
+    async ({ token, id, name, image }, { rejectWithValue }) => {
         try {
             const res = await changeWallet(token, id, name, image)
-            dispatch(myAllWallet(token))
-            return res
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )
 
 export const myWalletDele = createAsyncThunk(
     'wallet/myWalletDele',
-    async ({ token, id, dispatch }) => {
+    async ({ token, id, }, { rejectWithValue }) => {
         try {
             const res = await deleWallet(token, id)
-            dispatch(myAllWallet(token))
-            return res
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )

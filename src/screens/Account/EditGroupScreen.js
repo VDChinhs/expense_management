@@ -1,10 +1,9 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
-import { useState, useEffect, useContext } from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from "react-native";
+import { useState, useEffect } from "react";
 import Button from "../../components/Button";
 import HeaderRight from "../../components/HeaderRight";
-import { deleGroup, changeGroup } from "../../process/GroupController";
 import { useDispatch } from "react-redux";
-import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myGroupChange, myGroupDele } from "../../redux/actions/groupAction";
 import { useSelector } from "react-redux";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
@@ -83,6 +82,8 @@ export default function EditGroupScreen({ navigation, route }) {
 
     const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
+    const { isChangeing, isDeleting } = useSelector(state => state.groupReducer)
+
     const dispatch = useDispatch()
 
     const [isNameGroup, setNameGroup] = useState('');
@@ -114,28 +115,57 @@ export default function EditGroupScreen({ navigation, route }) {
                     onPress2={async () => {
                         handleDeleGroup(userToken, route.params.group._id)
                     }}
+                    disabled2={isDeleting}
                 />
         });
     }, [route]);
 
     async function handleDeleGroup(userToken, groupid) {
-        if (await deleGroup(userToken, groupid)) {
-            navigation.goBack()
-            dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
-            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
+        if (userToken == "" || groupid == "") {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
         }
+        dispatch(myGroupDele({
+            token: userToken,
+            id: groupid
+        }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
+                dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     async function handleChangeGroup(userToken, isGroup, isNameGroup, isIcon, isGroupCha, walletId) {
-        if (await changeGroup(userToken, isGroup, isNameGroup, isIcon, isGroupCha, walletId)) {
-            navigation.goBack()
-            dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
-            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
+        if (userToken == "" || isGroup == "" || isNameGroup == "" || isIcon == "") {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
         }
+        dispatch(myGroupChange({
+            token: userToken,
+            id: isGroup,
+            name: isNameGroup,
+            image: isIcon,
+            parent: isGroupCha,
+            walletId: walletId
+        }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
+                dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     return (
@@ -187,6 +217,7 @@ export default function EditGroupScreen({ navigation, route }) {
                         _isWalleting._id
                     )
                 }
+                disabled={isChangeing}
             />
         </View>
     )

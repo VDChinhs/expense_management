@@ -120,21 +120,22 @@ export default function AddTradeScreen({ navigation, route }) {
             note: isNote,
             date: isDate,
             walletId: walletId,
-            dispatch: dispatch
         }))
-        // if (!isCreating) {
-        //     dispatch(myAllWallet(userToken))
-        //     dispatch(myAllBudget(userToken))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllWallet(userToken))
+                dispatch(myAllBudget(userToken))
 
-        //     dispatch(myTradeMMonth(userToken))
-        //     dispatch(myTradeMWeek(userToken))
-        //     dispatch(myTradeRecent(userToken))
-        //     dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
-        // }
-        navigation.goBack()
+                dispatch(myTradeMMonth(userToken))
+                dispatch(myTradeMWeek(userToken))
+                dispatch(myTradeRecent(userToken))
+                dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     return (

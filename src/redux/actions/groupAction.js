@@ -1,5 +1,50 @@
-import { myGroup, groupParent, allGroupThuChi } from "../../process/GroupController";
+import { myGroup, groupParent, allGroupThuChi, addGroup, changeGroup, deleGroup } from "../../process/GroupController";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+
+export const myGroupAdd = createAsyncThunk(
+    'budget/myGroupAdd',
+    async ({ token, name, image, type, parent, walletId }, { rejectWithValue }) => {
+        try {
+            let res = await addGroup(token, name, image, type, parent, walletId)
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const myGroupChange = createAsyncThunk(
+    'budget/myGroupChange',
+    async ({ token, id, name, image, parent, walletId }, { rejectWithValue }) => {
+        try {
+            let res = await changeGroup(token, id, name, image, parent, walletId)
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
+
+export const myGroupDele = createAsyncThunk(
+    'budget/myGroupDele',
+    async ({ token, id }, { rejectWithValue }) => {
+        try {
+            let res = await deleGroup(token, id)
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
+        } catch (error) {
+            return rejectWithValue(error)
+        }
+    }
+)
 
 export const myAllGroupChi = createAsyncThunk(
     'group/myAllGroupChi',

@@ -2,7 +2,7 @@ import { View, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from "rea
 import { useState, useEffect } from "react";
 import Button from "../../components/Button";
 import { useDispatch, useSelector } from "react-redux";
-import { myWalletAdd } from "../../redux/actions/walletAction";
+import { myAllWallet, myWalletAdd } from "../../redux/actions/walletAction";
 
 function Input({ image, sizeimg, fontsize, label, onPressImage, ...prop }) {
     return (
@@ -53,8 +53,13 @@ export default function AddWalletScreen({ navigation, route }) {
             ]);
             return
         }
-        dispatch(myWalletAdd({ token: userToken, name: isNameGroup, money: isMoney, image: isIcon, dispatch: dispatch }))
-        navigation.goBack()
+        dispatch(myWalletAdd({ token: userToken, name: isNameGroup, money: isMoney, image: isIcon }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllWallet(userToken))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     return (

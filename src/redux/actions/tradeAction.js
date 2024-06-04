@@ -1,70 +1,47 @@
 import { mostTradeMonth, mostTradeWeek, tradeRecent, tradeMonths, tradeReports, tradeReportDetail, addTrade, changeTrade, deleTrade } from "../../process/TradeController";
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { myAllBudget } from "./budgetAction";
-import { myAllWallet } from "./walletAction";
 
 export const myTradeAdd = createAsyncThunk(
     'trade/myTradeAdd',
-    async ({ token, money, groupId, note, date, walletId, dispatch }) => {
+    async ({ token, money, groupId, note, date, walletId }, { rejectWithValue }) => {
         try {
             let res = await addTrade(token, money, groupId, note, date, walletId)
-            dispatch(myAllWallet(token))
-            dispatch(myAllBudget(token))
-            
-            dispatch(myTradeMMonth(token))
-            dispatch(myTradeMWeek(token))
-            dispatch(myTradeRecent(token))
-            dispatch(myTradeMonths({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReports({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReportDetailChi({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReportDetailThu({ userToken: token, walletId: walletId }))
-            return res
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )
 
 export const myTradeChange = createAsyncThunk(
     'trade/myTradeChange',
-    async ({ token, id, money, groupId, note, date, walletId, dispatch }) => {
+    async ({ token, id, money, groupId, note, date, walletId }, { rejectWithValue }) => {
         try {
             let res = await changeTrade(token, id, money, groupId, note, date, walletId)
-            dispatch(myAllWallet(token))
-            dispatch(myAllBudget(token))
-            
-            dispatch(myTradeMMonth(token))
-            dispatch(myTradeMWeek(token))
-            dispatch(myTradeRecent(token))
-            dispatch(myTradeMonths({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReports({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReportDetailChi({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReportDetailThu({ userToken: token, walletId: walletId }))
-            return res
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )
 
 export const myTradeDele = createAsyncThunk(
     'trade/myTradeDele',
-    async ({ token, id , walletId, dispatch}) => {
+    async ({ token, id }, { rejectWithValue }) => {
         try {
             let res = await deleTrade(token, id)
-            dispatch(myAllWallet(token))
-            dispatch(myAllBudget(token))
-            
-            dispatch(myTradeMMonth(token))
-            dispatch(myTradeMWeek(token))
-            dispatch(myTradeRecent(token))
-            dispatch(myTradeMonths({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReports({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReportDetailChi({ userToken: token, walletId: walletId }))
-            dispatch(myTradeReportDetailThu({ userToken: token, walletId: walletId }))
-            return res
+            if (res) {
+                return res
+            }
+            return rejectWithValue(res.mes)
         } catch (error) {
-            return error
+            return rejectWithValue(error)
         }
     }
 )

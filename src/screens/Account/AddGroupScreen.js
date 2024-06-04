@@ -1,9 +1,8 @@
-import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image } from "react-native";
-import { useState, useEffect, useContext } from "react";
+import { View, Text, StyleSheet, TextInput, TouchableOpacity, Image, Alert } from "react-native";
+import { useState, useEffect } from "react";
 import Button from "../../components/Button";
-import { addGroup } from "../../process/GroupController";
 import { useDispatch } from "react-redux";
-import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu } from "../../redux/actions/groupAction";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myGroupAdd } from "../../redux/actions/groupAction";
 
 import { useSelector } from "react-redux";
 
@@ -82,6 +81,7 @@ function TitleInput({ imagel, imager, sizeimg, titlel, titles, onPress1, onPress
 export default function AddGroupScreen({ navigation, route }) {
     const { userToken } = useSelector(state => state.userReducer)
     const { _isWalleting } = useSelector(state => state.walletReducer)
+    const { isCreating } = useSelector(state => state.groupReducer)
     const dispatch = useDispatch()
 
     const [isNameGroup, setNameGroup] = useState('');
@@ -102,13 +102,35 @@ export default function AddGroupScreen({ navigation, route }) {
     }, [route]);
 
     async function handleAddGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId) {
-        if (await addGroup(userToken, isNameGroup, isIcon, isGroupType, groupChaId, walletingId)) {
-            navigation.goBack()
-            dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
-            dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
-            dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
+        if (userToken == "" || isNameGroup == "" || isGroupType == null || walletingId == "") {
+            Alert.alert('Cảnh báo', 'Vui lòng nhập đầy đủ thông tin', [
+                { text: 'OK' }
+            ]);
+            return
         }
+        if (isIcon == require('../../assets/question.png')) {
+            Alert.alert('Cảnh báo', 'Vui lòng chọn Icon', [
+                { text: 'OK' }
+            ]);
+            return
+        }
+        dispatch(myGroupAdd({
+            token: userToken,
+            name: isNameGroup,
+            image: isIcon,
+            type: isGroupType,
+            parent: groupChaId,
+            walletId: walletingId
+        }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllGroupChi({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myAllGroupThu({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myAllGroupParentChi({ userToken: userToken, walletId: _isWalleting._id, type: 0 }))
+                dispatch(myAllGroupParentThu({ userToken: userToken, walletId: _isWalleting._id, type: 1 }))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     return (
@@ -164,6 +186,7 @@ export default function AddGroupScreen({ navigation, route }) {
                         _isWalleting._id
                     )
                 }
+                disabled={isCreating}
             />
         </View>
     )

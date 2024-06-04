@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myAllGroupThuChi } from "../actions/groupAction";
+import { myAllGroupChi, myAllGroupThu, myAllGroupParentChi, myAllGroupParentThu, myAllGroupThuChi, myGroupAdd, myGroupChange, myGroupDele } from "../actions/groupAction";
 
 const initialGroup = {
+    isCreating: false,
+    isChangeing: false,
+    isDeleting: false,
     _myGroupChi: [],
     _myGroupThu: [],
     _myGroupParentChi: [],
@@ -22,6 +25,36 @@ const groupSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder
+            .addCase(myGroupAdd.pending, (state, action) => {
+                state.isCreating = true
+            })
+            .addCase(myGroupAdd.fulfilled, (state, action) => {
+                state.isCreating = false
+            })
+            .addCase(myGroupAdd.rejected, (state, action) => {
+                state.isCreating = false
+            })
+
+            .addCase(myGroupChange.pending, (state, action) => {
+                state.isChangeing = true
+            })
+            .addCase(myGroupChange.fulfilled, (state, action) => {
+                state.isChangeing = false
+            })
+            .addCase(myGroupChange.rejected, (state, action) => {
+                state.isChangeing = false
+            })
+
+            .addCase(myGroupDele.pending, (state, action) => {
+                state.isDeleting = true
+            })
+            .addCase(myGroupDele.fulfilled, (state, action) => {
+                state.isDeleting = false
+            })
+            .addCase(myGroupDele.rejected, (state, action) => {
+                state.isDeleting = false
+            })
+
             .addCase(myAllGroupChi.pending, (state, action) => {
                 state.isLoadingChi = true
             })
@@ -33,7 +66,7 @@ const groupSlice = createSlice({
                 state.isLoadingChi = false
             })
 
-            
+
             .addCase(myAllGroupThu.pending, (state, action) => {
                 state.isLoadingThu = true
             })

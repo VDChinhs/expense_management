@@ -128,21 +128,23 @@ export default function EditTradeScreen({ navigation, route }) {
             ]);
             return
         }
-        dispatch(myTradeDele({ token: userToken, id: tradeId, walletId: _isWalleting._id, dispatch: dispatch }))
-        // if (!isDeleting) {
-        //     dispatch(myAllWallet(userToken))
+        dispatch(myTradeDele({ token: userToken, id: tradeId, walletId: _isWalleting._id }))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllWallet(userToken))
 
-        //     dispatch(myAllBudget(userToken))
+                dispatch(myAllBudget(userToken))
 
-        //     dispatch(myTradeMMonth(userToken))
-        //     dispatch(myTradeMWeek(userToken))
-        //     dispatch(myTradeRecent(userToken))
-        //     dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
-        // }
-        navigation.goBack()
+                dispatch(myTradeMMonth(userToken))
+                dispatch(myTradeMWeek(userToken))
+                dispatch(myTradeRecent(userToken))
+                dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     function handleChangeTrade(userToken, tradeId, isMoney, groupId, isNote, isDate, walletId) {
@@ -165,23 +167,24 @@ export default function EditTradeScreen({ navigation, route }) {
             groupId: groupId,
             note: isNote,
             date: isDate,
-            walletId: walletId,
-            dispatch: dispatch
+            walletId: walletId
         }))
-        // if (!isChangeing) {
-        //     dispatch(myAllWallet(userToken))
+            .unwrap()
+            .then(() => {
+                dispatch(myAllWallet(userToken))
 
-        //     dispatch(myAllBudget(userToken))
+                dispatch(myAllBudget(userToken))
 
-        //     dispatch(myTradeMMonth(userToken))
-        //     dispatch(myTradeMWeek(userToken))
-        //     dispatch(myTradeRecent(userToken))
-        //     dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
-        //     dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
-        // }
-        navigation.goBack()
+                dispatch(myTradeMMonth(userToken))
+                dispatch(myTradeMWeek(userToken))
+                dispatch(myTradeRecent(userToken))
+                dispatch(myTradeMonths({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReports({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReportDetailChi({ userToken: userToken, walletId: _isWalleting._id }))
+                dispatch(myTradeReportDetailThu({ userToken: userToken, walletId: _isWalleting._id }))
+                navigation.goBack()
+            })
+            .catch(() => { })
     }
 
     return (
